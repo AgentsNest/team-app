@@ -1,0 +1,137 @@
+<template>
+    <div>
+        <v-card class="rounded-xl pa-10 shadow content-card" height="88vh" elevation="0">
+            <v-toolbar flat class="mb-6">
+                <v-btn class="white rounded-lg mr-6" elevation="1" depressed icon @click="$router.go(-1)">
+                    <v-icon>mdi-arrow-left</v-icon>
+                </v-btn>
+                <div class="font-weight-bold text-h6">Add New Lead</div>
+                <v-spacer></v-spacer>
+
+                <a 
+                    href="/sample.csv" 
+                    download
+                    class="text-capitalize blue-grey darken-3 body-2 white--text py-2 px-5 rounded">
+                    <v-icon color="white" left>mdi-download</v-icon>
+                    Download Sample Format
+                </a>
+            </v-toolbar>
+
+            <v-card max-width="50vw" class="mx-auto mt-10 pa-6 rounded-xl" v-if="snackbar === false">
+                <v-card-text class="text-center">
+                    <v-card-actions class="justify-center">
+                        <v-btn icon large class="mx-2">
+                            <v-icon size="62" color="#283593">mdi-file-delimited-outline</v-icon>
+                        </v-btn>
+                        <v-btn icon large class="mx-2">
+                            <v-icon size="32" color="grey darken-1">mdi-share</v-icon>
+                        </v-btn>
+                        <v-btn icon large class="mx-2">
+                            <v-icon size="62" color="#3cabba">mdi-database-check-outline</v-icon>
+                        </v-btn>
+                    </v-card-actions>
+                    <label for="mycsv">
+                        <v-card-actions class="justify-center mt-5">
+                            <div class="selectFileText rounded-lg text-capitalize">Select file</div>
+                        </v-card-actions>
+
+                        <input id="mycsv" hidden class="mycsv" type="file" name="mycsv" ref="mycsv" accept=".csv" v-on:change="handleFileUpload()">
+                    </label>
+                    <div class="mt-2 mb-2">
+                        (Supported format <strong>.CSV</strong> file)
+                    </div>
+                    <br>
+                    <v-btn large class="gradient rounded-lg px-10" dark @click="uploadLead">
+                        <v-icon left>mdi-tray-arrow-up</v-icon>
+                        Start Processing
+                    </v-btn>
+                </v-card-text>
+            </v-card>
+            <v-card max-width="50vw" class="mx-auto mt-10 pa-12 rounded-xl gradient" v-if="snackbar === true">
+                <v-card-text class="text-center">
+                    <v-btn icon large class="mb-6">
+                        <v-icon size="72" color="white">mdi-checkbox-marked-circle-outline</v-icon>
+                    </v-btn>
+                    <div class="text-h6 text-center mb-4 white--text">File Successfully <span class="white--text">uploaded !</span></div>
+                </v-card-text>
+            </v-card>
+
+        </v-card>
+    </div>
+</template>
+
+<script>
+import Lead from '../../Apis/Lead'
+import User from '../../Apis/User'
+
+
+export default {
+    data () {
+        return {
+            snackbar: false,
+            errors: [],
+            mycsv:'',
+            lead: {
+                name:"", 
+                contact:"",
+                address:"",
+                city: "",
+                state:"",
+                country:"",
+                lead_source:"",
+                email:"",
+                pincode:"",
+                label:"",
+                followup_date:"",
+                followup_time:"",
+                status: '',
+                property_type: '',
+                agent_id: null
+            },
+        }
+    },
+    methods:{
+        handleFileUpload(){
+            this.mycsv = this.$refs.mycsv.files[0];
+        },
+        uploadLead(){
+            let formData = new FormData();
+            formData.append('mycsv', this.mycsv);
+
+            Lead.bulk(formData, {
+                headers:{'Content-Type': 'multipart/form-data'},
+            })
+            .then(() => {
+                this.snackbar = true;
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
+            }); 
+        },   
+    },
+    mounted(){
+        User.auth().then(response => {
+            this.lead.agent_id = response.data.data.id;
+        });
+    },
+}
+</script>
+
+<style scoped>
+.content-card{
+  overflow-y: scroll;
+}
+.search-input{
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1em;
+  margin-bottom: 2em;
+  width: 100%;
+  box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
+}
+.selectFileText{
+    border: 1px solid #dcdcdc;
+    padding: 6px 16px;
+    cursor: pointer;
+}
+</style>

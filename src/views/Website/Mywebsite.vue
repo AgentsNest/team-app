@@ -1,0 +1,257 @@
+<template>
+    <div>
+        <v-card class="rounded-xl pa-2 shadow" elevation="0">
+            <v-toolbar flat>
+                <div class="font-weight-bold text-h6">Websites ({{websites.length}})</div>
+                <v-spacer></v-spacer>
+
+                <input type="text" placeholder="Search by Project name..." class="search-input">
+
+                <v-spacer></v-spacer>
+
+                <v-btn class="grey darken-3" dark icon :to="{name: 'addNewWebsite'}">
+                    <v-icon>mdi-plus</v-icon>
+                </v-btn>
+
+                <v-btn class="text-capitalize mx-3 dark" dark depressed :to="{name: 'MyWebsite'}">My Websites</v-btn>
+                <v-btn class="text-capitalize" outlined :to="{name: 'Website'}">All Websites</v-btn>
+            
+            </v-toolbar>
+        </v-card>
+
+        <v-card class="transparent content-card" elevation="0" height="80vh">
+            <v-container>
+                <v-row class="mt-4">
+                    <v-col md="3" v-for="(website, index) in websites" :key="index">
+                        <v-card>
+                            <v-img
+                                height="140px"
+                                src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                            ></v-img>
+
+                            <div class="subtitle-1 px-4 py-2 d-flex justify-space-between">
+                              {{website.title}}
+
+                              <router-link :to="{name: 'SingleWebsite', params:{id: website.id}}" target="_blank">
+                                <v-btn x-small outlined text class="text-capitalize">preview</v-btn>
+                              </router-link>
+                            </div>
+
+                            <v-simple-table dense>
+                              <thead><tr class="grey lighten-3"><th>Sharing History</th><th></th></tr></thead>
+                              <tbody>
+                                <tr class="grey--text text--darken-3"><td>Total Shared</td><td>21</td></tr>
+                                <tr class="grey--text text--darken-3"><td>Opened</td><td>21</td></tr>
+                                <tr class="grey--text text--darken-3"><td>Unopened</td><td>21</td></tr>
+                                <tr class="grey--text text--darken-3"><td>View Multiple times</td><td>21</td></tr>
+                              </tbody>
+                            </v-simple-table>
+
+                            <v-card-actions>
+                                <v-btn color="grey darken-2" text @click="shareSidebarOpen(website.id)" outlined class="text-capitalize" block>
+                                  <v-icon left>mdi-share</v-icon>
+                                  Share with Client
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-card>
+
+        <v-navigation-drawer v-model="drawer" tile absolute temporary right width="30vw">
+          <v-card flat tile>
+            <v-list>
+              
+                <v-list-item v-for="lead in leads" :key="lead.id">
+                  <v-list-item-action>
+                    <v-checkbox refs="checkItem" :value="lead.id" v-model="selectedLeads"></v-checkbox>
+                  </v-list-item-action>
+                  <v-list-item-content>
+                    <v-list-item-title v-text="lead.name"></v-list-item-title>
+                  </v-list-item-content>
+
+                  <v-list-item-action>
+                    <v-btn block class="text-capitalize blue darken-2" dark 
+                      @click="shareNow(lead)"
+                      :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} %0a Here is the details for ${website.title} %0a http://localhost:3000/w/${tracker_id}/${website.id}`"
+                      target="_blank"
+                    >
+                      Share
+                    </v-btn>
+                  </v-list-item-action>
+                </v-list-item>
+      
+            </v-list>
+
+            <!-- <v-simple-table fixed-header height="88vh" dense>
+              <template v-slot:default>
+                <thead>
+                    <tr>
+                        <th class="text-left"><v-checkbox v-model="selectAll"></v-checkbox></th>
+                        <th class="text-left">Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr 
+                        v-for="lead in leads" :key="lead.id" 
+                        class="blue-grey--text text--darken-2 cursor-pointer"
+                    >
+                        <td><v-checkbox refs="checkItem" :value="lead.id" v-model="selectedLeads"></v-checkbox></td>
+                        <td @click="detailsSidebar(lead.id)">{{ lead.name }}</td>
+                    </tr>
+
+                    <v-btn block class="text-capitalize blue darken-2" dark @click="shareNow(lead, website)">
+                      Share with {{selectedLeads.length}} clients
+                    </v-btn>
+                </tbody>
+              </template>
+            </v-simple-table> -->
+
+          </v-card>
+        </v-navigation-drawer>
+
+    </div>
+</template>
+
+<script>
+import Website from '../../Apis/Website'
+import Lead from '../../Apis/Lead'
+import Tracker from '../../Apis/Tracker'
+import User from '../../Apis/User'
+
+export default {
+    data () {
+      return {
+        loading: false,
+        items: [],
+        search: null,
+        select: null,
+        states: [
+          'Alabama',
+          'Alaska',
+          'American Samoa',
+        ],
+        websites:[],
+        drawer: false,
+        website: null,
+        leads:[],
+        shareData:{
+            website_id: null,
+            lead_id: null,
+            agent_id: null,
+            opened: false,
+            total_views: 0
+        },
+        tracker_id : null,
+        clientList: false,
+        user_id: null,
+        submitted: false,
+        opened: [],
+        unopened: [],
+        selectedLeads: [],
+      }
+    },
+    watch: {
+      search (val) {
+        val && val !== this.select && this.querySelections(val)
+      },
+    },
+    methods: {
+      querySelections (v) {
+        this.loading = true
+        // Simulated ajax query
+        setTimeout(() => {
+          this.items = this.states.filter(e => {
+            return (e || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
+          })
+          this.loading = false
+        }, 500)
+      },
+      fetchData(){
+        Website.auth().then(response => {
+            this.websites = response.data.data;
+        });
+      },
+      fetchLeadsDetails(){
+        Lead.auth().then(response => {
+          this.leads = response.data.data;
+        });
+      },
+      shareSidebarOpen(website){
+        this.drawer = true
+        this.website = website
+      },
+      shareNow(lead){
+        let form = new FormData();
+        form.append('website_id', this.website)
+        form.append('lead_id', lead.id)
+        form.append('agent_id', this.shareData.agent_id)
+        form.append('opened', false)
+        form.append('total_views', 0)
+
+        // for (var pair of form.entries()){
+        //     console.log(pair[0]+ ', '+ pair[1]); 
+        // }
+
+        Tracker.new(form)
+        .then(response => {
+            this.tracker_id = response.data.id
+        })
+        .then(res => {
+            this.sendWhatsapp();
+        })
+        .catch(error => {
+            console.log(error);
+        })
+      },
+      sendWhatsapp(){
+          let num=document.getElementById("number").value;
+          let leadname= document.getElementById("leadname").value;
+          let website= document.getElementById("website").value;
+          let websiteslug= document.getElementById("websiteslug").value;
+          let tracker = this.tracker_id;
+
+          var win = window.open(`https://wa.me/${num}?text=Hi ${leadname} %0a Here is the details for ${website} %0a http://agentsnest-vue.s3-website.ap-south-1.amazonaws.com/w/${tracker}/${websiteslug} `, '_blank');
+      },
+    },
+    computed:{
+      selectAll:{
+          get : function (){
+              return this.leads ? this.selectedLeads.length == this.leads.length : false;
+          },
+          set: function(value) {
+              var selectedLeads = [];
+
+              if(value) {
+                  this.leads.forEach(function (lead) {
+                      selectedLeads.push(lead.id);
+                  });
+              }
+              this.selectedLeads = selectedLeads;
+          }
+      }
+    },
+    mounted(){
+      this.fetchData();
+      this.fetchLeadsDetails();
+      User.auth().then(response => {
+          this.shareData.agent_id = response.data.data.id;
+      });
+    }
+}
+</script>
+
+<style scoped>
+.content-card{
+  overflow-y: scroll;
+}
+.search-input{
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 0.8em;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
+}
+</style>
