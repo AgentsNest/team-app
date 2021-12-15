@@ -98,7 +98,7 @@ export default {
         properties: [],
         search: '',
         dp: 8000000,
-        received: 1000000
+        received: 5000000
     }),
 
     mounted(){

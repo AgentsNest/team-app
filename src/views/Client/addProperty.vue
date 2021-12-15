@@ -27,116 +27,170 @@
         <v-card class="rounded-xl white py-6 px-4" flat>
 
             <v-row>
-                <v-col cols="6">
-                    <input type="text" class="input-field" placeholder="Property title" v-model="property.title">
+                <v-col>
+                    <v-alert border="left" colored-border color="grey darken-1" elevation="0" dense>
+                        <div class="pl-2 font-weight-bold body-2 text-uppercase">Property Details</div>
+                    </v-alert>
+                    <v-row>
+                        <v-col cols="6">
+                            <input type="text" class="input-field" placeholder="Property title" v-model="property.title">
+                        </v-col>
+                        <v-col cols="6">
+                            <input type="text" class="input-field" placeholder="Date of closing" v-model="property.date">
+                        </v-col>
+                        <v-col cols="6">
+                            <input type="text" class="input-field" placeholder="Size" v-model="property.size">
+                        </v-col>
+                        <v-col cols="6">
+                            <input type="text" class="input-field" placeholder="Unit No." v-model="property.unit">
+                        </v-col>
+                        <v-col cols="6">
+                            <input type="text" class="input-field" placeholder="Floor" v-model="property.floor">
+                        </v-col>
+                        <v-col cols="6">
+                            <input type="text" class="input-field" placeholder="Property Type" v-model="property.type">
+                        </v-col>
+                        <v-col cols="6">
+                            <input type="text" class="input-field" placeholder="Location" v-model="property.location">
+                        </v-col>
+                        <v-col cols="6">
+                            <v-autocomplete
+                                v-model="property.builder_id"
+                                :items="builders"
+                                item-text="name"
+                                item-value="id"
+                                deletable-chips
+                                small-chips
+                                outlined
+                                class="rounded-lg"
+                                label="Select Builder"
+                            ></v-autocomplete>
+                        </v-col>
+                    </v-row>
                 </v-col>
-                <v-col cols="6">
-                    <input type="text" class="input-field" placeholder="Date of closing" v-model="property.date">
-                </v-col>
-                <v-col cols="6">
-                    <input type="text" class="input-field" placeholder="Size" v-model="property.size">
-                </v-col>
-                <v-col cols="6">
-                    <input type="text" class="input-field" placeholder="Unit No." v-model="property.unit">
-                </v-col>
-                <v-col cols="6">
-                    <input type="text" class="input-field" placeholder="Floor" v-model="property.floor">
-                </v-col>
-                <v-col cols="6">
-                    <input type="text" class="input-field" placeholder="Property Type" v-model="property.type">
-                </v-col>
-                <v-col cols="6">
-                    <input type="text" class="input-field" placeholder="Price" v-model="property.price">
-                </v-col>
-                <v-col cols="6">
-                    <input type="text" class="input-field" placeholder="Property Location" v-model="property.location">
+                <v-col>
+                    <v-alert border="left" colored-border color="grey darken-1" elevation="0" dense>
+                        <div class="pl-2 font-weight-bold body-2 text-uppercase">Payment Details</div>
+                    </v-alert>
+                    <v-row>
+                        <v-col cols="12">
+                            <input type="text" class="input-field" placeholder="Base selling price" v-model="property.bsp">
+                        </v-col>
+                        <v-col cols="12">
+                            <input type="text" class="input-field" placeholder="Deal Price" v-model="property.dealprice">
+                        </v-col>
+                        <v-col cols="12">
+                            <input type="text" class="input-field" placeholder="Allotment Value" v-model="property.allotmentvalue">
+                        </v-col>
+                    </v-row>
                 </v-col>
             </v-row>
 
-            <v-card class="rounded-lg mb-6 mt-6" elevation="0" outlined min-height="160">
-                <v-alert 
-                    text
-                    dense
-                    color="grey"
-                    border="left"
-                >
-                    <v-row class="py-1" align="center">
-                        <v-col class="grow body-2 grey--text text--darken-3">Documents</v-col>
-                        <v-col class="shrink">
-                            <v-btn outlined x-small class="grey darken-2" link dark>
-                                <label for="docs" class="">
-                                    Upload
-                                    <input 
-                                        type="file" 
-                                        id="docs" 
-                                        hidden multiple 
-                                        ref="docs" 
-                                        @change="onFileChange"
-                                        accept="application/pdf, application/doc"
-                                    >
-                                </label>
-                            </v-btn>
-                        </v-col>
+            <v-row>
+                <v-col>
+                    <v-alert border="left" colored-border color="grey darken-1" elevation="0" dense>
+                        <div class="pl-2 font-weight-bold body-2 text-uppercase">Extra Charges</div>
+                    </v-alert>
+                    <v-row>
+                        <v-col><v-subheader>Electricity Charges</v-subheader></v-col>
+                        <v-col md="7"><input type="text" class="input-field" placeholder="Allotment Value" v-model="property.allotmentvalue"></v-col>
                     </v-row>
-                </v-alert>
-
-                <v-row class="px-4">
-                    <v-col cols="12" v-for="(pdf, index) in allPdf" :key="index">
-                        <v-card class="pa-2 d-flex">
-                            <v-icon size="30px">mdi-file-document-outline</v-icon>
-                            <div class="ml-2">
-                                <div class="body-2">{{pdf.name.substring(1, 28)}}..</div>
-                                <div class="caption">{{ pdf.size ? '' +  '(' + pdf.size + ')' : '' }}</div>
-                            </div>
-                            <v-btn x-small fab elevation="1" class="ml-auto" @click="clearPdf(index)">
-                                <v-icon>mdi-close</v-icon>
-                            </v-btn>
-                        </v-card>
-                    </v-col>
-                </v-row>
-
-            </v-card>
-
-            <v-card class="rounded-lg" elevation="1" min-height="160">
-                <v-alert 
-                    text
-                    dense
-                    color="grey"
-                    border="left"
-                >
-                    <v-row class="center py-1" align="center">
-                        <v-col class="grow body-2 grey--text text--darken-3">Image Gallery</v-col>
-                        <v-col class="shrink">
-                            <v-btn outlined x-small class="grey darken-2" dark>
-                                <label for="gallery">
-                                    Upload
-                                    <input 
-                                        type="file" 
-                                        id="gallery" 
-                                        hidden multiple 
-                                        ref="files" 
-                                        @change="updateImageList"
-                                        accept="image/png, image/jpeg, image/bmp"
-                                    >
-                                </label>
-                            </v-btn>
-                        </v-col>
+                    <v-row>
+                        <v-col><v-subheader>Electricity Charges</v-subheader></v-col>
+                        <v-col md="7"><input type="text" class="input-field" placeholder="Allotment Value" v-model="property.allotmentvalue"></v-col>
                     </v-row>
-                </v-alert>
+                    <v-row>
+                        <v-col><v-subheader>Electricity Charges</v-subheader></v-col>
+                        <v-col md="7"><input type="text" class="input-field" placeholder="Allotment Value" v-model="property.allotmentvalue"></v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col><v-subheader>Electricity Charges</v-subheader></v-col>
+                        <v-col md="7"><input type="text" class="input-field" placeholder="Allotment Value" v-model="property.allotmentvalue"></v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col><v-subheader>Electricity Charges</v-subheader></v-col>
+                        <v-col md="7"><input type="text" class="input-field" placeholder="Allotment Value" v-model="property.allotmentvalue"></v-col>
+                    </v-row>
+                </v-col>
+                <v-col>
+                    <v-card class="rounded-lg mb-6" elevation="0" outlined min-height="160">
+                        <v-alert text dense color="grey darken-1" border="left">
+                            <v-row class="py-1" align="center">
+                                <v-col class="grow body-2 grey--text text--darken-3">Documents</v-col>
+                                <v-col class="shrink">
+                                    <v-btn outlined x-small class="grey darken-2" link dark>
+                                        <label for="docs" class="">
+                                            Upload
+                                            <input 
+                                                type="file" 
+                                                id="docs" 
+                                                hidden multiple 
+                                                ref="docs" 
+                                                @change="onFileChange"
+                                                accept="application/pdf, application/doc"
+                                            >
+                                        </label>
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-alert>
 
-                <v-row class="px-2">
-                    <v-col cols="4" v-for="(preview, index) in previewImage" :key="index">
-                        <v-img :src="preview.src" class="align-top rounded-lg" aspect-ratio="1.4">
-                            <v-btn class="blue-grey darken-4" dark fab x-small tile @click="clearImage(index)">
-                                <v-icon>mdi-close</v-icon>
-                            </v-btn>
-                        </v-img>
-                    </v-col>
-                </v-row>
+                        <v-row class="px-4">
+                            <v-col cols="12" v-for="(pdf, index) in allPdf" :key="index">
+                                <v-card class="pa-2 d-flex">
+                                    <v-icon size="30px">mdi-file-document-outline</v-icon>
+                                    <div class="ml-2">
+                                        <div class="body-2">{{pdf.name.substring(1, 28)}}..</div>
+                                        <div class="caption">{{ pdf.size ? '' +  '(' + pdf.size + ')' : '' }}</div>
+                                    </div>
+                                    <v-btn x-small fab elevation="1" class="ml-auto" @click="clearPdf(index)">
+                                        <v-icon>mdi-close</v-icon>
+                                    </v-btn>
+                                </v-card>
+                            </v-col>
+                        </v-row>
 
-            </v-card>
+                    </v-card>
 
-            <v-btn x-large block dark class="gradient mt-12 rounded-lg" @click="SaveProperty"   >Save Property</v-btn>
+                    <v-card class="rounded-lg" elevation="1" min-height="160">
+                        <v-alert text dense color="grey darken-3" border="left">
+                            <v-row class="center py-1" align="center">
+                                <v-col class="grow body-2 grey--text text--darken-3">Image Gallery</v-col>
+                                <v-col class="shrink">
+                                    <v-btn outlined x-small class="grey darken-2" dark>
+                                        <label for="gallery">
+                                            Upload
+                                            <input 
+                                                type="file" 
+                                                id="gallery" 
+                                                hidden multiple 
+                                                ref="files" 
+                                                @change="updateImageList"
+                                                accept="image/png, image/jpeg, image/bmp"
+                                            >
+                                        </label>
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-alert>
+
+                        <v-row class="px-2">
+                            <v-col cols="4" v-for="(preview, index) in previewImage" :key="index">
+                                <v-img :src="preview.src" class="align-top rounded-lg" aspect-ratio="1.4">
+                                    <v-btn class="blue-grey darken-4" dark fab x-small tile @click="clearImage(index)">
+                                        <v-icon>mdi-close</v-icon>
+                                    </v-btn>
+                                </v-img>
+                            </v-col>
+                        </v-row>
+                    </v-card>
+                </v-col>
+                
+            </v-row>
+
+            
+
+            <v-btn x-large block dark class="gradient mt-12 rounded-lg" @click="SaveProperty">Save Property</v-btn>
 
         </v-card>
 
@@ -161,6 +215,7 @@ export default {
         fileName: '',
         fileSize: '',
         allPdf:[],
+        builders:[],
         pdf: {},
         selectedFile:{},
         property: {
@@ -172,12 +227,18 @@ export default {
             type: 'Commercial',
             floor: '4',
             location: 'Chandigarh',
-            price: '80 lacs',
+            builder_id: null,
+            bsp: '',
+            dealprice: '',
+            allotmentvalue: '80 lacs',
             images: [],
             docs: []
         },
         snackbar: false,
     }
+  },
+  mounted(){
+      this.fetchBuilder();
   },
   methods:{
     updateImageList(){
@@ -193,8 +254,14 @@ export default {
             this.property.images.push(selectedFiles[index]);
         }
     },
+    fetchBuilder(){
+        Client.allBuilder().then(response => {
+            this.builders = response.data
+        })
+    },
     clearImage(index){
       this.previewImage.splice(index);
+      this.property.images.splice(index);
     },
     onFileChange(){
       var fileData = this.$refs.docs.files;
@@ -214,6 +281,7 @@ export default {
     },
     clearPdf(index){
       this.allPdf.splice(index);
+      this.property.docs.splice(index);
     },
     SaveProperty(){
       let data = new FormData();
@@ -225,8 +293,11 @@ export default {
       data.append('unit', this.property.unit)
       data.append('floor', this.property.floor)
       data.append('location', this.property.location)
-      data.append('price', this.property.price)
+      data.append('bsp', this.property.bsp)
+      data.append('dealprice', this.property.dealprice)
+      data.append('allotmentvalue', this.property.allotmentvalue)
       data.append('client_id', this.$route.params.id)
+      data.append('builder_id', this.property.builder_id)
 
       for (let i = 0; i < this.property.images.length; i++) {
         let file = this.property.images[i];
@@ -249,7 +320,9 @@ export default {
         this.property.type = '',
         this.property.floor = '',
         this.property.location = '',
-        this.property.price = '',
+        this.property.bsp = '',
+        this.property.dealprice = '',
+        this.property.allotmentvalue = '',
         this.property.images = [],
         this.property.docs = []
       })
@@ -271,8 +344,9 @@ export default {
   font-size: 15px;
   width: 100%;
   /* box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1); */
-  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
-  background: #f5f5f5;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.09);
+  /* background: #f5f5f5; */
+  background: #fdfdfd;
   outline: none;
 }
 .gradient-bg{

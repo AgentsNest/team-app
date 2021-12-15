@@ -22,19 +22,56 @@
             </v-img>
 
             <div class="pa-3">
-                <v-card class="rounded-lg" elevation="1">
-                    <v-simple-table>
-                        <template v-slot:default>
-                            <tbody>
-                                <tr><td><strong>Size:</strong></td><td>{{property.size}}</td></tr>
-                                <tr><td><strong>Unit No.:</strong></td><td>{{property.unit}}</td></tr>
-                                <tr><td><strong>Floor:</strong></td><td>{{property.floor}}</td></tr>
-                                <tr><td><strong>Location:</strong></td><td>{{property.location}}</td></tr>
-                                <tr><td><strong>Price:</strong></td><td>{{property.price}}</td></tr>
-                            </tbody>
-                        </template>
-                    </v-simple-table>
-                </v-card>
+                
+                <v-row>
+                    <v-col>
+                        <v-card class="rounded-lg" elevation="1">
+                            <v-simple-table>
+                                <template v-slot:default>
+                                    <tbody>
+                                        <tr><td><strong>Size:</strong></td><td>{{property.size}}</td></tr>
+                                        <tr><td><strong>Unit No.:</strong></td><td>{{property.unit}}</td></tr>
+                                        <tr><td><strong>Floor:</strong></td><td>{{property.floor}}</td></tr>
+                                        <tr><td><strong>Location:</strong></td><td>{{property.location}}</td></tr>
+                                    </tbody>
+                                </template>
+                            </v-simple-table>
+                        </v-card>
+                    </v-col>
+                    <v-col>
+                        <v-card class="rounded-lg" elevation="1">
+                            <v-simple-table>
+                                <template v-slot:default>
+                                    <tbody>
+                                        <tr><td><strong>BSP:</strong></td><td>{{property.bsp}}</td></tr>
+                                        <tr><td><strong>Deal Price:</strong></td><td>{{property.dealprice}}</td></tr>
+                                        <tr><td><strong>Allotment Price:</strong></td><td>{{property.allotmentvalue}}</td></tr>
+                                    </tbody>
+                                </template>
+                            </v-simple-table>
+                        </v-card>
+                    </v-col>
+                    <v-col>
+                        <v-card class="pa-4 rounded-lg">
+                            <div class="mb-4">Receive new Payment</div>
+                            <v-row>
+                                <v-col>
+                                    <v-row>
+                                        <v-col>
+                                            <v-text-field label="Amount" v-model="payment.amount" outlined dense hint="Enter with zero*" persistent-hint></v-text-field>
+                                        </v-col>
+                                        <v-col md="5">
+                                            <v-select dense :items="values" label="lacs" outlined></v-select>
+                                        </v-col>
+                                    </v-row>
+                                    <v-file-input label="File input" v-model="payment.file" dense></v-file-input>
+                                    {{payment.file}}
+                                    <v-btn block dark class="mt-4 text-capitalize" @click="addPayment">Add Payment</v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-card>
+                    </v-col>
+                </v-row>
 
                 <v-card class="rounded-lg mt-4" outlined>
                     <v-card-subtitle class="py-2 font-weight-bold">Documents</v-card-subtitle>
@@ -102,6 +139,15 @@ export default {
         return {
             property: '',
             dialog: false,
+            payment:{
+                amount: '',
+                file: '',
+            },
+            values:[
+                'Thousand',
+                'Lacs',
+                'Crore',
+            ]
         }
     },
     beforeMount(){
@@ -110,8 +156,16 @@ export default {
         })
     },
     methods:{
-        previewScreen(){
+        addPayment(){
+            let data = new FormData();
+            data.append('amount', this.payment.amount)
+            data.append('image', this.payment.file)
+            data.append('property_id', this.property.id)
 
+            Client.addPropertyPayment(data)
+            .then(() =>{
+                this.payment = ''
+            })
         }
     }
 }

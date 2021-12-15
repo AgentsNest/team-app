@@ -37,6 +37,14 @@ export default {
     return Api().get("/singleClientProperty/" + params);
   },
 
+  allBuilder() {
+    return Api().get("/promoters");
+  },
+
+  addPropertyPayment(form) {
+    return Api().post("/addPropertyPayment", form);
+  },
+
   // Client View Apis
   clientProperties(params) {
     return Api().get("/client/" + params);
