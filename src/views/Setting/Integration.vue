@@ -105,7 +105,7 @@ export default {
                     console.log('Successfully retrieved pages', response)
                 });
 
-                FB.api(
+                FB.api( // eslint-disable-line
                     '/me/adaccounts/', 'get' , {fields: 'campaigns{name,ads{id,name,leads{name}}}'},
                     function (response) {
                         if (response && !response.error) {
