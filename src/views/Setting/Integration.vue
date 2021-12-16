@@ -18,7 +18,7 @@
                     <v-card-actions>
                         <div>Not Connected</div>
                         <v-spacer></v-spacer>
-                        <v-btn text outlined @click="connectFacebook()">Connect</v-btn>
+                        <v-btn text outlined @click="connectFacebook()" v-text="buttonText"></v-btn>
                     </v-card-actions>
                 </v-card>
                 <v-card class="rounded-xl pa-5 mb-5" flat>
@@ -90,10 +90,20 @@ import Sidebar from '../../components/Account/Sidebar.vue'
 
 export default {
     components:{ Sidebar },
+    data(){
+        return {
+            buttonText: 'Connect'
+        }
+    },
     methods:{
         connectFacebook(){
             FB.login(function(response){ // eslint-disable-line
                 console.log('Successfully logged in', response);
+                this.buttonText = 'Already Connected'
+
+                FB.api('/me/accounts' , function(response){ // eslint-disable-line
+                    console.log('Successfully retrieved pages', response)
+                });
             })
         }
     }
