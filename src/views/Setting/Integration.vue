@@ -92,7 +92,7 @@ export default {
     components:{ Sidebar },
     data(){
         return {
-            buttonText: 'Connect'
+            buttonText: 'Connect Now'
         }
     },
     methods:{
@@ -104,7 +104,18 @@ export default {
                 FB.api('/me/accounts' , function(response){ // eslint-disable-line
                     console.log('Successfully retrieved pages', response)
                 });
-            })
+
+                FB.api(
+                    '/me/adaccounts/', 'get' , {fields: 'campaigns{name,ads{id,name,leads{name}}}'},
+                    function (response) {
+                        if (response && !response.error) {
+                            console.log("camp", response)
+                        }
+                        console.log("not camp", response)
+                    }
+                )
+            }, {scope: ['pages_manage_ads', 'leads_retrieval', 'ads_management', 'pages_manage_metadata', 'pages_read_engagement', 'pages_read_user_content']});
+
         }
     }
 }
