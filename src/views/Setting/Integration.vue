@@ -63,7 +63,7 @@
 window.fbAsyncInit = function() { 
     FB.init({ // eslint-disable-line
         appId : '292569662790871', autoLogAppEvents : true, xfbml : true,
-        version : 'v11.0'
+        version : 'v12.0'
     }); 
 };
 
