@@ -13,7 +13,7 @@
       </template>
     </v-snackbar>
 
-    <v-card class="rounded-xl pa-5 shadow content-card" height="88vh" elevation="0">
+    <v-card class="rounded-xl pa-md-5 shadow content-card" height="88vh" elevation="0">
 
         <v-toolbar flat>
              <v-btn icon class="mr-4" @click="$router.go(-1)">
@@ -27,12 +27,12 @@
         <v-card class="rounded-xl white py-6 px-4" flat>
 
             <v-row>
-                <v-col>
+                <v-col md="6" cols="12">
                     <v-alert border="left" colored-border color="grey darken-1" elevation="0" dense>
                         <div class="pl-2 font-weight-bold body-2 text-uppercase">Property Details</div>
                     </v-alert>
                     <v-row>
-                        <v-col cols="6">
+                        <v-col cols="12" md="6">
                             <input type="text" class="input-field" placeholder="Property title" v-model="property.title">
                         </v-col>
                         <v-col cols="6">
@@ -53,7 +53,7 @@
                         <v-col cols="6">
                             <input type="text" class="input-field" placeholder="Location" v-model="property.location">
                         </v-col>
-                        <v-col cols="6">
+                        <v-col cols="12" md="6">
                             <v-autocomplete
                                 v-model="property.builder_id"
                                 :items="builders"
@@ -74,12 +74,15 @@
                     </v-alert>
                     <v-row>
                         <v-col cols="12">
+                            <div class="caption">{{property.bsp | toWords}}</div>
                             <input type="text" class="input-field" placeholder="Base selling price" v-model="property.bsp">
                         </v-col>
                         <v-col cols="12">
+                            <div class="caption">{{property.dealprice | toWords}}</div>
                             <input type="text" class="input-field" placeholder="Deal Price" v-model="property.dealprice">
                         </v-col>
                         <v-col cols="12">
+                            <div class="caption">{{property.allotmentvalue | toWords}}</div>
                             <input type="text" class="input-field" placeholder="Allotment Value" v-model="property.allotmentvalue">
                         </v-col>
                     </v-row>
@@ -87,7 +90,7 @@
             </v-row>
 
             <v-row>
-                <v-col>
+                <v-col md="6" cols="12">
                     <v-alert border="left" colored-border color="grey darken-1" elevation="0" dense>
                         <div class="pl-2 font-weight-bold body-2 text-uppercase">Extra Charges</div>
                     </v-alert>
@@ -175,7 +178,7 @@
                         </v-alert>
 
                         <v-row class="px-2">
-                            <v-col cols="4" v-for="(preview, index) in previewImage" :key="index">
+                            <v-col md="4" sm="6" v-for="(preview, index) in previewImage" :key="index">
                                 <v-img :src="preview.src" class="align-top rounded-lg" aspect-ratio="1.4">
                                     <v-btn class="blue-grey darken-4" dark fab x-small tile @click="clearImage(index)">
                                         <v-icon>mdi-close</v-icon>
@@ -203,6 +206,7 @@
 
 <script>
 import Client from '../../Apis/Client'
+import { ToWords } from 'to-words';
 
 export default {
   data () {
@@ -230,11 +234,17 @@ export default {
             builder_id: null,
             bsp: '',
             dealprice: '',
-            allotmentvalue: '80 lacs',
+            allotmentvalue: '',
             images: [],
             docs: []
         },
-        snackbar: false,
+        values:[
+            'Thousand',
+            'Lacs',
+            'Crore',
+        ],
+        amountType: '',
+        snackbar: false
     }
   },
   mounted(){

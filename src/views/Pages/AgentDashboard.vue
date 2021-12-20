@@ -1,39 +1,52 @@
 <template>
     <div>
         <v-row>
-            <v-col md="4" v-for="n in 6" :key="n">
-                <v-card>
-                    <v-sheet
-                        class="v-sheet--offset mx-auto"
-                        color="cyan"
-                        elevation="12"
-                        max-width="calc(100% - 32px)"
-                    >
-                        <v-sparkline
-                        :labels="labels"
-                        :value="value"
-                        color="white"
-                        line-width="2"
-                        padding="16"
-                        ></v-sparkline>
-                    </v-sheet>
-
-                    <v-card-text class="pt-0">
-                        <div class="text-h6 font-weight-light mb-2">
-                        User Registrations
-                        </div>
-                        <div class="subheading font-weight-light grey--text">
-                        Last Campaign Performance
-                        </div>
+            <v-col md="4" cols="6">
+                <v-card class="rounded-xl">
+                  <router-link :to="{name: 'Leads'}">
+                    <v-card-text>
+                        <div class="text-h6 mb-2 text-center">Leads</div>
+                        <div class="subheading font-weight-light grey--text">all lead genrated through various mediums</div>
                         <v-divider class="my-2"></v-divider>
-                        <v-icon
-                        class="mr-2"
-                        small
-                        >
-                        mdi-clock
-                        </v-icon>
-                        <span class="text-caption grey--text font-weight-light">last registration 26 minutes ago</span>
+                        <span class="text-caption grey--text font-weight-light">You have: 302 leads</span>
                     </v-card-text>
+                  </router-link>
+                </v-card>
+            </v-col>
+            <v-col md="4" cols="6">
+                <v-card class="rounded-xl">
+                  <router-link :to="{name: 'Graphic'}">
+                    <v-card-text>
+                        <div class="text-h6 text-center mb-2">Graphics</div>
+                        <div class="subheading font-weight-light grey--text">all lead genrated through various mediums</div>
+                        <v-divider class="my-2"></v-divider>
+                        <span class="text-caption grey--text font-weight-light">You have: 302 leads</span>
+                    </v-card-text>
+                  </router-link>
+                </v-card>
+            </v-col>
+            <v-col md="4" cols="6">
+                <v-card class="rounded-xl">
+                  <router-link :to="{name: 'Client'}">
+                    <v-card-text>
+                        <div class="text-h6 text-center mb-2">Existing Clients</div>
+                        <div class="subheading font-weight-light grey--text">all lead genrated through various mediums</div>
+                        <v-divider class="my-2"></v-divider>
+                        <span class="text-caption grey--text font-weight-light">You have: 302 leads</span>
+                    </v-card-text>
+                  </router-link>
+                </v-card>
+            </v-col>
+            <v-col md="4" cols="6">
+                <v-card class="rounded-xl">
+                  <router-link :to="{name: 'MyWebsite'}">
+                    <v-card-text>
+                        <div class="text-h6 text-center mb-2">Website</div>
+                        <div class="subheading font-weight-light grey--text">all lead genrated through various mediums</div>
+                        <v-divider class="my-2"></v-divider>
+                        <span class="text-caption grey--text font-weight-light">You have: 302 leads</span>
+                    </v-card-text>
+                  </router-link>
                 </v-card>
             </v-col>
         </v-row>

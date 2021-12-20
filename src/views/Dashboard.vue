@@ -1,25 +1,10 @@
 <template>
   <Layout>
 
-          <v-row>
+          <v-row class="d-none d-md-block">
             <v-col md="4" v-for="n in 6" :key="n">
               <v-card>
-                <v-sheet
-                  class="v-sheet--offset mx-auto"
-                  color="cyan"
-                  elevation="12"
-                  max-width="calc(100% - 32px)"
-                >
-                  <v-sparkline
-                    :labels="labels"
-                    :value="value"
-                    color="white"
-                    line-width="2"
-                    padding="16"
-                  ></v-sparkline>
-                </v-sheet>
-
-                <v-card-text class="pt-0">
+                <v-card-text class="pt-0 d-none d-md-block">
                   <div class="text-h6 font-weight-light mb-2">
                     User Registrations
                   </div>
@@ -33,7 +18,7 @@
                   >
                     mdi-clock
                   </v-icon>
-                  <span class="text-caption grey--text font-weight-light">last registration 26 minutes ago</span>
+                  <span class="text-caption grey--text font-weight-light">Leads</span>
                 </v-card-text>
               </v-card>
             </v-col>

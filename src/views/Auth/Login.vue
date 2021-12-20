@@ -6,12 +6,12 @@
             class="d-flex text-center align-center"
             height="100vh"
         >
-            <v-icon color="#fff" size="60px">mdi-map-marker</v-icon>
+            <v-icon color="#fff" size="12vw">mdi-map-marker</v-icon>
             <div class="logo-text">agnt.</div>
 
             <v-row>
                 <v-col md="4" offset-md="4">
-                    <v-card class="rounded-xl pa-10 mt-n5">
+                    <v-card class="rounded-xl pa-10">
                         <div class="text-h5 text-center">Realtor Login</div>
                         <v-card-subtitle class="">Please enter the details below to continue.</v-card-subtitle>
 
@@ -36,6 +36,7 @@
                                 :type="showPassword ? 'text' : 'password'"
                                 @click:append="showPassword = !showPassword"
                                 v-model="form.password"
+                                @keyup.enter="login"
                             ></v-text-field>
                         </v-card-text>
 
@@ -91,7 +92,7 @@ export default {
 .logo-text{
   color: #fff;
   font-weight: bold;
-  font-size: 3vw;
+  font-size: 4vh;
   margin-bottom: 1em;
 }
 .gradient{

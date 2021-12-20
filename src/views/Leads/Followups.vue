@@ -31,13 +31,16 @@
                                     item-text="name"
                                     item-value="id"
                                 ></v-autocomplete>
-                                <v-textarea rows="4" outlined label="Remarks" v-model="followup.remark"></v-textarea>
+                                <v-textarea rows="4" outlined label="Remarks" v-model="followup.remarks"></v-textarea>
                             </v-container>
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn color="grey darken-3" class="text-capitalize" outlined @click="dialog = false">Close</v-btn>
-                            <v-btn color="grey darken-3" dark class="text-capitalize" @click="addFollowup" >Save</v-btn>
+                            <v-btn color="grey darken-3" dark class="text-capitalize" 
+                                @click="addFollowup"
+                                :loading="loading"
+                            >Save</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -76,12 +79,13 @@ export default {
         return {
             events: [],
             dialog: false,
+            loading: false,
             lead_id: null,
             leads: [],
             followup:{
                 followup_date : "",
                 followup_time : "",
-                remark: ""
+                remarks: ""
             },
             agent_id: null
         }
@@ -111,7 +115,9 @@ export default {
             data.append('agent_id', this.agent_id)
             data.append('followup_date', this.followup.followup_date)
             data.append('followup_time', this.followup.followup_time)
-            data.append('remark', this.followup.remark)
+            data.append('remarks', this.followup.remarks)
+
+            this.loading = true
 
             Lead.addFollowup(data)
             .then(() => {
@@ -120,6 +126,7 @@ export default {
                 this.followup = ''
                 this.fetchData();
                 this.dialog = false
+                this.loading = false
             })
         },
     },

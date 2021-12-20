@@ -1,78 +1,80 @@
 <template>
-
+    <Layout>
         <div>
-                <v-card class="d-flex align-center mx-auto" height="75vh" ref="canvasCard">
+                <v-card class="d-flex align-center mx-auto" height="75vh" width="28vw" ref="canvasCard">
                     <v-card ref="container" id="capture" class="mainCanvas">
-                        <v-img
-                            :src="graphic"
-                            :lazy-src="graphic"
-                            contain
-                            ref="container" 
-                            id="capture"
-                            class="mainCanvas"
-                        >
+                        <v-stage ref="stage" :config="stageSize" id="theCanvas"> 
+                            <v-layer ref="layer">
+                                <v-image
+                                    :config="{
+                                        image: image,
+                                        width: bgWidth,
+                                        height: bgHeight
+                                    }"
+                                    @click="hideAllControls"
+                                />
 
-                            <div class="layouts">
-                                <div class="layout-one" v-if="frameOne">
-                                <div class="brand-contents">
-                                    <v-img :src="agent.brand_logo" height="20px" contain class="logo"></v-img>
-                                    <div class="brand-text">{{agent.brand_text}}</div>
-                                    <div class="rera-text">{{agent.rera}}</div>
-                                </div>
+                                <v-image
+                                    @dragstart="handleDragStart"
+                                    @dragend="handleDragEnd"
+                                    :config="{
+                                        image: logo,
+                                        draggable: true,
+                                        width: logoWidth,
+                                        height: logoHeight
+                                    }"
+                                    @click="showLogoControls"
+                                />
 
-                                <div class="details-box">
-                                    <div class="flexbox">
-                                        <v-img src="../../assets/img/phone.png" width="15" class="mr-1"></v-img>
-                                        {{agent.contact}} Vimal Bharti
-                                    </div>
-                                    <div class="flexbox">
-                                        <v-img src="../../assets/img/web.png" width="15" class="mr-1"></v-img>
-                                        {{agent.website}}
-                                    </div>
-                                    <div class="flexbox">
-                                        <v-img src="../../assets/img/email.png" width="15" class="mr-1"></v-img>
-                                        {{agent.email}}
-                                    </div>
-                                </div>  
-                                </div>
+                                <v-text
+                                    @dragstart="handleDragStart"
+                                    @dragend="handleDragEnd"
+                                    ref="text"
+                                    :config="{
+                                        x: 120,
+                                        y: 20,
+                                        fontFamily: 'Calibri',
+                                        fontSize: brandFontSize,
+                                        text: brandText,
+                                        fill: brandTextColor,
+                                        draggable: true,
+                                        fill: isDragging ? 'black' : brandTextColor
+                                    }"
+                                    @click="showBrandTextControls"
+                                />
+                                <v-text
+                                    @dragstart="handleDragStart"
+                                    @dragend="handleDragEnd"
+                                    ref="text"
+                                    :config="{
+                                        x: 300,
+                                        y: 10,
+                                        fontFamily: 'Calibri',
+                                        fontSize: reraFontSize,
+                                        text: reraText,
+                                        fill: reraTextColor,
+                                        draggable: true,
+                                        fill: isDragging ? 'black' : reraTextColor
+                                    }"
+                                    @click="showReraControls"
+                                />
+                            </v-layer>
+                        </v-stage>
 
-                                <!-- Frame Two -->
-                                <div class="layout-two" v-if="frameTwo">
-                                <div class="brand-contents">
-                                    <v-img :src="agent.brand_logo" height="30px" contain class="logo"></v-img>
-                                    <div class="brand-text">{{agent.brand_text}}</div>
-                                    <div class="rera-text">{{agent.rera}}</div>
-                                </div>
-
-                                <div class="details-box">
-                                    <div class="flexbox">
-                                        <!-- <v-btn icon width="16px" height="16px" class="grey darken-4 mr-1" dark>
-                                            <v-icon size="10px">mdi-phone</v-icon>
-                                        </v-btn> -->
-                                        <v-icon color="grey darken-4" size="18px">mdi-phone-in-talk</v-icon>
-                                        <span class="ml-1">{{agent.contact}}</span>
-                                    </div>
-                                    <div class="flexbox">
-                                        <!-- <v-btn icon width="16px" height="16px" class="grey darken-4 mr-1" dark>
-                                            <v-icon size="10px">mdi-email-outline</v-icon>
-                                        </v-btn> -->
-                                        <v-icon color="grey darken-4" size="18px">mdi-email</v-icon>
-                                        <span class="ml-1">{{agent.website}}</span>
-                                    </div>
-                                    <div class="flexbox">
-                                        <!-- <v-btn icon width="16px" height="16px" class="grey darken-4 mr-1" dark>
-                                            <v-icon size="10px">mdi-web</v-icon>
-                                        </v-btn> -->
-                                        <v-icon color="grey darken-4" size="18px">mdi-web-box</v-icon>
-                                        <span class="ml-1">{{agent.email}}</span>
-                                    </div>
-                                </div>  
-                                </div>
+                        <div class="details-box">
+                            <div class="flexbox">
+                                <v-img src="../../assets/img/phone.png" width="15" class="mr-1"></v-img>
+                                {{contact}}
                             </div>
-
-                            <!-- </v-card> -->
-
-                            </v-img>       
+                            <div class="flexbox">
+                                <v-img src="../../assets/img/web.png" width="15" class="mr-1"></v-img>
+                                {{website}}
+                            </div>
+                            <div class="flexbox">
+                                <v-img src="../../assets/img/email.png" width="15" class="mr-1"></v-img>
+                                {{email}}
+                            </div>
+                        </div>            
                     </v-card>
 
                     
@@ -190,16 +192,37 @@
                 </v-card>
             </div>
 
+    </Layout>
 </template>
 
 <script>
+import Layout from '../../Layouts/Dashboard.vue'
 import Graphic from "../../Apis/Graphic";
 import User from "../../Apis/User";
 import html2canvas from "html2canvas";
 
+// const width = window.innerWidth;
+// const height = window.innerHeight;
+
+// var canvas = document.getElementById("theCanvas");
+// var parent = document.getElementById("parent");
+
+const width = 400;
+const height = 800;
+
+
+
 export default {
+    components: { Layout },
     data() {
         return {
+            stageSize: {
+                width,
+                height,
+            },
+            isDragging: false,
+            bgWidth: '',
+            bgHeight: '',
             image: null,
             logo: null,
             logoWidth: 80,

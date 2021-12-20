@@ -60,6 +60,14 @@ const routes = [
           ),
       },
       {
+        path: "/m-graphics",
+        name: "mGraphic",
+        component: () =>
+          import(
+            /* webpackChunkName: "mgraphic" */ "../views/Graphics/mIndex.vue"
+          ),
+      },
+      {
         path: "/graphic/:id",
         name: "previewGraphic",
         meta: { authOnly: true },

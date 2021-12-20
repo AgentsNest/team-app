@@ -6,6 +6,8 @@ import vuetify from "./plugins/vuetify";
 import VueKonva from "vue-konva";
 import VueImg from "v-img";
 import moment from "moment";
+import converter from "number-to-words";
+import './registerServiceWorker'
 
 Vue.use(VueImg);
 Vue.use(VueKonva);
@@ -16,6 +18,10 @@ Vue.filter("formatDate", function(value) {
   if (value) {
     return moment(String(value)).format("D-MMM, YYYY");
   }
+});
+Vue.filter("toWords", function(value) {
+  if (!value) return "";
+  return converter.toWords(value);
 });
 
 new Vue({

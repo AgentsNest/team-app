@@ -44,6 +44,9 @@ export default {
   addPropertyPayment(form) {
     return Api().post("/addPropertyPayment", form);
   },
+  updateProperty(id, form) {
+    return Api().post("/updateProperty" + id, form);
+  },
 
   // Client View Apis
   clientProperties(params) {

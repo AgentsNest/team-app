@@ -1,8 +1,8 @@
 <template>
     <div>
-    <v-card class="rounded-xl pa-5 shadow content-card" height="88vh" elevation="0">
+    <v-card class="rounded-xl pa-md-5 shadow content-card" height="88vh" elevation="0">
 
-        <v-toolbar flat>
+        <v-toolbar flat class="mt-3">
              <v-btn icon class="" @click="$router.go(-1)">
                 <v-icon size="28" color="grey darken-3">mdi-arrow-left</v-icon>
             </v-btn>
@@ -18,7 +18,7 @@
             </v-list-item>
         </v-toolbar>
 
-        <v-card-title class="flex justify-space-between align-center">
+        <v-card-title class="flex justify-space-between align-center d-none d-md-block">
             <div>Total Property ({{properties.length}})</div>
             
             <input type="text" placeholder="Search Property..." class="search-input" v-model="search">
@@ -26,6 +26,17 @@
             <router-link :to="{name: 'AddProperty'}">
                 <v-btn dark class="grey darken-3 text-capitalize" elevation="1"><v-icon size="22" left>mdi-plus</v-icon><span>Add Property</span> </v-btn>
             </router-link>
+        </v-card-title>
+
+        <v-card-title class="flex justify-space-between align-center">
+            <div class="subtitle-1">Total Property ({{properties.length}})</div>            
+
+            <router-link :to="{name: 'AddProperty'}">
+                <v-btn dark class="grey darken-3 text-capitalize rounded-lg" icon>
+                    <v-icon size="22">mdi-plus</v-icon>
+                </v-btn>
+            </router-link>
+            <input type="text" placeholder="Search Property..." class="m-search-input mt-3" v-model="search">
         </v-card-title>
 
         <!-- Properties -->
@@ -127,6 +138,14 @@ export default {
   padding: 0.3em 1em;
   font-size: 15px;
   max-width: 350px;
+  width: 100%;
+  box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
+}
+.m-search-input{
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 0.3em 1em;
+  font-size: 15px;
   width: 100%;
   box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
 }

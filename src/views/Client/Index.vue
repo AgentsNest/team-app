@@ -1,13 +1,13 @@
 <template>
   <div>
-    <v-card class="rounded-xl pa-5 shadow content-card" height="88vh" elevation="0">
+    <v-card class="rounded-xl pa-md-5 pa-1 shadow content-card" height="88vh" elevation="0">
 
       <v-toolbar flat>
-          <div class="font-weight-bold text-h6">My Existing Clients <span v-if="clientsCount">({{clientsCount}})</span></div>
+          <div class="font-weight-bold text-md-h6">My Existing Clients <span v-if="clientsCount">({{clientsCount}})</span></div>
           <v-spacer></v-spacer>
-          <v-btn large small depressed :to="{name: 'AddClient'}" class="text-capitalize rounded-lg blue-grey darken-3" dark>
-            <v-icon left>mdi-plus</v-icon>
-            Add Client
+          <v-btn large-md small depressed :to="{name: 'AddClient'}" class="text-capitalize rounded-lg blue-grey darken-3" dark>
+            <v-icon>mdi-plus</v-icon>
+            <span class="d-none d-md-block">Add Client</span>
           </v-btn>
       </v-toolbar>
 

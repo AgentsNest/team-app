@@ -56,6 +56,10 @@
                                     <label>Website</label>
                                     <input type="text" class="search-input" v-model="agent.website">
                                 </v-col>
+                                <v-col md="12">
+                                    <label>Website</label>
+                                    <input type="text" class="search-input" v-model="agent.website">
+                                </v-col>
                             </v-row>
                         </v-card-text>
                         

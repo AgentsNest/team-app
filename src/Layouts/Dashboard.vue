@@ -3,7 +3,7 @@
     <v-container fluid>
         <Navbar />
         <v-row class="mt-2">
-          <v-col md="2">
+          <v-col md="2" class="d-none d-md-block">
             <Sidelink />
           </v-col>
           <v-col md="10">
