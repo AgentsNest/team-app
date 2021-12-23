@@ -17,11 +17,12 @@
                         <v-card-text>
                             <v-container>
                                 <v-row>
-                                    <v-col cols="12" sm="6" md="6">
-                                        <v-text-field label="Select Date" type="date" v-model="followup.followup_date" required ></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" sm="6" md="6">
-                                        <v-text-field label="Select Date" type="time" required v-model="followup.followup_time"></v-text-field>
+                                    <v-col cols="12">
+                                        <VueCtkDateTimePicker 
+                                            :no-button-now = "true" 
+                                            v-model="followup.send_date"  
+                                            format='YYYY-MM-DD HH:mm'
+                                        />
                                     </v-col>
                                 </v-row>
                                 <v-autocomplete 
@@ -50,14 +51,15 @@
                 <v-list three-line>
                     <v-list-item v-for="event in events" :key="event.id">
                         <v-list-item-avatar color="red">
-                            {{event.lead.name[0]}}
+                            <!-- {{event.lead.name[0]}} -->V
                         </v-list-item-avatar>
                         <v-list-item-content>
                             <v-list-item-title>{{event.lead.name}}</v-list-item-title>
                             <v-list-item-subtitle>{{event.remarks}}</v-list-item-subtitle>
+                            <v-list-item-subtitle>{{event.delivered}}</v-list-item-subtitle>
                             <v-list-item-subtitle>
                                 <v-icon size="16">mdi-alarm</v-icon>
-                                {{event.timezoneoffset}}
+                                {{event.send_date}}
                             </v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
@@ -73,8 +75,11 @@
 <script>
 import Lead from '../../Apis/Lead'
 import User from '../../Apis/User'
+import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 
 export default {
+    components:{ VueCtkDateTimePicker },
     data () {
         return {
             events: [],
@@ -83,11 +88,11 @@ export default {
             lead_id: null,
             leads: [],
             followup:{
-                followup_date : "",
-                followup_time : "",
+                send_date : "",
                 remarks: ""
             },
-            agent_id: null
+            agent_id: null,
+            agent_name: '',
         }
     },
     methods:{
@@ -112,9 +117,9 @@ export default {
         addFollowup(){
             let data = new FormData();
             data.append('lead_id', this.lead_id)
+            data.append('lead_name', this.lead_name)
             data.append('agent_id', this.agent_id)
-            data.append('followup_date', this.followup.followup_date)
-            data.append('followup_time', this.followup.followup_time)
+            data.append('send_date', this.followup.send_date)
             data.append('remarks', this.followup.remarks)
 
             this.loading = true

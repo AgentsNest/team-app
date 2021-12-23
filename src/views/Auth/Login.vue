@@ -6,12 +6,12 @@
             class="d-flex text-center align-center"
             height="100vh"
         >
-            <v-icon color="#fff" size="12vw">mdi-map-marker</v-icon>
+            <!-- <v-icon color="#fff" size="12vw">mdi-map-marker</v-icon> -->
             <div class="logo-text">agnt.</div>
 
             <v-row>
                 <v-col md="4" offset-md="4">
-                    <v-card class="rounded-xl pa-10">
+                    <v-card class="rounded-md-xl rounded-t-xl pa-10">
                         <div class="text-h5 text-center">Realtor Login</div>
                         <v-card-subtitle class="">Please enter the details below to continue.</v-card-subtitle>
 
@@ -38,17 +38,16 @@
                                 v-model="form.password"
                                 @keyup.enter="login"
                             ></v-text-field>
+                            <router-link :to="{name: 'forgotPassword'}">forgot password</router-link>
                         </v-card-text>
+
 
                         <v-card-actions>
                             <button class="gradient" @click="login">Login</button>
                         </v-card-actions>
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <router-link to="/register">
-                                <v-btn text class="text-capitalize text-center">Create New Account</v-btn>
-                            </router-link>
-                        </v-card-actions>
+                        <div class="mt-3">
+                            I'm new user. <router-link to="/register">Sign Up</router-link>
+                        </div>
                     </v-card>
                 </v-col>
             </v-row>
@@ -92,8 +91,8 @@ export default {
 .logo-text{
   color: #fff;
   font-weight: bold;
-  font-size: 4vh;
-  margin-bottom: 1em;
+  font-size: 6vh;
+  margin-bottom: 0.6em;
 }
 .gradient{
     background-image: linear-gradient(to right, #283593, #3cabba);

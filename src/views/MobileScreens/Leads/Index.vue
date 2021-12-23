@@ -66,7 +66,7 @@
 
                 <v-simple-table
                     fixed-header
-                    height="65vh"
+                    height="60vh"
                 >
                     <template v-slot:default>
                     <thead>
@@ -84,20 +84,20 @@
                     </thead>
                     <tbody>
                         <tr 
-                            v-for="lead in filterLead" :key="lead.id"
+                            v-for="(lead, index) in filterLead" :key="index"
                             class="blue-grey--text text--darken-2 cursor-pointer"
                         >
                             <td><v-checkbox refs="checkItem" :value="lead.id" v-model="selectedLeads"></v-checkbox></td>
                             <td @click="detailsSidebar(lead.id)">{{ lead.name }}</td>
                             <td @click="detailsSidebar(lead.id)">{{ lead.contact }}</td>
                             <td @click="detailsSidebar(lead.id)">{{ lead.created_at }}</td>
-                            <td @click="detailsSidebar(lead.id)" v-if="lead.activities">
+                            <td @click="detailsSidebar(lead.id)">
                                 <span v-if="lead.activities[0].notes !== null">{{ lead.activities[0].notes }}</span>
                                 <span v-if="lead.activities[0].message !== null">{{ lead.activities[0].message }}</span>
                                 <span v-if="lead.activities[0].call !== null">{{ lead.activities[0].call }}</span>
                                 <span v-if="lead.activities[0].whatsapp !== null">{{ lead.activities[0].whatsapp }}</span>
                             </td>
-                            <td v-if="lead.activities">{{ lead.activities[0].created_at | formatDate }}</td>
+                            <td>{{ lead.activities[0].created_at | formatDate }}</td>
                             <td>{{ lead.team_id }}</td>
                             <td>{{ lead.group_id }}</td>
                             <td>
@@ -105,9 +105,6 @@
                                 <v-btn icon small @click="deleteLeadDialogBox(lead.id)"><v-icon>mdi-trash-can-outline</v-icon></v-btn>
                             </td>
                         </tr>
-                        <infinite-loading @infinite="loadMoreDesktop" spinner="waveDots">
-                            <span slot="no-more"></span>
-                        </infinite-loading>
                     </tbody>
                     </template>
                 </v-simple-table>
@@ -293,7 +290,7 @@
         </v-card>
 
         <!-- Mobile Screen -->
-        <v-card class="rounded-xl pa-md-5 pb-8 shadow content-card d-sm-hidden" height="88vh" elevation="0">
+        <v-card class="rounded-xl pa-md-5 pb-8 shadow content-card" height="88vh" elevation="0">
             <v-toolbar flat>
                 <div class="font-weight-bold">Total Leads ({{total_leads}})</div>
                 <v-spacer></v-spacer>
@@ -310,16 +307,14 @@
                 </v-menu>
             </v-toolbar>
             <v-list>
-                <v-list-item-group v-for="(lead, index) in filterLead" :key="index">
+                <v-list-item-group v-for="(lead, index) in filterLead" :key="index" >
                     <v-list-item>
                         <template v-slot:default="{ active }">
                             <v-list-item-action>
                                 <v-checkbox :input-value="active" color="primary"></v-checkbox>
                             </v-list-item-action>
                             <v-list-item-content>
-                                <v-list-item-title>
-                                    {{lead.name}}
-                                </v-list-item-title>
+                                <v-list-item-title>{{lead.name}}</v-list-item-title>
                                 <v-list-item-subtitle>{{lead.email}}</v-list-item-subtitle>
                             </v-list-item-content>
                         </template>
@@ -388,7 +383,7 @@ export default {
             Lead.auth().then(response => {
                 this.leads = response.data.data;
                 this.total_leads = response.data.total;
-                // console.log(response)
+                console.log(response)
             });
         },
         async fetchGroups(){
@@ -579,20 +574,6 @@ export default {
                 });
             }
         },
-        loadMoreDesktop($state){
-            if (this.page === this.last_page) {
-                $state.complete();
-            } else {
-                this.page = this.page + 1;
-                Lead.auth(this.page).then(response => {
-                    // console.log(response.data.data)
-                    response.data.data.forEach(data => {
-                        this.leads.push(data);
-                    });
-                    $state.loaded();
-                });
-            }
-        }
     },
     computed:{
         filterLead: function(){

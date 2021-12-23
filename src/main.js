@@ -7,10 +7,12 @@ import VueKonva from "vue-konva";
 import VueImg from "v-img";
 import moment from "moment";
 import converter from "number-to-words";
-import './registerServiceWorker'
+import InfiniteLoading from "vue-infinite-loading";
+import "./registerServiceWorker";
 
 Vue.use(VueImg);
 Vue.use(VueKonva);
+Vue.use(InfiniteLoading);
 
 Vue.config.productionTip = false;
 

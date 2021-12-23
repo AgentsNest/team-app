@@ -12,7 +12,7 @@
                     `https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${property.image}` :
                     `https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${property.images[0].image}` 
                 "
-                max-height="40vh"
+                max-height="35vh"
                 class="pa-2"
             >
                 <template v-slot:placeholder>
@@ -49,11 +49,11 @@
                             <v-simple-table>
                                 <template v-slot:default>
                                     <tbody>
-                                        <tr><td><strong>BSP:</strong></td><td>{{property.bsp | toWords }}</td></tr>
-                                        <tr><td><strong>Deal Price:</strong></td><td>{{property.dealprice | toWords}}</td></tr>
-                                        <tr><td><strong>Allotment Price:</strong></td><td>{{property.allotmentvalue | toWords}}</td></tr>
-                                        <tr><td><strong>Payment Received:</strong></td><td>{{property.paymentreceived | toWords}}</td></tr>
-                                        <tr><td><strong>Balance:</strong></td><td>{{property.balance | toWords}}</td></tr>
+                                        <tr><td><strong>BSP:</strong></td><td>{{property.bsp }}</td></tr>
+                                        <tr><td><strong>Deal Price:</strong></td><td>{{property.dealprice}}</td></tr>
+                                        <tr><td><strong>Allotment Price:</strong></td><td>{{property.allotmentvalue}}</td></tr>
+                                        <tr><td><strong>Payment Received:</strong></td><td>{{property.paymentreceived}}</td></tr>
+                                        <tr><td><strong>Balance:</strong></td><td>{{property.balance}}</td></tr>
                                     </tbody>
                                 </template>
                             </v-simple-table>
@@ -68,7 +68,7 @@
                                     <v-icon>mdi-plus</v-icon>
                                 </v-btn>
                             </v-toolbar>
-                            <v-simple-table>
+                            <v-simple-table height="190px" fixed-header>
                                 <template v-slot:default>
                                     <thead>
                                         <tr>
@@ -81,7 +81,11 @@
                                         <tr v-for="payment in property.payments" :key="payment.id">
                                             <td>{{payment.title}}</td>
                                             <td>{{payment.amount}}</td>
-                                            <td><v-btn icon><v-icon>mdi-download</v-icon></v-btn></td>
+                                            <td>
+                                                <v-btn small icon @click="downloadInvoice">
+                                                    <v-icon>mdi-download</v-icon>
+                                                </v-btn>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </template>
@@ -96,7 +100,7 @@
 
                                     <v-text-field outlined label="Payment Amount" v-model="payment.amount"></v-text-field>
                                         
-                                    <input type="file" name="file" @change="paymentFile" ref="files">
+                                    <input type="file" name="file" @change="onChange">
                                 </v-card-text>
 
                                 <v-divider></v-divider>
@@ -170,6 +174,7 @@
 
 <script>
 import Client from '../../Apis/Client'
+import axios from 'axios';
 
 export default {
     data(){
@@ -179,8 +184,8 @@ export default {
             payment:{
                 title: '',
                 amount: '',
+                name: '',
                 file: '',
-                fileName: '',
             },
             values:[
                 'Thousand',
@@ -188,7 +193,6 @@ export default {
                 'Crore',
             ],
             amountType: '',
-            selectedFile:{},
             paymentDialog: false
         }
     },
@@ -201,7 +205,12 @@ export default {
                 this.property = response.data
             })
         },
+        onChange(e) {
+            this.payment.file = e.target.files[0];
+        },
         addPayment(){
+            const config = {headers: {'content-type': 'multipart/form-data'}}
+
             let data = new FormData();
             data.append('title', this.payment.title)
             data.append('amount', this.payment.amount)
@@ -213,7 +222,7 @@ export default {
             //     console.log(pair[0]+ ', '+ pair[1]); 
             // }
 
-            Client.addPropertyPayment(data)
+            Client.addPropertyPayment(data, config)
             .then(() =>{
                 this.payment = ''
                 this.paymentDialog = false
@@ -229,12 +238,22 @@ export default {
 
             })
         },
-        paymentFile(e){
-            var selectedFile = e.target.files[0];
-            this.payment.fileName = selectedFile.name;
-            this.payment.file = selectedFile;
-
-        },
+        downloadInvoice(){
+            const path = 'https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/1640032657_registertaion+screen.jpg'
+            axios({
+                url: path, // File URL Goes Here
+                method: 'GET',
+                responseType: 'blob',
+            }).then((res) => {
+                    var FILE = window.URL.createObjectURL(new Blob([res.data]));
+                    
+                    var docUrl = document.createElement('x');
+                    docUrl.href = FILE;
+                    docUrl.setAttribute('download', 'file.*');
+                    document.body.appendChild(docUrl);
+                    docUrl.click();
+            });
+        }
     }
 }
 </script>

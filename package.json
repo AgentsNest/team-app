@@ -20,6 +20,8 @@
     "to-words": "^3.0.2",
     "v-img": "^0.2.0",
     "vue": "^2.6.11",
+    "vue-carousel": "^0.18.0",
+    "vue-ctk-date-time-picker": "^2.5.0",
     "vue-html2canvas": "^0.0.4",
     "vue-infinite-loading": "^2.4.5",
     "vue-konva": "^2.1.7",

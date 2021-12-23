@@ -52,4 +52,8 @@ export default {
   newTeamAdd(form) {
     return Api().post("/add-team", form);
   },
+
+  forget(form) {
+    return Api().post("forget", form);
+  },
 };

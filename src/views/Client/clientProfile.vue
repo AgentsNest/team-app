@@ -42,7 +42,7 @@
         <!-- Properties -->
         <v-container>
             <v-row>
-                <v-col md="6" v-for="(property, index) in filterLead" :key="index">
+                <v-col md="6" cols="12" v-for="(property, index) in filterLead" :key="index">
                     <v-card class="mb-4 rounded-lg">
                         <router-link :to="{name: 'singleProperty', params:{id: property.id}}">
                             <!-- <v-img
@@ -73,9 +73,9 @@
                                                 :rotate="-90" 
                                                 :size="100" 
                                                 :width="15" 
-                                                :value="received / dp * 100" 
-                                                :color="received / dp * 100 > 74 ? 'green' : 'red' " 
-                                            >{{received / dp * 100}}</v-progress-circular>
+                                                :value="property.paymentreceived / property.allotmentvalue * 100" 
+                                                :color="property.paymentreceived / allotmentvalue * 100 > 74 ? 'green' : 'red' " 
+                                            >{{property.paymentreceived / property.allotmentvalue * 100}}</v-progress-circular>
                                         </v-card-text>
                                         <v-simple-table dense>
                                             <template v-slot:default>

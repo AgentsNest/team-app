@@ -6,7 +6,7 @@
                   <router-link :to="{name: 'Leads'}">
                     <v-card-text>
                         <div class="text-h6 mb-2 text-center">Leads</div>
-                        <div class="subheading font-weight-light grey--text">all lead genrated through various mediums</div>
+
                         <v-divider class="my-2"></v-divider>
                         <span class="text-caption grey--text font-weight-light">You have: 302 leads</span>
                     </v-card-text>
@@ -18,7 +18,6 @@
                   <router-link :to="{name: 'Graphic'}">
                     <v-card-text>
                         <div class="text-h6 text-center mb-2">Graphics</div>
-                        <div class="subheading font-weight-light grey--text">all lead genrated through various mediums</div>
                         <v-divider class="my-2"></v-divider>
                         <span class="text-caption grey--text font-weight-light">You have: 302 leads</span>
                     </v-card-text>
@@ -29,8 +28,7 @@
                 <v-card class="rounded-xl">
                   <router-link :to="{name: 'Client'}">
                     <v-card-text>
-                        <div class="text-h6 text-center mb-2">Existing Clients</div>
-                        <div class="subheading font-weight-light grey--text">all lead genrated through various mediums</div>
+                        <div class="text-h6 text-center mb-2">Clients</div>
                         <v-divider class="my-2"></v-divider>
                         <span class="text-caption grey--text font-weight-light">You have: 302 leads</span>
                     </v-card-text>
@@ -42,7 +40,7 @@
                   <router-link :to="{name: 'MyWebsite'}">
                     <v-card-text>
                         <div class="text-h6 text-center mb-2">Website</div>
-                        <div class="subheading font-weight-light grey--text">all lead genrated through various mediums</div>
+                        <!-- <div class="subheading font-weight-light grey--text">all lead genrated through various mediums</div> -->
                         <v-divider class="my-2"></v-divider>
                         <span class="text-caption grey--text font-weight-light">You have: 302 leads</span>
                     </v-card-text>
