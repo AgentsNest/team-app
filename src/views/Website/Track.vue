@@ -1,21 +1,46 @@
 <template>
-  <div>
-      <v-card class="cardd" height="90vh">
-        <v-row>
+    <div>
+        <v-img
+            src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+            lazy-src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+            height="100"
+        ></v-img>
+        
+
+        <v-row class="mt-n16">
             <v-col md="8" offset-md="2">
-                <v-card class="rounded mx-auto" tile>
+                <v-card class="mx-auto" tile>
                     <v-img
                         src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
                         lazy-src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
-                        height="300"
+                        class="white--text align-end"
+                        height="220px"
+                        gradient="to bottom right, rgba(0,0,0,0), rgba(0,0,0,.9)"
                     >
+                        <!-- <v-toolbar flat class="transparent pa-2">
+                            <v-spacer></v-spacer>
+                            <v-speed-dial v-model="fab" direction="bottom" :open-on-hover="hover" :transition="transition">
+                                <template v-slot:activator>
+                                    <v-btn v-model="fab" class="grey darken-3 rounded-lg" depressed icon dark>
+                                    <v-icon v-if="fab">mdi-close</v-icon>
+                                    <v-icon v-else>mdi-share-variant-outline</v-icon></v-btn>
+                                </template>
+                                <v-btn fab dark color="green"><v-icon>mdi-whatsapp</v-icon></v-btn>
+                                <v-btn fab dark color="light-blue darken-2"><v-icon>mdi-message-text-outline</v-icon></v-btn>
+                                <v-btn fab dark color="red lighten-1"><v-icon>mdi-email-outline</v-icon></v-btn>
+                            </v-speed-dial>
+                        </v-toolbar> -->
+                        
+                        <div class="text-center pb-2">
+                            <h6>PREPARED FOR</h6>
+                            <h4>{{lead.name}}</h4>
+                        </div>
                     </v-img>
                     <v-card-title>{{website.title}}</v-card-title>
                     <v-card-subtitle>{{website.about}}</v-card-subtitle>
-                    <v-card-subtitle>Create for: {{lead.name}}</v-card-subtitle>
 
                     <v-row>
-                        <v-col v-for="n in 6" :key="n" class="d-flex child-flex" md="6" xs="12" cols="12">
+                        <v-col v-for="n in 9" :key="n" class="d-flex child-flex" cols="4">
                             <v-img
                                 :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
                                 :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
@@ -31,8 +56,8 @@
                         </v-col>
                     </v-row>
 
-                    <v-card class="mt-4">
-                        <h3 class="text-center pt-3">Shared By {{agent.name}}</h3>
+                    <!-- <v-card class="mt-4">
+                        <h3 class="text-center pt-3">Shared By hjshvgs</h3>
                         <v-card-text class="text-center">
                             <v-btn><v-icon left>mdi-phone</v-icon> Call</v-btn>
                             <v-btn class="mx-4"><v-icon left>mdi-phone</v-icon> Message</v-btn>
@@ -43,7 +68,7 @@
                                 <v-icon left>mdi-whatsapp</v-icon> Whatsapp
                             </v-btn>
                         </v-card-text>
-                    </v-card>
+                    </v-card> -->
 
                     <v-card-text>
                         <div class="text-h6">Map</div>
@@ -60,13 +85,38 @@
 
         <v-card>
             <v-card-text class="text-center">
+                <h5>SHARED BY</h5>
+                <v-img max-width="150" :src="agent.brand_logo" class="mx-auto my-3"></v-img>
+                <h3>{{agent.name}}</h3>
+                <div class="caption">{{agent.contact}}</div>
+                <div class="caption">{{agent.brand_text}}</div>
+            </v-card-text>
+            <v-card-actions class="justify-center">
+                <v-btn outlined class="text-capitalize" color="blue darken-3"
+                    :href="`tel:${agent.contact}`"
+                >
+                    <v-icon left>mdi-phone</v-icon>
+                    <span>Call</span>
+                </v-btn>
+                <v-btn outlined class="text-capitalize" color="grey darken-1"
+                    :href="`sms:${agent.contact}`"
+                >
+                    <v-icon left>mdi-message-processing-outline</v-icon>
+                    <span>SMS</span>
+                </v-btn>
+                <v-btn outlined class="text-capitalize" color="teal darken-3"
+                    :href="`https://wa.me/${agent.contact}`"
+                >
+                    <v-icon left>mdi-whatsapp</v-icon>
+                    <span>Whatsapp</span>
+                </v-btn>
+            </v-card-actions>
+            <v-card-text class="text-center">
                 <v-icon>mdi-lightning-bolt-outline</v-icon>
                 Powered By AgentsNest
             </v-card-text>
         </v-card>
-        </v-card>
-
-  </div>
+    </div>
 </template>
 
 <script>
@@ -124,22 +174,25 @@ export default {
                 this.lead = response.data;
             });
         },
+        fetchWebsite(){
+            let website_id = this.tracker.website_id;
+            Tracker.websiteShowById(website_id)
+            .then(response => {
+                this.website = response.data.website;
+                // console.log('website data:',response.data)
+            });
+        },
         fetchTrackerDetails(){
-            Tracker.trackerFullDetails(this.$route.params.tracker)
+            Tracker.fetchWebsiteForSharedTrackById(this.$route.params.tracker)
             .then(response => {
                 this.tracker = response.data
                 this.fetchAgent();
                 this.fetchLead();
+                this.fetchWebsite();
             }).catch(error => {
                 console.log(error)
             })
         }
-    },
-    beforeMount(){
-        Tracker.details(this.$route.params.website)
-        .then(response => {
-            this.website = response.data.website;
-        });
     },
     mounted(){
         this.tracker_id = this.$route.params.tracker;

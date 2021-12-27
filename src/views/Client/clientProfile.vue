@@ -18,17 +18,17 @@
             </v-list-item>
         </v-toolbar>
 
-        <v-card-title class="flex justify-space-between align-center d-none d-md-block">
-            <div>Total Property ({{properties.length}})</div>
-            
-            <input type="text" placeholder="Search Property..." class="search-input" v-model="search">
-
+        <v-card-actions class="d-none d-md-flex mb-6">
+            <span>Total Property ({{properties.length}})</span>
+            <v-spacer></v-spacer>
+            <input type="text" placeholder="Search Property..." class="search-input py-2" v-model="search">
+            <v-spacer></v-spacer>
             <router-link :to="{name: 'AddProperty'}">
                 <v-btn dark class="grey darken-3 text-capitalize" elevation="1"><v-icon size="22" left>mdi-plus</v-icon><span>Add Property</span> </v-btn>
             </router-link>
-        </v-card-title>
+        </v-card-actions>
 
-        <v-card-title class="flex justify-space-between align-center">
+        <v-card-title class="flex justify-space-between align-center d-sm-none">
             <div class="subtitle-1">Total Property ({{properties.length}})</div>            
 
             <router-link :to="{name: 'AddProperty'}">
@@ -75,15 +75,15 @@
                                                 :width="15" 
                                                 :value="property.paymentreceived / property.allotmentvalue * 100" 
                                                 :color="property.paymentreceived / allotmentvalue * 100 > 74 ? 'green' : 'red' " 
-                                            >{{property.paymentreceived / property.allotmentvalue * 100}}</v-progress-circular>
+                                            >{{(property.paymentreceived / property.allotmentvalue * 100).toFixed(2)}}</v-progress-circular>
                                         </v-card-text>
                                         <v-simple-table dense>
                                             <template v-slot:default>
                                                 <tbody>
-                                                    <tr><td>BSP:</td><td>1.2 Crore</td></tr>
-                                                    <tr><td>DP:</td><td>80 Lacs</td></tr>
-                                                    <tr><td>Allotment Price:</td><td>{{dp}}</td></tr>
-                                                    <tr><td>Payment Received:</td><td>{{received}}</td></tr>
+                                                    <tr><td>BSP:</td><td>{{property.bsp}}</td></tr>
+                                                    <tr><td>DP:</td><td>{{property.dealprice}}</td></tr>
+                                                    <tr><td>Allotment Price:</td><td>{{property.allotmentvalue}}</td></tr>
+                                                    <tr><td>Payment Received:</td><td>{{property.received}}</td></tr>
                                                 </tbody>
                                             </template>
                                         </v-simple-table>

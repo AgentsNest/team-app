@@ -78,7 +78,7 @@
                             <!-- <th class="text-left">Last Remark</th> -->
                             <th class="text-left">Status</th>
                             <th class="text-left">Assign To</th>
-                            <!-- <th class="text-left">Group</th> -->
+                            <th class="text-left">Group</th>
                             <th class="text-left">Actions</th>
                         </tr>
                     </thead>
@@ -100,7 +100,7 @@
                             </td> -->
                             <!-- <td v-if="lead.activities">{{ lead.activities[0].created_at | formatDate }}</td> -->
                             <td>{{ lead.team_id }}</td>
-                            <!-- <td>{{ lead.group_id }}</td> -->
+                            <td>{{ lead.group_id }}</td>
                             <td>
                                 <v-btn icon small @click="editedLeadDialogBox(lead.id)"><v-icon>mdi-square-edit-outline</v-icon></v-btn>
                                 <v-btn icon small @click="deleteLeadDialogBox(lead.id)"><v-icon>mdi-trash-can-outline</v-icon></v-btn>
@@ -169,12 +169,7 @@
 
             </v-card>
 
-        <!--====================================== 
-        ======================================
-            Single Lead Sidebar
-        ======================================
-        ====================================== -->
-            <v-navigation-drawer v-model="drawer" tile absolute temporary right width="40vw">
+            <v-navigation-drawer v-model="drawer" tile absolute temporary right width="30vw">
                 <v-card flat tile class="grey lighten-4">
 
                     <v-toolbar elevation="2" class="">
@@ -205,27 +200,27 @@
                         </v-simple-table>
                     </v-card>
 
-                    <!-- <v-card-actions class="d-flex align-center justify-center">
-                        <v-btn fab tile small class="mx-3 pa-6 white rounded-lg" elevation="1"
-                            :href="`tel:${lead.contact}`"
-                            @click="callNow"
-                        >
-                            <v-icon color="light-blue darken-3">mdi-phone</v-icon>
-                        </v-btn>
-                        <v-btn fab tile small class="mx-3 pa-6 white rounded-lg" elevation="1"
-                            :href="`mailto:${lead.mail}`"
-                            @click="addActivityMessage"
-                        >
-                            <v-icon color="red">mdi-email-outline</v-icon>
-                        </v-btn>
-                        <v-btn fab tile small class="mx-3 pa-6 white rounded-lg" elevation="1"
-                            href="whatsapp://send?abid=phonenumber&text=Hello%2C%20World!"
-                            @click="addActivityWhatsapp"
-                        >
-                            <v-icon color="green darken-4">mdi-whatsapp</v-icon>
-                        </v-btn>
-                    </v-card-actions> -->
 
+                        <!-- <v-card-actions class="d-flex align-center justify-center">
+                            <v-btn fab tile small class="mx-3 pa-6 white rounded-lg" elevation="1"
+                                :href="`tel:${lead.contact}`"
+                                @click="callNow"
+                            >
+                                <v-icon color="light-blue darken-3">mdi-phone</v-icon>
+                            </v-btn>
+                            <v-btn fab tile small class="mx-3 pa-6 white rounded-lg" elevation="1"
+                                :href="`mailto:${lead.mail}`"
+                                @click="addActivityMessage"
+                            >
+                                <v-icon color="red">mdi-email-outline</v-icon>
+                            </v-btn>
+                            <v-btn fab tile small class="mx-3 pa-6 white rounded-lg" elevation="1"
+                                href="whatsapp://send?abid=phonenumber&text=Hello%2C%20World!"
+                                @click="addActivityWhatsapp"
+                            >
+                                <v-icon color="green darken-4">mdi-whatsapp</v-icon>
+                            </v-btn>
+                        </v-card-actions> -->
                     <v-bottom-navigation color="teal" grow flat class="mb-4">
                         <v-btn>
                             <span>Call</span>
@@ -243,29 +238,7 @@
                             <span>Group</span>
                             <v-icon>mdi-folder-table-outline</v-icon>
                         </v-btn>
-                        <v-btn @click="shareWebsiteListDialog">
-                            <span>Website</span>
-                            <v-icon>mdi-web</v-icon>
-                        </v-btn>
                     </v-bottom-navigation>
-
-                    <!-- Share Website Dialog -->
-                    <v-bottom-sheet v-model="sheet">
-                        <v-list two-line>
-                            <v-list-item v-for="website in websites" :key="website.id">
-                                <v-list-item-avatar>
-                                    <v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg"></v-img>
-                                </v-list-item-avatar>
-
-                                <v-list-item-content>
-                                    <v-list-item-title>{{website.title}}</v-list-item-title>
-                                    <v-list-item-subtitle>Total shared: {{website.trackers.length}}</v-list-item-subtitle>
-                                </v-list-item-content>
-
-                                <v-btn class="text-capitalize">Share</v-btn>
-                            </v-list-item>
-                        </v-list>
-                    </v-bottom-sheet>
 
 
                     <v-expansion-panels>
@@ -318,12 +291,6 @@
 
                 </v-card>
             </v-navigation-drawer>
-        <!--====================================== 
-        ======================================
-            Single Lead Sidebar Ends
-        ======================================
-        ====================================== -->
-
         </v-card>
 
     </div>
@@ -333,7 +300,6 @@
 import Lead from '../../Apis/Lead'
 import Group from '../../Apis/Other'
 import User from '../../Apis/User'
-import Website from '../../Apis/Website'
 
 
 export default {
@@ -376,9 +342,7 @@ export default {
         group_id: null,
         status: '',
         editLead: false,
-        editedLead: {},
-        sheet: false,
-        websites: []
+        editedLead: {}
       }
     },
     methods:{
@@ -386,7 +350,7 @@ export default {
             Lead.auth().then(response => {
                 this.leads = response.data.data;
                 this.total_leads = response.data.total;
-                // console.log(response)
+                console.log(response)
             });
         },
         async fetchGroups(){
@@ -405,12 +369,6 @@ export default {
             .then(response => {
                 this.agent = response.data.data.id;
             })
-        },
-        shareWebsiteListDialog(){
-            this.sheet = true;
-            Website.auth().then(response => {
-                this.websites = response.data.websites;
-            });
         },
         detailsSidebar(lead){
             this.drawer = true
@@ -623,9 +581,9 @@ export default {
     },
     mounted(){
       this.fetchData();
-    //   this.fetchGroups();
-    //   this.fetchTeams();
-    //   this.fetchAgent();
+      this.fetchGroups();
+      this.fetchTeams();
+      this.fetchAgent();
     }
 }
 </script>

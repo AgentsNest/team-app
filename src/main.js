@@ -8,11 +8,13 @@ import VueImg from "v-img";
 import moment from "moment";
 import converter from "number-to-words";
 import InfiniteLoading from "vue-infinite-loading";
+import Vuelidate from "vuelidate";
 import "./registerServiceWorker";
 
 Vue.use(VueImg);
 Vue.use(VueKonva);
 Vue.use(InfiniteLoading);
+Vue.use(Vuelidate);
 
 Vue.config.productionTip = false;
 

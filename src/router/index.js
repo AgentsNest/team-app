@@ -58,7 +58,15 @@ const routes = [
             /* webpackChunkName: "dashboard" */ "../views/Pages/AgentDashboard.vue"
           ),
       },
-      // Graphics
+
+      /*
+      * = ===================================== **
+      * = ===================================== **
+                    Graphics Routes
+      * = ===================================== **
+      * = ===================================== **
+      */
+
       {
         path: "/graphics",
         name: "Graphic",
@@ -84,7 +92,14 @@ const routes = [
             /* webpackChunkName: "previewGraphic" */ "../views/Graphics/Preview.vue"
           ),
       },
-      // Client Routes
+
+      /*
+      * = ===================================== **
+      * = ===================================== **
+                Existing Clients Routes
+      * = ===================================== **
+      * = ===================================== **
+      */
       {
         path: "/clients",
         name: "Client",
@@ -123,7 +138,14 @@ const routes = [
             /* webpackChunkName: "singleProperty" */ "../views/Client/singleProperty.vue"
           ),
       },
-      // Social Advertisment Routes
+
+      /*
+      * = ===================================== **
+      * = ===================================== **
+                Social Ads Manager Routes
+      * = ===================================== **
+      * = ===================================== **
+      */
       {
         path: "/social-ads",
         name: "Smm",
@@ -160,7 +182,14 @@ const routes = [
             /* webpackChunkName: "createNewAd" */ "../views/Smm/Failed.vue"
           ),
       },
-      // Leads Routes
+
+      /*
+      * = ===================================== **
+      * = ===================================== **
+                    Leads Routes
+      * = ===================================== **
+      * = ===================================== **
+      */
       {
         path: "/leads",
         name: "Leads",
@@ -190,15 +219,13 @@ const routes = [
           ),
       },
 
-      // Websites Routes
-      {
-        path: "/w/:tracker/:website",
-        name: "trackWebsite",
-        component: () =>
-          import(
-            /* webpackChunkName: "track-website" */ "../views/Website/Track.vue"
-          ),
-      },
+      /*
+      * = ===================================== **
+      * = ===================================== **
+                    Websites Routes
+      * = ===================================== **
+      * = ===================================== **
+      */
       {
         path: "/w/all",
         name: "Website",
@@ -220,19 +247,25 @@ const routes = [
         name: "addNewWebsite",
         component: () =>
           import(
-            /* webpackChunkName: "my-website" */ "../views/Website/AddNew.vue"
+            /* webpackChunkName: "add-new-website" */ "../views/Website/AddNew.vue"
           ),
       },
       {
-        path: "/w/:id",
-        name: "SingleWebsite",
+        path: "/w/info/:id",
+        name: "WebsiteDetails",
         component: () =>
           import(
-            /* webpackChunkName: "single-website" */ "../views/Website/Single.vue"
+            /* webpackChunkName: "website-details" */ "../views/Website/websiteDetails.vue"
           ),
       },
 
-      // Setting Page - (Accoutn, Notifications, Integrations)
+      /*
+      * = =====================================
+                Setting Page - 
+        (Accoutn, Notifications, Integrations) 
+                    Routes
+      * = =====================================
+      */
       {
         path: "/setting/account",
         name: "AgentAccount",
@@ -274,7 +307,13 @@ const routes = [
           ),
       },
 
-      // Managers Route
+      /*
+      * = ===================================== **
+      * = ===================================== **
+                    Managers Routes
+      * = ===================================== **
+      * = ===================================== **
+      */
       {
         path: "/managers",
         name: "Manager",
@@ -284,7 +323,14 @@ const routes = [
           ),
       },
 
-      // Teams Route
+      /*
+      * = ===================================== **
+      * = ===================================== **
+                    Teams Routes
+      * = ===================================== **
+      * = ===================================== **
+      */
+
       {
         path: "/teams",
         name: "Team",
@@ -294,7 +340,13 @@ const routes = [
           ),
       },
 
-      // Groups
+      /*
+      * = ===================================== **
+      * = ===================================== **
+                    Groups Routes
+      * = ===================================== **
+      * = ===================================== **
+      */
       {
         path: "/groups",
         name: "Groups",
@@ -303,7 +355,14 @@ const routes = [
             /* webpackChunkName: "my-website" */ "../views/Group/Index.vue"
           ),
       },
-      // Messages Routes
+
+      /*
+      * = ===================================== **
+      * = ===================================== **
+                    Messages Routes
+      * = ===================================== **
+      * = ===================================== **
+      */
       {
         path: "/messages",
         name: "Message",
@@ -313,6 +372,23 @@ const routes = [
           ),
       },
     ],
+  },
+  {
+    path: "/w/:id",
+    name: "SingleWebsite",
+    component: () =>
+      import(
+        /* webpackChunkName: "single-website" */ "../views/Website/Single.vue"
+      ),
+  },
+  {
+    // path: "/w/:tracker/:website",
+    path: "/wt/:tracker",
+    name: "trackWebsite",
+    component: () =>
+      import(
+        /* webpackChunkName: "track-website" */ "../views/Website/Track.vue"
+      ),
   },
   {
     path: "/tell-friend",

@@ -57,29 +57,40 @@
                 </v-row>
             </v-card-text>
 
-            <v-navigation-drawer v-model="drawer" tile absolute temporary right width="30vw">
+            <v-navigation-drawer v-model="drawer" tile absolute temporary right width="30vw" v-if="group">
                 <v-card flat tile>
-                    {{group}}
-                    <v-list>
-                        <!-- <template v-for="groups in group.leads">
-                        <v-list-item v-for="lead in groups" :key="lead.id">
-                        <v-list-item-action>
-                            <v-checkbox refs="checkItem" :value="lead.id" v-model="selectedLeads"></v-checkbox>
-                        </v-list-item-action>
-                        <v-list-item-content>
-                            <v-list-item-title v-text="lead.name"></v-list-item-title>
-                        </v-list-item-content>
-
-                        <v-list-item-action>
-                            <v-btn block class="text-capitalize blue darken-2" dark 
-                            @click="shareNow(lead)"
-                            :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} %0a Here is the details for ${website.title} %0a http://localhost:3000/w/${tracker_id}/${website.id}`"
-                            target="_blank"
-                            >
-                            Share
-                            </v-btn>
-                        </v-list-item-action>
+                    <!-- {{group.leads}} -->
+                    <v-list two-line>
+                        <v-list-item v-for="lead in group.leads" :key="lead.id">
+                            <v-list-item-avatar>
+                                <v-btn fab>{{lead.name[0]}}</v-btn>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title v-text="lead.name"></v-list-item-title>
+                                <v-list-item-subtitle v-text="lead.email"></v-list-item-subtitle>
+                            </v-list-item-content>
                         </v-list-item>
+
+                        <!-- <template v-for="lead in group.leads">
+                            {{lead.name}}
+                            <v-list-item v-for="lead in groups" :key="lead.id">
+                                <v-list-item-action>
+                                    <v-checkbox refs="checkItem" :value="lead.id" v-model="selectedLeads"></v-checkbox>
+                                </v-list-item-action>
+                                <v-list-item-content>
+                                    <v-list-item-title v-text="lead.name"></v-list-item-title>
+                                </v-list-item-content>
+
+                                <v-list-item-action>
+                                    <v-btn block class="text-capitalize blue darken-2" dark 
+                                        @click="shareNow(lead)"
+                                        :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} %0a Here is the details for ${website.title} %0a http://localhost:3000/w/${tracker_id}/${website.id}`"
+                                        target="_blank"
+                                    >
+                                    Share
+                                    </v-btn>
+                                </v-list-item-action>
+                            </v-list-item>
                         </template> -->
                     </v-list>
 

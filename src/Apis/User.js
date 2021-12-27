@@ -56,4 +56,20 @@ export default {
   forget(form) {
     return Api().post("forget", form);
   },
+
+  setupIntent() {
+    return Api().get("/v1/user/setup-intent");
+  },
+  savePaymentMethod(form) {
+    return Api().post("/v1/user/payments", form);
+  },
+  removePaymentMethodApi(form) {
+    return Api().post("/v1/user/remove-payment", form);
+  },
+  loadPaymentMethodsApi() {
+    return Api().get("/v1/user/payment-methods");
+  },
+  updateSubscription(form) {
+    return Api().put("/v1/user/subscription", form);
+  },
 };

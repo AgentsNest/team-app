@@ -12,10 +12,6 @@
                 <div class="font-weight-bold text-h6">Messages</div>
                 <v-spacer></v-spacer>
                 <input type="text" placeholder="Search message..." class="search-input">
-                <v-spacer></v-spacer>
-                <v-btn class="text-capitalize mr-3 dark" dark depressed :to="{name: 'MyWebsite'}">All Message</v-btn>
-                <v-btn class="text-capitalize" outlined :to="{name: 'Website'}">My Message</v-btn>
-            
             </v-toolbar>
             
             <v-card-text>
@@ -25,9 +21,6 @@
                             <v-col md="6" v-for="message in messages" :key="message.id">
                                 <v-card class="align-stretch" height="100%">
                                     <v-card-text>{{message.text}}</v-card-text>
-                                    <v-card-actions>
-                                        <v-btn text>Share</v-btn>
-                                    </v-card-actions>
                                 </v-card>
                             </v-col>
                         </v-row>

@@ -22,27 +22,95 @@
         <v-card class="transparent content-card" elevation="0" height="80vh">
             <v-container>
                 <v-row class="mt-4">
-                    <v-col md="4" cols="12" v-for="(website, index) in websites" :key="index">
-                      <router-link :to="{name: 'WebsiteDetails', params:{id: website.slug}}">
+                    <v-col md="3" v-for="(website, index) in websites" :key="index">
                         <v-card>
                             <v-img
                                 height="140px"
                                 src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
                             ></v-img>
 
-                            <v-card-text class="pa-0">
-                              <v-card-title>{{website.title}}</v-card-title>
-                              <v-card-subtitle>Total Shared: {{website.trackers.length}}</v-card-subtitle>
-                            </v-card-text>
+                            <div class="subtitle-1 px-4 py-2 d-flex justify-space-between">
+                              {{website.title}}
+
+                              <router-link :to="{name: 'SingleWebsite', params:{id: website.slug}}" target="_blank">
+                                <v-btn x-small outlined text class="text-capitalize">preview</v-btn>
+                              </router-link>
+                            </div>
+
+                            <v-simple-table dense>
+                              <thead><tr class="grey lighten-3"><th>Sharing History</th><th></th></tr></thead>
+                              <tbody>
+                                <tr class="grey--text text--darken-3"><td>Total Shared</td><td>{{website.trackers.length}}</td></tr>
+                                <tr class="grey--text text--darken-3"><td>Opened</td><td>21</td></tr>
+                                <tr class="grey--text text--darken-3"><td>Unopened</td><td>21</td></tr>
+                                <tr class="grey--text text--darken-3"><td>View Multiple times</td><td>21</td></tr>
+                              </tbody>
+                            </v-simple-table>
+
+                            <v-card-actions>
+                                <v-btn color="grey darken-2" text @click="shareSidebarOpen(website.id)" outlined class="text-capitalize" block>
+                                  <v-icon left>mdi-share</v-icon>
+                                  Share with Client
+                                </v-btn>
+                            </v-card-actions>
                         </v-card>
-                      </router-link>
                     </v-col>
                 </v-row>
             </v-container>
         </v-card>
 
-        <!-- Single Website Details Dialog -->
+        <v-navigation-drawer v-model="drawer" tile absolute temporary right width="30vw">
+          <v-card flat tile>
+            <v-list>
+              
+                <v-list-item v-for="lead in leads" :key="lead.id">
+                  <v-list-item-action>
+                    <v-checkbox refs="checkItem" :value="lead.id" v-model="selectedLeads"></v-checkbox>
+                  </v-list-item-action>
+                  <v-list-item-content>
+                    <v-list-item-title v-text="lead.name"></v-list-item-title>
+                  </v-list-item-content>
 
+                  <v-list-item-action>
+                    <v-btn block class="text-capitalize blue darken-2" dark 
+                      v-if="website"
+                      @click="shareNow(lead)"
+                      :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} %0a Here is the details for ${website.title} %0a http://localhost:3000/w/${tracker_id}/${website.id}`"
+                      target="_blank"
+                    >
+                      Share
+                    </v-btn>
+                  </v-list-item-action>
+                </v-list-item>
+      
+            </v-list>
+
+            <!-- <v-simple-table fixed-header height="88vh" dense>
+              <template v-slot:default>
+                <thead>
+                    <tr>
+                        <th class="text-left"><v-checkbox v-model="selectAll"></v-checkbox></th>
+                        <th class="text-left">Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr 
+                        v-for="lead in leads" :key="lead.id" 
+                        class="blue-grey--text text--darken-2 cursor-pointer"
+                    >
+                        <td><v-checkbox refs="checkItem" :value="lead.id" v-model="selectedLeads"></v-checkbox></td>
+                        <td @click="detailsSidebar(lead.id)">{{ lead.name }}</td>
+                    </tr>
+
+                    <v-btn block class="text-capitalize blue darken-2" dark @click="shareNow(lead, website)">
+                      Share with {{selectedLeads.length}} clients
+                    </v-btn>
+                </tbody>
+              </template>
+            </v-simple-table> -->
+
+          </v-card>
+        </v-navigation-drawer>
 
     </div>
 </template>
@@ -66,6 +134,7 @@ export default {
           'American Samoa',
         ],
         websites:[],
+        drawer: false,
         website: null,
         leads:[],
         shareData:{

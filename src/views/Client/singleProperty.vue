@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-card class="rounded-xl pa-md-5 pa-0 shadow content-card" height="88vh" elevation="0">
+        <v-card class="rounded-xl pa-0 shadow content-card" height="88vh" elevation="0">
             <v-img
                 :src="
                     property.images.length == 0 ? 
@@ -27,7 +27,7 @@
                 </v-toolbar>
             </v-img>
 
-            <div class="pa-md-3 pb-6">
+            <div class="pb-6 px-4">
                 
                 <v-row>
                     <v-col md="6" cols="12">
@@ -49,9 +49,6 @@
                             <v-simple-table>
                                 <template v-slot:default>
                                     <tbody>
-                                        <tr><td><strong>BSP:</strong></td><td>{{property.bsp }}</td></tr>
-                                        <tr><td><strong>Deal Price:</strong></td><td>{{property.dealprice}}</td></tr>
-                                        <tr><td><strong>Allotment Price:</strong></td><td>{{property.allotmentvalue}}</td></tr>
                                         <tr><td><strong>Payment Received:</strong></td><td>{{property.paymentreceived}}</td></tr>
                                         <tr><td><strong>Balance:</strong></td><td>{{property.balance}}</td></tr>
                                     </tbody>
@@ -59,7 +56,163 @@
                             </v-simple-table>
                         </v-card>
                     </v-col>
-                    <v-col>
+                </v-row>
+
+                <v-row>
+                    <v-col cols="12">
+                        <!-- All Charges and Taxes -->
+                        <div class="title mt-6 mb-3">Charges and Taxes</div>
+                        <v-row>
+                            <v-col>
+                                <v-card>
+                                    <v-toolbar color="indigo" dark dense>
+                                        <v-toolbar-subtitle>Base Selling Price : </v-toolbar-subtitle>
+                                        <v-spacer></v-spacer>
+                                        ₹ {{property.bsp}}
+                                    </v-toolbar>
+                                    <v-simple-table>
+                                        <template v-slot:default>
+                                        <thead>
+                                            <tr>
+                                                <th class="text-left">Charge</th>
+                                                <th class="text-left">Amount</th>
+                                                <th class="text-left">GST</th>
+                                                <th class="text-left">Tax</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="bsp in property.bsps" :key="bsp">
+                                                <td>{{ bsp.title }}</td>
+                                                <td>{{ bsp.amount }}</td>
+                                                <td>{{ bsp.percentage }}%</td>
+                                                <td>{{ bsp.tax }}</td>
+                                            </tr>
+                                        </tbody>
+                                        </template>
+                                    </v-simple-table>
+                                </v-card>
+                            </v-col>
+                            <v-col>
+                                <v-card>
+                                    <v-toolbar color="indigo" dark dense>
+                                        <v-toolbar-subtitle>Deal Price :</v-toolbar-subtitle>
+                                        <v-spacer></v-spacer>
+                                        ₹ {{property.dealprice}}
+                                    </v-toolbar>
+                                    <v-simple-table>
+                                        <template v-slot:default>
+                                        <thead>
+                                            <tr>
+                                                <th class="text-left">Charge</th>
+                                                <th class="text-left">Amount</th>
+                                                <th class="text-left">GST</th>
+                                                <th class="text-left">Tax</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="deal in property.dealprices" :key="deal">
+                                                <td>{{ deal.title }}</td>
+                                                <td>{{ deal.amount }}</td>
+                                                <td>{{ deal.percentage }}%</td>
+                                                <td>{{ deal.tax }}</td>
+                                            </tr>
+                                        </tbody>
+                                        </template>
+                                    </v-simple-table>
+                                </v-card>
+                            </v-col>
+                            <v-col>
+                                <v-card>
+                                    <v-toolbar color="indigo" dark dense>
+                                        <v-toolbar-subtitle>Allotment Price :</v-toolbar-subtitle>
+                                        <v-spacer></v-spacer>
+                                        ₹ {{property.allotmentvalue}}
+                                    </v-toolbar>
+                                    <v-simple-table>
+                                        <template v-slot:default>
+                                        <thead>
+                                            <tr>
+                                                <th class="text-left">Charge</th>
+                                                <th class="text-left">Amount</th>
+                                                <th class="text-left">GST</th>
+                                                <th class="text-left">Tax</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="allotment in property.allotments" :key="allotment">
+                                                <td>{{ allotment.title }}</td>
+                                                <td>{{ allotment.amount }}</td>
+                                                <td>{{ allotment.percentage }}%</td>
+                                                <td>{{ allotment.tax }}</td>
+                                            </tr>
+                                        </tbody>
+                                        </template>
+                                    </v-simple-table>
+                                </v-card>
+                            </v-col>
+                        </v-row>
+                    </v-col>
+
+                    <!-- All Applicant List -->
+                    <v-col cols="12">
+                        <v-card class="mt-4 rounded-lg">
+                            <v-toolbar flat>
+                                <v-toolbar-title>Applicants</v-toolbar-title>
+                            </v-toolbar>
+                            <v-card-text>
+                                <v-row>
+                                    <v-col v-if="applicantOneDetails.name !== null">
+                                        <v-card outlined>
+                                            <v-card-subtitle>Applicant 1st Details</v-card-subtitle>
+                                            <v-simple-table dense>
+                                                <tbody>
+                                                    <tr><td><strong>Name:</strong></td><td>{{applicantOneDetails.name}}</td></tr>
+                                                    <tr><td><strong>Email:</strong></td><td>{{applicantOneDetails.email}}</td></tr>
+                                                    <tr><td><strong>DOB:</strong></td><td>{{applicantOneDetails.dob}}</td></tr>
+                                                    <tr><td><strong>PAN No.:</strong></td><td>{{applicantOneDetails.pan}}</td></tr>
+                                                    <tr><td><strong>Profession:</strong></td><td>{{applicantOneDetails.professsion}}</td></tr>
+                                                    <tr><td><strong>Aadhar No.:</strong></td><td>{{applicantOneDetails.aadhar}}</td></tr>
+                                                </tbody>
+                                            </v-simple-table>
+                                        </v-card>
+                                    </v-col>
+                                    <v-col v-if="applicantTwoDetails.name !== null">
+                                        <v-card outlined>
+                                            <v-card-subtitle>Applicant 2nd Details</v-card-subtitle>
+                                            <v-simple-table dense>
+                                                <tbody>
+                                                    <tr><td><strong>Name:</strong></td><td>{{applicantTwoDetails.name}}</td></tr>
+                                                    <tr><td><strong>Email:</strong></td><td>{{applicantTwoDetails.email}}</td></tr>
+                                                    <tr><td><strong>DOB:</strong></td><td>{{applicantTwoDetails.dob}}</td></tr>
+                                                    <tr><td><strong>PAN No.:</strong></td><td>{{applicantTwoDetails.pan}}</td></tr>
+                                                    <tr><td><strong>Profession:</strong></td><td>{{applicantTwoDetails.professsion}}</td></tr>
+                                                    <tr><td><strong>Aadhar No.:</strong></td><td>{{applicantTwoDetails.aadhar}}</td></tr>
+                                                </tbody>
+                                            </v-simple-table>
+                                        </v-card>
+                                    </v-col>
+                                    <v-col v-if="applicantThreeDetails.name !== null ">
+                                        <v-card outlined>
+                                            <v-card-subtitle>Applicant 3rd Details</v-card-subtitle>
+                                            <v-simple-table dense>
+                                                <tbody>
+                                                    <tr><td><strong>Name:</strong></td><td>{{applicantThreeDetails.name}}</td></tr>
+                                                    <tr><td><strong>Email:</strong></td><td>{{applicantThreeDetails.email}}</td></tr>
+                                                    <tr><td><strong>DOB:</strong></td><td>{{applicantThreeDetails.dob}}</td></tr>
+                                                    <tr><td><strong>PAN No.:</strong></td><td>{{applicantThreeDetails.pan}}</td></tr>
+                                                    <tr><td><strong>Profession:</strong></td><td>{{applicantThreeDetails.professsion}}</td></tr>
+                                                    <tr><td><strong>Aadhar No.:</strong></td><td>{{applicantThreeDetails.aadhar}}</td></tr>
+                                                </tbody>
+                                            </v-simple-table>
+                                        </v-card>
+                                    </v-col>
+                                </v-row>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+
+                    <!-- Payment List and Add new -->
+                    <v-col cols="12">
                         <v-card class="mt-4 rounded-lg">
                             <v-toolbar flat>
                                 <v-toolbar-title>Payments</v-toolbar-title>
@@ -75,6 +228,7 @@
                                             <th class="text-left">Title</th>
                                             <th class="text-left">Amount</th>
                                             <th class="text-left">File</th>
+                                            <th class="text-left">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -82,15 +236,58 @@
                                             <td>{{payment.title}}</td>
                                             <td>{{payment.amount}}</td>
                                             <td>
-                                                <v-btn small icon @click="downloadInvoice">
+                                                <v-btn small icon @click="downloadInvoice" v-if="payment.path">
                                                     <v-icon>mdi-download</v-icon>
+                                                </v-btn>
+                                                <div v-else>no file</div>
+                                            </td>
+                                            <td>
+                                                <v-btn small class="rounded-xl text-capitalize" @click="editPaymentDialog = !editPaymentDialog">
+                                                    <v-icon left size="16">mdi-pencil</v-icon>edit
                                                 </v-btn>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </template>
                             </v-simple-table>
+
+                            <!-- Edit Payment -->
+                            <v-dialog v-model="editPaymentDialog" width="500">
+                                <v-card>
+                                    <v-card-title class="title grey lighten-2">Edit Payment</v-card-title>
+
+                                    <v-card-text class="pt-6">
+                                        <v-text-field outlined label="Payment Title" v-model="payment.title"></v-text-field>
+
+                                        <v-text-field outlined label="Payment Amount" v-model="payment.amount"></v-text-field>
+                                            
+                                        <v-btn outlined x-small class="grey darken-2" link dark>
+                                            <label for="invoice">
+                                                Upload
+                                                <input 
+                                                    type="file" 
+                                                    id="invoice" 
+                                                    hidden 
+                                                    ref="docs" 
+                                                    @change="uploadInvoice"
+                                                    accept="application/pdf, application/doc"
+                                                >
+                                            </label>
+                                        </v-btn>
+                                    </v-card-text>
+
+                                    <v-divider></v-divider>
+
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn color="dark" block @click="updatePayment">Update</v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+
                         </v-card>
+
+                        <!-- Add new payment -->
                         <v-dialog v-model="paymentDialog" width="500">
                             <v-card>
                                 <v-card-title class="title grey lighten-2">Add Payment</v-card-title>
@@ -114,6 +311,7 @@
                     </v-col>
                 </v-row>
 
+            <!-- Document List -->
                 <v-card class="rounded-lg mt-4">
                     <v-card-subtitle class="py-2 font-weight-bold">Documents</v-card-subtitle>
                     <v-card-text class="px-2">
@@ -147,6 +345,7 @@
                     </v-card-text>
                 </v-card>
 
+            <!-- Image gallery -->
                 <v-card class="rounded-lg mt-4">
                     <v-card-subtitle class="py-2 font-weight-bold">Image Gallery</v-card-subtitle>
                     <v-card-text class="px-2 myGallery">
@@ -193,7 +392,11 @@ export default {
                 'Crore',
             ],
             amountType: '',
-            paymentDialog: false
+            paymentDialog: false,
+            editPaymentDialog: false,
+            applicantOneDetails: null,
+            applicantTwoDetails: null,
+            applicantThreeDetails: null,
         }
     },
     mounted(){
@@ -203,6 +406,9 @@ export default {
         fetchData(){
             Client.singleClientProperty(this.$route.params.id).then(response => {
                 this.property = response.data
+                this.applicantOneDetails = JSON.parse(response.data.applicant_one)
+                this.applicantTwoDetails = JSON.parse(response.data.applicant_two)
+                this.applicantThreeDetails = JSON.parse(response.data.applicant_three)
             })
         },
         onChange(e) {
@@ -226,7 +432,7 @@ export default {
             .then(() =>{
                 this.payment = ''
                 this.paymentDialog = false
-                 this.fetchData()
+                this.fetchData()
             })
         },
         updateProperty(){
@@ -237,6 +443,22 @@ export default {
             .then(()=> {
 
             })
+        },
+        uploadInvoice(){
+            var fileData = this.$refs.docs.files;
+            for (let i = 0; i < fileData.length; i++) {
+                let pdf = {
+                file: fileData[i],
+                name: fileData[i].name,
+                size: Math.round(fileData[i].size / 1024) + 'kb'
+                }
+                this.allPdf.push(pdf);
+            }
+            // for post data to server
+            for (let index = 0; index < fileData.length; index++) {
+                this.property.docs.push(fileData[index]);
+                console.log(this.property.docs);
+            }
         },
         downloadInvoice(){
             const path = 'https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/1640032657_registertaion+screen.jpg'

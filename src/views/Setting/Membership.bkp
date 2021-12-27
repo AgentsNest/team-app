@@ -99,10 +99,45 @@
                     </v-toolbar>
                 </div>
 
+                <v-card-text>
+                    <v-text-field label="Card Holder Name" id="card-holder-name" v-model="cardname"></v-text-field>
+                    <label>Card Details</label>
+                    <div id="card-element" class="mt-5"></div>
+                </v-card-text>
+
                 <div class="text-center grey--text caption mt-12">By clicking on subscribe now, you agree to our <router-link :to="{name: 'Policy'}">terms and condition.</router-link> Cancel anytime </div>
                 <v-card-actions>
                     <v-btn block color="teal" dark class="text-capitalize" large @click="submitPaymentMethod()"> Subscribe Now</v-btn>
                 </v-card-actions>
+
+                <!-- <div class="my-3">OR</div>
+
+                <div v-show="paymentMethodsLoadStatus == 2 
+                    && paymentMethods.length == 0"
+                    class="">
+                        No payment method on file, please add a payment method.
+                </div>
+
+                <div v-show="paymentMethodsLoadStatus == 2 
+                        && paymentMethods.length > 0">
+                    <div v-for="(method, key) in paymentMethods" 
+                            v-bind:key="'method-'+key" 
+                            v-on:click="paymentMethodSelected = method.id"
+                            class="border rounded row p-1"
+                            v-bind:class="{
+                            'bg-success text-light': paymentMethodSelected == method.id    
+                        }">
+                            <div class="col-2">
+                                {{ method.brand.charAt(0).toUpperCase() }}{{ method.brand.slice(1) }}
+                            </div>
+                            <div class="col-7">
+                                Ending In: {{ method.last_four }} Exp: {{ method.exp_month }} / {{ method.exp_year }}
+                            </div>
+                            <div class="col-3">
+                                <v-btn @click="removePaymentMethod( method.id )">Remove</v-btn>
+                            </div>
+                    </div>
+                </div> -->
 
 
             </v-card>
