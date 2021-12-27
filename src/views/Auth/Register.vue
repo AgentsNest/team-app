@@ -70,7 +70,8 @@ export default {
     methods:{
         register() {
             User.register(this.form)
-            .then(() => {
+            .then((response) => {
+                console.log('Click response: ', response)
                 this.$router.push({ name: "Login" });
             })
             .catch((error) => {
