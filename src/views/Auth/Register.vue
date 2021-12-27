@@ -36,7 +36,7 @@
                 v-model="form.confirm_password"
             ></v-text-field>
 
-            <v-btn block x-large dark class="gradient-bg" @click="login">Register</v-btn>
+            <v-btn block x-large dark class="gradient-bg" @click="register">Register</v-btn>
 
             <v-card-actions class="px-0 mt-4">
                 <v-spacer></v-spacer>
