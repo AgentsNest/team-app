@@ -1,252 +1,173 @@
 <template>
-  <div>
-    <v-row no-gutters>
-      <v-img 
-        src="../assets/img/hero-bg.svg"
-        lazy-src="../assets/img/hero-bg.svg"
-        width="100vw"
-        height="100vh"
-      >
-        <v-col md="8" offset-md="2">
-          <Navbar />
-          <!-- <v-card max-width="40vw" flat height="80vh" class="transparent d-flex align-center">
-            <v-card-text>
-              <div class="text-h3">A one-stop Marketing Solution.</div>
-              <p class="title my-6">One app that just puts an end to the hassles of your everyday life.</p>
-              <v-btn class="gradient px-8 py-6">Get Demo Now</v-btn>
-            </v-card-text>
-          </v-card> -->
+    <v-card class="overflow-hidden">
+            
+        <v-app-bar absolute color="white" elevate-on-scroll scroll-target="#scrolling-techniques-7" class="px-16">
+            <v-toolbar-title class="font-weight-bold headline">
+                agnt. 
+                <span class="caption">beta v.01</span>
+                <!-- <v-chip class="" x-small color="blue darken-4" text-color="white">beta</v-chip> -->
+            </v-toolbar-title>
+            
+            <v-spacer></v-spacer>
 
-          <v-row class="d-flex align-center mt-12">
-            <v-col cols="6">
-              <v-card flat class="transparent">
-                <v-card-text>
-                  <div class="text-h3">A one-stop Marketing Solution.</div>
-                  <p class="title my-6">One app that just puts an end to the hassles of your everyday life.</p>
-                  <v-btn class="gradient px-8 py-6">Get Demo Now</v-btn>
+            <v-btn text class="text-capitalize">Case Studies</v-btn>
+            <v-btn text class="text-capitalize">Pricing</v-btn>
+            <v-btn text class="text-capitalize">Integration</v-btn>
+            <v-btn text class="text-capitalize">Resources</v-btn>
+            <v-btn text class="text-capitalize">About Us</v-btn>
+            <v-btn color="yellow darken-2" elevation="0" class="text-capitalize">Login</v-btn>
+
+        </v-app-bar>
+
+        <v-sheet id="scrolling-techniques-7" class="overflow-y-auto pt-12" min-height="100vh">
+            <v-container>
+                <v-row class="py-16">
+                    <v-col>
+                        <div class="display-3 font-weight-bold">Grow your business faster with <span class="blue--text text--darken-3">AgentsNest</span></div>
+                        <div class="my-8">Transform conversations to commerce using Interakt</div>
+                        <v-row>
+                            <v-col class="font-weight-bold"><v-icon color="red" size="14" class="mr-2">mdi-circle</v-icon> Build your Brand identity</v-col>
+                            <v-col class="font-weight-bold"><v-icon color="green" size="14" class="mr-2">mdi-circle</v-icon> Generate new leads each day</v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col class="font-weight-bold"><v-icon color="yellow" size="14" class="mr-2">mdi-circle</v-icon> Keep a track of leads</v-col>
+                            <v-col class="font-weight-bold"><v-icon color="purple" size="14" class="mr-2">mdi-circle</v-icon> Manage your team</v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col class="font-weight-bold"><v-icon color="orange" size="14" class="mr-2">mdi-circle</v-icon> Share properties in one click</v-col>
+                            <v-col class="font-weight-bold"><v-icon color="green" size="14" class="mr-2">mdi-circle</v-icon> Never miss opportunities</v-col>
+                        </v-row>
+                        <v-alert text color="info" class="mt-8 rounded-xl">
+                            <div>Proin magna. Vivamus in erat ut urna cursus vestibulum sdsfdfff.</div>
+                        </v-alert>
+                    </v-col>
+                    <v-col>
+                        <v-img src="../assets/img/hero1.png" max-width="36vw" @click="videoOne = !videoOne" style="cursor: pointer"></v-img>
+                        <v-dialog v-model="videoOne" width="500">
+                            <v-card flat height="100%">
+                                <!-- <iframe id="ytplayer" type="text/html" src="https://player.vimeo.com/video/122282652?h=104b3eccc2" width="100%" height="400" frameborder="0"></iframe> -->
+                                <video src="../assets/img/vid.mp4" width="100%" height="400" autoplay loop></video>
+                            </v-card>
+                        </v-dialog>
+                    </v-col>
+                </v-row>
+
+                <v-card flat class="py-12">
+                    <div>
+                        <div class="text-center display-1">We bring to you, every Realtor’s companion.</div>
+                        <div class="text-center headline">Save time and invest towards a better future.</div>
+                        <div class="text-center font-weight-bold my-4">
+                           <span class="blue--text text--darken-3 title">100+ realtors trust Agentsnest</span> 
+                           to Sell & Engage better with their clients
+                        </div>
+                    </div>
+                </v-card>
+            </v-container>
+
+            <v-card class="blue lighten-5" flat tile>
+                <v-container>
+                    <v-card-actions class="justify-space-around mb-16">
+                        <v-img src="../assets/img/logo-sample.png" max-width="120" v-for="n in 5" :key="n"></v-img>
+                    </v-card-actions>
+
+                    <v-card-text class="text-center mt-16">
+                        <div class="display-1">Say hello to an end-to-end</div>
+                        <div class="display-1 blue--text text--darken-3 font-weight-bold">Realtor Business Solution</div>
+                        <div class="title mt-6">All Digital tools, one platform</div>
+                    </v-card-text>
+
+                    <v-row class="my-12">
+                        <v-col cols="5">
+                            <div class="display-1 mb-4 fotn-weight-bold">WhatsApp Catalogs & Carts</div>
+                            <div class="mb-4">Transform WhatsApp into a sales channel by helping customers discover & purchase products here!</div>
+                            <ul>
+                                <li class="mb-3">Send product catalogs to customers on WhatsApp as part of campaigns & auto-replies</li>
+                                <li class="mb-3">Include up to 30 products along with images, descriptions, prices, and more in a single WhatsApp message</li>
+                                <li class="mb-3">Facilitate the entire order placement & fulfillment process on WhatsApp itself </li>
+                            </ul>
+                        </v-col>
+                        <v-col cols="7">
+                            <v-img src="../assets/img/hero2.png" width="100%"></v-img>
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </v-card>
+
+            <v-card flat tile>
+                <v-container>
+                    <v-row class="my-12">
+                        <v-col cols="7">
+                            <v-img src="../assets/img/hero2.png" width="100%"></v-img>
+                        </v-col>
+                        <v-col cols="5">
+                            <div class="display-1 mb-4 fotn-weight-bold">WhatsApp Catalogs & Carts</div>
+                            <div class="mb-4">Transform WhatsApp into a sales channel by helping customers discover & purchase products here!</div>
+                            <ul>
+                                <li class="mb-3">Send product catalogs to customers on WhatsApp as part of campaigns & auto-replies</li>
+                                <li class="mb-3">Include up to 30 products along with images, descriptions, prices, and more in a single WhatsApp message</li>
+                                <li class="mb-3">Facilitate the entire order placement & fulfillment process on WhatsApp itself </li>
+                            </ul>
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </v-card>
+
+            <!-- Footer -->
+            <v-card class="pt-12">
+                <v-container>
+                    <v-row>
+                        <v-col cols="4">
+                            <div class="title font-weight-bold">agnt.</div>
+                            <div>Sign up to recieve the latest updates</div>
+                            <div class="d-flex mt-6">
+                                <v-text-field dense label="Outlined" outlined></v-text-field>
+                                <v-btn class="ml-4">Submit</v-btn>
+                            </div>
+                        </v-col>
+                        <v-col>
+                            <div>Agentsnest</div>
+                            <ul>
+                                <li>Get a Live Demo</li>
+                                <li>About Us</li>
+                                <li>Partner with Us</li>
+                                <li>Privacy Policy</li>
+                                <li>Terms & Conditions</li>
+                            </ul>
+                        </v-col>
+                        <v-col>
+                            <div>Quick Help Links</div>
+                            <ul>
+                                <li>Blogs</li>
+                                <li>Pricing</li>
+                                <li>FAQ's</li>
+                                <li>Case Studies</li>
+                                <li>Resource Center</li>
+                            </ul>
+                        </v-col>
+                        <v-col>
+                            <div>Connect with us</div>
+                        </v-col>
+                    </v-row>
+                </v-container>
+                <v-card-text class="text-center mt-12">
+                    Copyright © 2021 agentsnest. All rights reserved.
                 </v-card-text>
-              </v-card>
-            </v-col>
-            <v-col cols="6">
-              <v-img
-                src="../assets/img/mobile.png"
-                lazy-src="../assets/img/mobile.png"
-              ></v-img>
-            </v-col>
-          </v-row>
-
-        </v-col>
-      </v-img>
-    </v-row>
-
-    <v-row>
-      <v-col md="8" offset-md="2">
-          <div class="text-center">
-            <v-btn large fab class="gradient"><v-icon color="white">mdi-layers-triple-outline</v-icon></v-btn>
-            <div class="my-6 text-h4">Making your work easier</div>
-            <div class="mt-3">Lorem ipsum is common placeholder text used to demonstrate the graphic elements <br> of a document or visual presentation.</div>
-          </div>
-
-          <v-row class="mt-12">
-            <v-col cols="5" class="d-flex justify-center flex-column ">
-              <div class="text-h5 font-weight-bold">Seamless collaboration</div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua — Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            </v-col>
-            <v-col cols="7">
-              <v-img 
-                src="../assets/img/feat.png"
-                lazy-src="../assets/img/feat.png"
-              ></v-img>
-            </v-col>
-          </v-row>
-
-          <v-row class="">
-             <v-col cols="7">
-              <v-img 
-                src="../assets/img/feat2.png"
-                lazy-src="../assets/img/feat2.png"
-              ></v-img>
-            </v-col>
-            <v-col cols="5" class="d-flex justify-center flex-column ">
-              <div class="text-h5 font-weight-bold">Seamless collaboration</div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua — Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            </v-col>
-          </v-row>
-
-          <v-row class="">
-            <v-col cols="5" class="d-flex justify-center flex-column ">
-              <div class="text-h5 font-weight-bold">Seamless collaboration</div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua — Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            </v-col>
-            <v-col cols="7">
-              <v-img 
-                src="../assets/img/feat3.png"
-                lazy-src="../assets/img/feat3.png"
-              ></v-img>
-            </v-col>
-          </v-row>
-      </v-col>
-    </v-row>
-
-    <!-- Pricing plans -->
-    <v-row class="gradient py-12">
-      <v-col md="8" offset-md="2">
-        <v-card class="text-center py-10 transparent" flat dark>
-          <div class="text-h3 mb-4 text-center">A plan for every price</div>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus impedit error labore doloremque fugit.</p>
-        </v-card>
-        <v-row class="mb-12 px-12">
-          <v-col cols="6">
-            <v-card class="pa-4 d-flex flex-column align-center rounded-t-lg" tile>
-              <v-btn outlined class="mb-8 mt-6 px-6 py-5">Monthly</v-btn>
-              <div class="d-flex mb-6">
-                <div class="text-h5">₹</div>
-                <div class="d-flex flex-column align-left">
-                  <div class="text-h2 font-weight-bold">1499</div> 
-                  <div class="caption pl-3">/MONTH</div>
-                </div>
-              </div>
             </v-card>
-            <v-card class="grey lighten-4 pa-6 rounded-b-lg" tile>
-              <v-list class="transparent">
-                <v-list-item>
-                  <v-list-item-icon><v-icon>mdi-check</v-icon></v-list-item-icon>
-                  <v-list-item-content><v-list-item-title>Free Graphics</v-list-item-title></v-list-item-content>
-                </v-list-item>
 
-                <v-list-item>
-                  <v-list-item-icon><v-icon>mdi-check</v-icon></v-list-item-icon>
-                  <v-list-item-content><v-list-item-title>Manage Existing Client</v-list-item-title></v-list-item-content>
-                </v-list-item>
-
-                <v-list-item>
-                  <v-list-item-icon><v-icon>mdi-check</v-icon></v-list-item-icon>
-                  <v-list-item-content><v-list-item-title>Social Ads</v-list-item-title></v-list-item-content>
-                </v-list-item>
-
-                <v-list-item>
-                  <v-list-item-icon><v-icon>mdi-check</v-icon></v-list-item-icon>
-                  <v-list-item-content><v-list-item-title>Free Websites</v-list-item-title></v-list-item-content>
-                </v-list-item>
-              
-                <v-list-item>
-                  <v-list-item-icon><v-icon>mdi-check</v-icon></v-list-item-icon>
-                  <v-list-item-content><v-list-item-title>Track Client Activities</v-list-item-title></v-list-item-content>
-                </v-list-item>
-            
-                <v-list-item>
-                  <v-list-item-icon><v-icon>mdi-check</v-icon></v-list-item-icon>
-                  <v-list-item-content><v-list-item-title>Facebook & Google Integration</v-list-item-title></v-list-item-content>
-                </v-list-item>
-
-              </v-list>
-              <v-btn block x-large outlined class="rounded-lg" color="grey darken-3">Subscribe</v-btn>
-            </v-card>
-          </v-col>
-          <v-col cols="6">
-            <v-card class="pa-4 d-flex flex-column align-center rounded-t-lg" tile>
-              <v-btn outlined class="mb-8 mt-6 px-6 py-5">Annually</v-btn>
-              <div class="d-flex mb-6">
-                <div class="text-h5">₹</div>
-                <div class="d-flex flex-column align-left">
-                  <div class="text-h2 font-weight-bold">999</div> 
-                  <div class="caption pl-3">/MONTH</div>
-                </div>
-              </div>
-            </v-card>
-            <v-card class="grey lighten-4 pa-6 rounded-b-lg" tile>
-              <v-list class="transparent">
-                <v-list-item>
-                  <v-list-item-icon><v-icon>mdi-check</v-icon></v-list-item-icon>
-                  <v-list-item-content><v-list-item-title>Free Graphics</v-list-item-title></v-list-item-content>
-                </v-list-item>
-
-                <v-list-item>
-                  <v-list-item-icon><v-icon>mdi-check</v-icon></v-list-item-icon>
-                  <v-list-item-content><v-list-item-title>Manage Existing Client</v-list-item-title></v-list-item-content>
-                </v-list-item>
-
-                <v-list-item>
-                  <v-list-item-icon><v-icon>mdi-check</v-icon></v-list-item-icon>
-                  <v-list-item-content><v-list-item-title>Social Ads</v-list-item-title></v-list-item-content>
-                </v-list-item>
-
-                <v-list-item>
-                  <v-list-item-icon><v-icon>mdi-check</v-icon></v-list-item-icon>
-                  <v-list-item-content><v-list-item-title>Free Websites</v-list-item-title></v-list-item-content>
-                </v-list-item>
-              
-                <v-list-item>
-                  <v-list-item-icon><v-icon>mdi-check</v-icon></v-list-item-icon>
-                  <v-list-item-content><v-list-item-title>Track Client Activities</v-list-item-title></v-list-item-content>
-                </v-list-item>
-            
-                <v-list-item>
-                  <v-list-item-icon><v-icon>mdi-check</v-icon></v-list-item-icon>
-                  <v-list-item-content><v-list-item-title>Facebook & Google Integration</v-list-item-title></v-list-item-content>
-                </v-list-item>
-
-              </v-list>
-              <v-btn block x-large class="gradient rounded-lg">Subscribe</v-btn>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
-
-    <!-- Footer -->
-    <v-footer class="white py-10">
-      <v-row>
-        <v-col md="8" offset-md="2">
-          <v-card class="flex" flat tile>
-            <v-card-title class="">
-              <strong class="subheading">agnt.</strong>
-
-              <v-spacer></v-spacer>
-
-              <v-btn class="mx-2" icon><v-icon size="24px">mdi-facebook</v-icon></v-btn>
-              <v-btn class="mx-2" icon><v-icon size="24px">mdi-twitter</v-icon></v-btn>
-              <v-btn class="mx-2" icon><v-icon size="24px">mdi-linkedin</v-icon></v-btn>
-              <v-btn class="mx-2" icon><v-icon size="24px">mdi-linkedin</v-icon></v-btn>
-            </v-card-title>
-
-            <v-card-actions class="py-2">
-              <div>© {{ new Date().getFullYear() }} — <strong>agnt,</strong> all rights reserved</div>
-
-              <v-spacer></v-spacer>
-              <v-btn text class="text-capitalize" >Contact</v-btn>
-              <v-btn text class="text-capitalize">About Us</v-btn>
-              <v-btn text class="text-capitalize">FAQ's</v-btn>
-              <v-btn text class="text-capitalize">Support</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-
-    </v-footer>
-
-  </div>
+        </v-sheet>
+    </v-card>
 </template>
 
 <script>
-  import Navbar from '../components/Navbar.vue'
-  export default {
-    components:{ Navbar },
-    name: 'Home',
-    data() {
-      return {
-        isLoggedIn: false,
-      };
-    },
-    methods: {},
-    mounted() {},
-  }
+export default {
+    data(){
+        return{
+            videoOne: false
+        }
+    }
+}
 </script>
 
 <style>
-.gradient{
-  background-image: linear-gradient(to right, #283593, #3cabba);
-  box-shadow: 0 4px 15px 0 rgba(23, 91, 168, 0.75);
-  color: #fff;
-}
+
 </style>

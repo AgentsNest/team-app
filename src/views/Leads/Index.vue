@@ -113,7 +113,11 @@
                     </template>
                 </v-simple-table>
 
-                <!-- Edit Lead Dialog -->
+                <!--
+                    ===========================
+                          Edit Lead Dialog 
+                    ===========================
+                -->
                 <v-dialog v-model="editLead" persistent max-width="600px">
                     <v-card>
                         <v-card-title>
@@ -239,10 +243,10 @@
                             <span>Whatsapp</span>
                             <v-icon>mdi-whatsapp</v-icon>
                         </v-btn>
-                        <v-btn>
+                        <!-- <v-btn>
                             <span>Group</span>
                             <v-icon>mdi-folder-table-outline</v-icon>
-                        </v-btn>
+                        </v-btn> -->
                         <v-btn @click="shareWebsiteListDialog">
                             <span>Website</span>
                             <v-icon>mdi-web</v-icon>
@@ -262,10 +266,45 @@
                                     <v-list-item-subtitle>Total shared: {{website.trackers.length}}</v-list-item-subtitle>
                                 </v-list-item-content>
 
-                                <v-btn class="text-capitalize">Share</v-btn>
+                                <v-btn class="text-capitalize blue darken-2" dark 
+                                    v-if="website"
+                                    @click="shareNow(lead, website)"
+                                >
+                                    Share
+                                </v-btn>
+                                <!-- :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} %0a Here is the details for ${website.title} %0a http://localhost:3000/wt/${tracker_id}`"
+                                    target="_blank" -->
                             </v-list-item>
                         </v-list>
                     </v-bottom-sheet>
+
+                    <v-dialog
+                        v-model="websiteShareConfirmation"
+                        width="500"
+                    >
+                        <v-card>
+                            <v-card-title class="text-h5 grey lighten-2">
+                            Privacy Policy
+                            </v-card-title>
+
+                            <v-card-text>
+                            {{tracker_id}}
+                            </v-card-text>
+
+                            <v-divider></v-divider>
+
+                            <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                color="primary"
+                                text
+                                @click="dialog = false"
+                            >
+                                I accept
+                            </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                        </v-dialog>
 
 
                     <v-expansion-panels>
@@ -334,6 +373,7 @@ import Lead from '../../Apis/Lead'
 import Group from '../../Apis/Other'
 import User from '../../Apis/User'
 import Website from '../../Apis/Website'
+import Tracker from '../../Apis/Tracker'
 
 
 export default {
@@ -378,7 +418,22 @@ export default {
         editLead: false,
         editedLead: {},
         sheet: false,
-        websites: []
+        websites: [],
+        website: null,
+        shareData:{
+            website_id: null,
+            lead_id: null,
+            agent_id: null,
+            opened: false,
+            total_views: 0
+        },
+        tracker_id : null,
+        clientList: false,
+        user_id: null,
+        submitted: false,
+        opened: [],
+        unopened: [],
+        websiteShareConfirmation: false
       }
     },
     methods:{
@@ -544,8 +599,8 @@ export default {
         },
         updateSingleLead(lead){
             User.asignLeadToTeam(lead, {
-                group_id: this.editedLead.group_id,
-                team_id: this.editedLead.team_id,
+                // group_id: this.editedLead.group_id,
+                // team_id: this.editedLead.team_id,
                 contact: this.editedLead.contact,
                 email: this.editedLead.email,
                 status: this.editedLead.status,
@@ -596,7 +651,42 @@ export default {
                     $state.loaded();
                 });
             }
-        }
+        },
+        shareNow(lead, website){
+            let form = new FormData();
+            form.append('website_id', website.id)
+            form.append('lead_id', lead.id)
+            form.append('agent_id', this.shareData.agent_id)
+            form.append('opened', false)
+            form.append('total_views', 0)
+
+            // for (var pair of form.entries()){
+            //     console.log(pair[0]+ ', '+ pair[1]); 
+            // }
+
+            Tracker.new(form)
+            .then(response => {
+                this.tracker_id = response.data.url
+                // console.log(response.data)
+                // this.sendWhatsapp();
+                this.websiteShareConfirmation = true
+            })
+            // .then(() => {
+            //     this.sendWhatsapp();
+            // })
+            .catch(error => {
+                console.log(error);
+            })
+        },
+        sendWhatsapp(){
+            let num=document.getElementById("number").value;
+            let leadname= document.getElementById("leadname").value;
+            let website= document.getElementById("website").value;
+            let websiteslug= document.getElementById("websiteslug").value;
+            let tracker = this.tracker_id;
+
+            window.open(`https://wa.me/${num}?text=Hi ${leadname} %0a Here is the details for ${website} %0a http://agentsnest.onrender.com/wt/${tracker}`, '_blank');
+        },
     },
     computed:{
         filterLead: function(){
@@ -623,9 +713,12 @@ export default {
     },
     mounted(){
       this.fetchData();
-    //   this.fetchGroups();
-    //   this.fetchTeams();
-    //   this.fetchAgent();
+      this.fetchGroups();
+      this.fetchTeams();
+      this.fetchAgent();
+        User.auth().then(response => {
+            this.shareData.agent_id = response.data.data.id;
+        });
     }
 }
 </script>
