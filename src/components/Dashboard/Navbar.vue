@@ -29,10 +29,6 @@
 
         <!-- <v-btn text class="text-capitalize">Vimal Bharti</v-btn> -->
 
-        <v-btn fab small @click="logout" class="grey darken-3 mr-3" dark elevation="1">
-          <v-icon>mdi-logout</v-icon>
-        </v-btn>
-
         <v-btn class="white mr-3" elevation="1" fab small :to="{name: 'AgentAccount'}">
           <v-icon>mdi-cog</v-icon>
         </v-btn>
@@ -44,8 +40,8 @@
           offset-y
         >
           <template v-slot:activator="{ on, attrs }">
-              <v-btn outlined class="rounded-xl pa-2 d-none d-md-block" text large>
-                <v-img :src="agent.brand_logo" aspect-ratio="2" contain v-bind="attrs" v-on="on"></v-img>
+              <v-btn fab small v-bind="attrs" v-on="on">
+                <v-avatar size="42"><v-img :src="agent.image"></v-img></v-avatar>
               </v-btn>
           </template>
 

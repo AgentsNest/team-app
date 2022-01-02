@@ -15,7 +15,7 @@
             <v-btn text class="text-capitalize">Integration</v-btn>
             <v-btn text class="text-capitalize">Resources</v-btn>
             <v-btn text class="text-capitalize">About Us</v-btn>
-            <v-btn color="yellow darken-2" elevation="0" class="text-capitalize">Login</v-btn>
+            <v-btn color="yellow darken-2" elevation="0" class="text-capitalize" link :to="{name: 'Login'}">Login</v-btn>
 
         </v-app-bar>
 
@@ -38,8 +38,7 @@
                             <v-col class="font-weight-bold"><v-icon color="green" size="14" class="mr-2">mdi-circle</v-icon> Never miss opportunities</v-col>
                         </v-row>
                         <v-alert text color="info" class="mt-8 rounded-xl">
-                            <div class="text-capitalize">Your Own Solution | Join the AgentsNest community today!
-</div>
+                            <div class="text-capitalize">Your Own Solution | Join the AgentsNest community today!</div>
                         </v-alert>
                     </v-col>
                     <v-col>
@@ -67,10 +66,7 @@
 
             <v-card class="blue lighten-5" flat tile>
                 <v-container>
-                    <v-card-actions class="justify-space-around mb-16">
-                        <v-img src="../assets/img/logo-sample.png" max-width="120" v-for="n in 5" :key="n"></v-img>
-                    </v-card-actions>
-
+            
                     <v-card-text class="text-center mt-16">
                         <div class="display-1">Say hello to an end-to-end</div>
                         <div class="display-1 blue--text text--darken-3 font-weight-bold">Realtor Business Solution</div>
@@ -149,6 +145,197 @@
                 </v-container>
             </v-card>
 
+        <!-- Builders Logo -->
+            <v-card tile class="py-6">
+                <v-container fluid>
+                    <!-- <v-row>
+                        <v-col cols="2">
+                            <v-card outlined class="d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/1.jpg" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="2">
+                            <v-card outlined class="d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/2.jpg" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="2">
+                            <v-card outlined class="d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/3.jpg" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="2">
+                            <v-card outlined class="d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/4.jpg" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="2">
+                            <v-card outlined class="d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/5.jpg" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="2">
+                            <v-card outlined class="d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/6.png" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="2">
+                            <v-card outlined class="d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/7.png" alt="nksharma" max-width="80"></v-img>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="2">
+                            <v-card outlined class="d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/8.png" max-width="100"></v-img>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="2">
+                            <v-card outlined class="d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/9.png" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="2">
+                            <v-card outlined class="d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/10.png" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="2">
+                            <v-card outlined class="d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/11.png" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="2">
+                            <v-card outlined class="d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/12.png" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="2">
+                            <v-card outlined class="d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/13.jpg" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="2">
+                            <v-card outlined class="d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/14.png" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="2">
+                            <v-card outlined class="d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/15.png" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="2">
+                            <v-card outlined class="d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/16.png" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="2">
+                            <v-card outlined class="d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/17.jpg" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="2">
+                            <v-card outlined class="d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/18.png" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-col>
+                    </v-row> -->
+
+                    <v-slide-group v-model="model" show-arrows>
+                        <v-slide-item>
+                            <v-card outlined class="mx-4 d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/1.jpg" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-slide-item>
+                        <v-slide-item>
+                            <v-card outlined class="mx-4 d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/2.jpg" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-slide-item>
+                        <v-slide-item>
+                            <v-card outlined class="mx-4 d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/3.jpg" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-slide-item>
+                        <v-slide-item>
+                            <v-card outlined class="mx-4 d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/4.jpg" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-slide-item>
+                        <v-slide-item>
+                            <v-card outlined class="mx-4 d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/5.jpg" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-slide-item>
+                        <v-slide-item>
+                            <v-card outlined class="mx-4 d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/6.png" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-slide-item>
+                        <v-slide-item>
+                            <v-card outlined class="mx-4 d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/7.png" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-slide-item>
+                        <v-slide-item>
+                            <v-card outlined class="mx-4 d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/8.png" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-slide-item>
+                        <v-slide-item>
+                            <v-card outlined class="mx-4 d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/9.png" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-slide-item>
+                        <v-slide-item>
+                            <v-card outlined dark class="mx-4 d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/10.png" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-slide-item>
+                        <v-slide-item>
+                            <v-card outlined dark class="mx-4 d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/11.png" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-slide-item>
+                        <v-slide-item>
+                            <v-card outlined dark class="mx-4 d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/12.png" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-slide-item>
+                        <v-slide-item>
+                            <v-card outlined class="mx-4 d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/13.jpg" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-slide-item>
+                        <v-slide-item>
+                            <v-card outlined dark class="mx-4 d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/14.png" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-slide-item>
+                        <v-slide-item>
+                            <v-card outlined class="mx-4 d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/15.png" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-slide-item>
+                        <v-slide-item>
+                            <v-card outlined class="mx-4 d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/16.png" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-slide-item>
+                        <v-slide-item>
+                            <v-card outlined dark class="mx-4 d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/17.jpg" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-slide-item>
+                        <v-slide-item>
+                            <v-card outlined dark class="mx-4 d-flex align-center justify-center" height="120" width="120">
+                                <v-img src="../assets/Logos/18.png" alt="motiagroup" max-width="100"></v-img>
+                            </v-card>
+                        </v-slide-item>
+                    </v-slide-group>
+                </v-container>
+            </v-card>
+
             <!-- Footer -->
             <v-card class="pt-12">
                 <v-container>
@@ -199,7 +386,8 @@
 export default {
     data(){
         return{
-            videoOne: false
+            videoOne: false,
+            model: null,
         }
     }
 }

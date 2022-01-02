@@ -2,7 +2,7 @@
     <div>
         <v-img
             src="../../assets/img/login.jpg"
-            gradient="to top right, rgba(40, 53, 147,.9), rgba(60, 171, 186,.9)"
+            gradient="to top right, rgba(40, 53, 147,.8), rgba(60, 171, 186,.9)"
             class="d-flex text-center align-center"
             height="100vh"
         >
@@ -11,7 +11,7 @@
 
             <v-row>
                 <v-col md="4" offset-md="4">
-                    <v-card class="rounded-md-xl rounded-t-xl pa-10">
+                    <v-card class="rounded-xl pa-10">
                         <div class="text-h5 text-center">Realtor Login</div>
                         <v-card-subtitle class="">Please enter the details below to continue.</v-card-subtitle>
 
@@ -38,7 +38,7 @@
                                 v-model="form.password"
                                 @keyup.enter="login"
                             ></v-text-field>
-                            <router-link :to="{name: 'forgotPassword'}">forgot password</router-link>
+                            <router-link :to="{name: 'forgotPassword'}" class="blue--text text--darken-3">Forgot Password</router-link>
                         </v-card-text>
 
 

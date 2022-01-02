@@ -37,7 +37,8 @@
 
                             <label class="grey--text text--darken-1">Map Location</label>
                             <v-text-field solo v-model="website.map" clearable></v-text-field>
-                            <iframe :src="website.map" frameborder="0" width="100%" height="400"></iframe>
+                            <!-- <iframe :src="`${ytUrl}IzDbhbwrd_0`" frameborder="0" width="100%" height="400"></iframe> -->
+                            
                         </v-card>
                     </v-card>
                 </v-col>
@@ -101,6 +102,7 @@ export default {
         imageType:{ "featured" : "Featured", "gallery" : "Gallery", "floor" : "Floor Plans", "construction" : "Construction Updates"},
         promotors: [],
         previewImage: [],
+        ytUrl: 'https://www.youtube.com/embed/'
       }
     },
     methods: {

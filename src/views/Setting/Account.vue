@@ -26,9 +26,22 @@
                         </v-card-actions>
                     </v-card>
 
+                <!-- Agent Avatar -->
                     <v-card class="rounded-xl mb-5 pa-5 content-card" flat>
-
-                        <v-toolbar flat>
+                        <v-toolbar flat class="mt-8 mb-10">
+                            <v-img 
+                                :src="avatarPreview ? avatarPreview : agent.image"
+                                max-width="120"
+                                class="rounded-xl align-end text-right"
+                            >
+                                <v-btn fab depressed color="grey" small>
+                                    <label for="brandAvatar">
+                                        <v-icon class="cursor-pointer">mdi-camera</v-icon>
+                                        <input type="file" id="brandAvatar" hidden accept="image/*" @change="previewAvatar"/>
+                                    </label>
+                                </v-btn>
+                            </v-img>
+                            <v-spacer></v-spacer>
                             <div class="title">Change Information here</div>
                             <v-spacer></v-spacer>
                             <v-btn 
@@ -156,7 +169,8 @@ export default {
             preview: '',
             submitBtn: "Update",
             success: false,
-            verified: true
+            verified: true,
+            avatarPreview: ''
         }
     },
     methods: {
@@ -177,6 +191,18 @@ export default {
             reader.onload = (e) => {
                 this.preview = e.target.result;
                 this.agent.brand_logo = e.target.result;
+            };
+        },
+        previewAvatar(e) {
+            let file = e.target.files[0];
+
+            let reader = new FileReader();
+
+            reader.readAsDataURL(file);
+
+            reader.onload = (e) => {
+                this.avatarPreview = e.target.result;
+                this.agent.image = e.target.result;
             };
         },
     },

@@ -9,9 +9,9 @@
 
                 <v-spacer></v-spacer>
 
-                <v-btn class="grey darken-3" dark icon :to="{name: 'addNewWebsite'}">
+                <!-- <v-btn class="grey darken-3" dark icon :to="{name: 'addNewWebsite'}">
                     <v-icon>mdi-plus</v-icon>
-                </v-btn>
+                </v-btn> -->
 
                 <v-btn class="text-capitalize mx-3 dark" dark depressed :to="{name: 'MyWebsite'}">My Websites</v-btn>
                 <v-btn class="text-capitalize" outlined :to="{name: 'Website'}">All Websites</v-btn>
@@ -26,8 +26,8 @@
                       <router-link :to="{name: 'WebsiteDetails', params:{id: website.slug}}">
                         <v-card>
                             <v-img
-                                height="140px"
-                                src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                                height="180px"
+                                :src="website.website_images[0] ? `https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${website.website_images[0].url}` : 'https://realtsafe-test.s3.ap-south-1.amazonaws.com/Default/property.jpg'"
                             ></v-img>
 
                             <v-card-text class="pa-0">
@@ -102,8 +102,8 @@ export default {
       },
       fetchData(){
         Website.auth().then(response => {
-            this.websites = response.data.websites;
-            // console.log(response.data);
+            this.websites = response.data.data;
+            // console.log(response.data.data);
         });
       },
       fetchLeadsDetails(){

@@ -15,19 +15,28 @@ export default {
     return Api().get("/leads/" + id);
   },
 
-  auth() {
-    return Api().get("/leads/by/user");
+  auth(page) {
+    return Api().get("/leads/by/user?page=" + page);
+  },
+
+  authHotLead(page) {
+    return Api().get("/user/hot-lead?page=" + page);
+  },
+
+  leadsAnalytics() {
+    return Api().get("/leads-analytics");
   },
 
   details(id) {
     return Api().get("/leads/" + id);
   },
 
-  // Followups and Activity
+  /**
+   * Activities Request
+   */
   addActivityNotes(form) {
     return Api().post("/addActivityNotes", form);
   },
-
   addActivityCall(form) {
     return Api().post("/addActivityCall", form);
   },
@@ -37,6 +46,13 @@ export default {
   addActivityWhatsapp(form) {
     return Api().post("/addActivityWhatsapp", form);
   },
+  allActivityByUser() {
+    return Api().get("/all-activity-by-user");
+  },
+
+  /**
+   * Followups
+   */
 
   addFollowup(form) {
     return Api().post("/addFollowup", form);

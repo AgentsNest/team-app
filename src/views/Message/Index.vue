@@ -20,14 +20,14 @@
                         <v-row>
                             <v-col md="6" v-for="message in messages" :key="message.id">
                                 <v-card class="align-stretch" height="100%">
-                                    <v-card-text>{{message.text}}</v-card-text>
+                                    <v-card-text><strong>Hi, @clientName -</strong> <br> {{message.text}} <strong><br> Regards: <br> @yourName</strong></v-card-text>
                                 </v-card>
                             </v-col>
                         </v-row>
                     </v-col>
                     <v-col md="4">
-                        <input type="text" placeholder="Add group name..." class="search-input" v-model="form.title">
-                        <v-btn block class="mt-6" :color="form.color" large dark @click="newGroup">Create Message</v-btn>
+                        <input type="text" placeholder="Add group name..." class="search-input" v-model="form.text">
+                        <v-btn block class="mt-6" large dark @click="newMessage">Create Message</v-btn>
                     </v-col>
                 </v-row>
             </v-card-text>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import Group from '../../Apis/Other'
+import Other from '../../Apis/Other'
 import User from '../../Apis/User'
 
 export default {
@@ -49,9 +49,9 @@ export default {
         snackbar: false,
         messages:[],
         form:{
-            title: '',
+            text: '',
+            type: 'agent',
             agent_id: null,
-            color: '',
         },
       }
     },
@@ -62,28 +62,27 @@ export default {
             });
         },
         fetchData(){
-            Group.messageSample().then(response => {
+            Other.messageSample().then(response => {
                 this.messages = response.data.data;
+                // console.log(response.data)
             });
         },
-        newGroup(){
+        newMessage(){
             let data = new FormData();
 
-            data.append('title', this.form.title)
+            data.append('text', this.form.text)
             data.append('agent_id', this.form.agent_id)
-            data.append('color', this.form.color)
+            data.append('type', this.form.type)
 
-            Group.newGroup(data)
+            Other.new(data)
             .then((response) => {
                 this.fetchData();
                 this.snackbar = true
-                this.form = ''
-                console.log(response)
             })
             .catch(error => {
                 console.log(error);
             });  
-        },
+        }
     },
     mounted(){
       this.fetchData();

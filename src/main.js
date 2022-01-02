@@ -11,6 +11,8 @@ import InfiniteLoading from "vue-infinite-loading";
 import Vuelidate from "vuelidate";
 import "./registerServiceWorker";
 
+
+
 Vue.use(VueImg);
 Vue.use(VueKonva);
 Vue.use(InfiniteLoading);
@@ -21,6 +23,11 @@ Vue.config.productionTip = false;
 Vue.filter("formatDate", function(value) {
   if (value) {
     return moment(String(value)).format("D-MMM, YYYY");
+  }
+});
+Vue.filter("fromNow", function(value) {
+  if (value) {
+    return moment(String(value)).fromNow();
   }
 });
 Vue.filter("toWords", function(value) {

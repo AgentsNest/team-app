@@ -37,6 +37,10 @@ export default {
     return Api().put("/agent-logo/" + id, data);
   },
 
+  updateAvatar(id, data) {
+    return Api().put("/agent-avatar/" + id, data);
+  },
+
   agentTeam() {
     return Api().get("/team/of/user");
   },

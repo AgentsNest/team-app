@@ -21,10 +21,15 @@
             <v-container>
                 <v-row>
                     <v-col md="6">
-                        <v-img
-                            src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
-                            lazy-src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
-                        ></v-img>
+                        <v-carousel v-model="projectGallery" height="300" hide-delimiters>
+                            <v-carousel-item v-for="(image, i) in website.website_images" :key="i">
+                                <v-img
+                                    :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
+                                    :lazy-src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
+                                    cover
+                                ></v-img>
+                            </v-carousel-item>
+                        </v-carousel>
                     </v-col>
                     <v-col md="6">
                         <v-simple-table>
@@ -72,10 +77,6 @@
                     </v-col>
                 </v-row>
 
-                <h3>Payment Plans</h3>
-                <v-row>
-                    <v-col></v-col>
-                </v-row>
             </v-container>
         </v-card>
 
@@ -83,7 +84,7 @@
         <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
             <v-card tile>
                 <v-toolbar dark color="primary">
-                    <v-toolbar-title>{{website.title}}</v-toolbar-title>
+                    <v-toolbar-title v-if="website">{{website.title}}</v-toolbar-title>
                     <v-spacer></v-spacer>
                     <v-btn icon dark @click="dialog = false"><v-icon>mdi-close</v-icon></v-btn>
                 </v-toolbar>
@@ -92,8 +93,8 @@
                     <v-col md="8" offset-md="2">
                         <v-card class="mx-auto" tile>
                             <v-img
-                                src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
-                                lazy-src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+                                :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${website.website_images[0].url}`"
+                                :lazy-src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${website.website_images[0].url}`"
                                 class="white--text align-end"
                                 height="250px"
                                 gradient="to bottom right, rgba(0,0,0,0), rgba(0,0,0,.9)"
@@ -107,10 +108,10 @@
                             <v-card-subtitle>{{website.about}}</v-card-subtitle>
 
                             <v-row>
-                                <v-col v-for="n in 9" :key="n" class="d-flex child-flex" cols="4">
+                                <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex" cols="4">
                                     <v-img
-                                        :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
-                                        :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
+                                        :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
+                                        :lazy-src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
                                         aspect-ratio="1"
                                         class="grey lighten-2"
                                     >
@@ -123,19 +124,23 @@
                                 </v-col>
                             </v-row>
 
+                            <v-card class="d-flex align-center pa-4 mt-5 justify-space-around">
+                                <div class="font-weight-bold">PREPARED BY:</div>
+                                <v-spacer></v-spacer>
+                                <v-img max-width="80px" class="rounded-lg mr-3" :src="agent.image"></v-img>
+                                <div>
+                                    <div>{{agent.name}}</div>
+                                    <div>{{agent.contact}}</div>
+                                </div>
+                            </v-card>
+
                             <v-card-text>
                                 <div class="text-h6">Map</div>
-                                <!-- <iframe frameborder="0" style="width: 100%; height: 350px; border:0" v-bind:src="'https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q='+ place" allowfullscreen></iframe> -->
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d13732.675002414086!2d76.8249255!3d30.6292014!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xcc8666ade84dad02!2sGBP%20Centrum!5e0!3m2!1sen!2sin!4v1640388129868!5m2!1sen!2sin" style="width: 100%; height: 350px; border:0" allowfullscreen="" loading="lazy"></iframe>
+                                <iframe :src="website.map" style="width: 100%; height: 350px; border:0" allowfullscreen="" loading="lazy"></iframe>
                             </v-card-text>
-                            <v-card-text>
+                            <v-card-text class="text-center">
                                 <div class="text-h6">Walkthrough</div>
-                                <LazyVimeo  
-                                    ref="vimeoLazyVideo"
-                                    src="https://player.vimeo.com/video/64654583"
-                                    max-width="720px"
-                                    aspect-ratio="16:9"
-                                    thumbnail-quality="standard"/>
+                                <LazyYoutube src="https://www.youtube.com/watch?v=TcMBFSGVi1c" />
                             </v-card-text>
                         </v-card>
                     </v-col>
@@ -145,9 +150,9 @@
                     <v-card-text class="text-center">
                         <h5>SHARED BY</h5>
                         <v-img max-width="150" :src="agent.brand_logo" class="mx-auto my-3"></v-img>
-                        <h3>{{agent.name}}</h3>
+                        <h3>{{agent.brand_text}}</h3>
+                        <h4>{{agent.name}}</h4>
                         <div class="caption">{{agent.contact}}</div>
-                        <div class="caption">{{agent.brand_text}}</div>
                     </v-card-text>
                     <v-card-actions class="justify-center">
                         <v-btn outlined class="text-capitalize" color="blue darken-3">
@@ -178,11 +183,11 @@
 <script>
 import Website from '../../Apis/Website'
 import User from '../../Apis/User'
-import { LazyVimeo } from "vue-lazytube";
+import { LazyYoutube } from "vue-lazytube";
 
 export default {
     components: {
-        LazyVimeo
+        LazyYoutube
     },
     data: () => ({
         website: null,
@@ -192,7 +197,9 @@ export default {
         dialog: false,
         agent: '',
         leadListSidebar: false,
-        leads: []
+        leads: [],
+        ytUrl: 'https://www.youtube.com/embed/',
+        projectGallery: 0
     }),
 
     methods:{
@@ -203,7 +210,7 @@ export default {
                 this.opened = response.data.opened
                 this.unopened = response.data.unopened
                 this.total = response.data.total
-                // console.log(response)
+                // console.log(response.data)
             });
         },
         fetchAgent(){

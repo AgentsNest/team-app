@@ -64,6 +64,7 @@
                         </template>
                         <v-list dense>
                             <v-list-item>
+                                <v-btn small text link :to="{name: 'Leads'}">ALl</v-btn>
                                 <v-btn small text link :to="{name: 'HotLeads'}">Hot</v-btn>
                                 <v-btn small text>Cold</v-btn>
                             </v-list-item>
@@ -92,8 +93,7 @@
                             <th class="text-left">Added On</th>
                             <!-- <th class="text-left">Last Remark</th> -->
                             <th class="text-left">Status</th>
-                            <th class="text-left">Source</th>
-                            <!-- <th class="text-left">Assign To</th> -->
+                            <th class="text-left">Assign To</th>
                             <!-- <th class="text-left">Group</th> -->
                             <th class="text-left">Actions</th>
                         </tr>
@@ -106,9 +106,8 @@
                             <td><v-checkbox refs="checkItem" :value="lead.id" v-model="selectedLeads"></v-checkbox></td>
                             <td @click="detailsSidebar(lead.id)">{{ lead.name }}</td>
                             <td @click="detailsSidebar(lead.id)">{{ lead.contact }}</td>
-                            <td @click="detailsSidebar(lead.id)">{{ lead.created_at | formatDate }}</td>
+                            <td @click="detailsSidebar(lead.id)">{{ lead.created_at }}</td>
                             <td @click="detailsSidebar(lead.id)">{{ lead.status }}</td>
-                            <td>{{ lead.lead_source }}</td>
                             <!-- <td @click="detailsSidebar(lead.id)" v-if="lead.activities">
                                 <span v-if="lead.activities[0].notes !== null">{{ lead.activities[0].notes }}</span>
                                 <span v-if="lead.activities[0].message !== null">{{ lead.activities[0].message }}</span>
@@ -116,18 +115,20 @@
                                 <span v-if="lead.activities[0].whatsapp !== null">{{ lead.activities[0].whatsapp }}</span>
                             </td> -->
                             <!-- <td v-if="lead.activities">{{ lead.activities[0].created_at | formatDate }}</td> -->
-                            <!-- <td>{{ lead.team_id }}</td> -->
+                            <td>{{ lead.team_id }}</td>
                             <!-- <td>{{ lead.group_id }}</td> -->
                             <td>
                                 <v-btn icon small @click="editedLeadDialogBox(lead.id)"><v-icon>mdi-square-edit-outline</v-icon></v-btn>
                                 <v-btn icon small @click="deleteLeadDialogBox(lead.id)"><v-icon>mdi-trash-can-outline</v-icon></v-btn>
                             </td>
                         </tr>
-                        <infinite-loading @infinite="loadMoreDesktop">
+
+                        <!-- <infinite-loading @infinite="loadMoreDesktop">
                             <div slot="spinner">Loading...</div>
                             <div slot="no-more">No more leads</div>
                             <div slot="no-results" class="text-center grey--text">&nbsp;</div>
-                        </infinite-loading>
+                        </infinite-loading> -->
+
                     </tbody>
                     </template>
                 </v-simple-table>
@@ -209,7 +210,7 @@
                         </v-toolbar-title>
                     </v-toolbar>
 
-                    <v-card class="pa-3 grey lighten-4" flat tile>
+                    <v-card class="mb-2 pa-3 grey lighten-4" flat tile>
                         <v-simple-table>
                             <tbody>
                                 <tr><td>Email</td><td>{{lead.email}}</td></tr>
@@ -249,18 +250,18 @@
                         </v-btn>
                     </v-card-actions> -->
 
-                    <v-bottom-navigation color="teal" grow flat class="mb-3">
-                        <v-btn @click="callNow" :href="`tel:${lead.contact}`">
+                    <v-bottom-navigation color="teal" grow flat class="mb-4">
+                        <v-btn>
                             <span>Call</span>
                             <v-icon>mdi-phone</v-icon>
                         </v-btn>
-                        <v-btn :href="`mailto:${lead.email}`" target="_blank" @click="addActivityMessage">
+                        <v-btn :href="`mailto:${lead.mail}`" @click="addActivityMessage">
                             <span>Email</span>
                             <v-icon>mdi-email-outline</v-icon>
                         </v-btn>
                         <v-btn @click="whatsappShareDialog">
-                            <span>Message</span>
-                            <v-icon>mdi-message-reply-text-outline</v-icon>
+                            <span>Whatsapp</span>
+                            <v-icon>mdi-whatsapp</v-icon>
                         </v-btn>
                         <!-- <v-btn>
                             <span>Group</span>
@@ -273,10 +274,12 @@
                     </v-bottom-navigation>
 
                     <!-- ******************************** 
+                        ============================
                             Share Msg/Whatsapp Dialog 
+                        ============================
                     ********************************** -->
                     <v-bottom-sheet v-model="whatsappShare">
-                        <v-list two-line height="350" class="overflow-y-auto">
+                        <v-list two-line>
                             <v-list-item v-for="message in messages" :key="message.id">
                                 <v-list-item-avatar>
                                     <v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg"></v-img>
@@ -290,7 +293,6 @@
                                     v-if="message"
                                     :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} %0a ${message.text} %0a ${agentName}`"
                                     target="_blank"
-                                    @click="addActivityWhatsapp"
                                 >
                                     Share
                                 </v-btn>
@@ -298,11 +300,15 @@
                         </v-list>
                     </v-bottom-sheet>
                     <!-- ******************************** 
-                            End Msg/Whatsapp Dialog 
+                    ============================
+                        End Msg/Whatsapp Dialog 
+                    ============================
                     ********************************** -->
 
                     <!-- ******************************** 
+                        ============================
                             Share Website Dialog 
+                        ============================
                     ********************************** -->
                     <v-bottom-sheet v-model="sheet">
                         <v-list two-line>
@@ -328,7 +334,9 @@
                         </v-list>
                     </v-bottom-sheet>
                     <!-- ******************************** 
-                            End Share Website Dialog 
+                    ============================
+                        End Share Website Dialog 
+                    ============================
                     ********************************** -->
 
                     <v-dialog
@@ -374,43 +382,39 @@
                                 </v-btn>
                             </v-expansion-panel-content>
                         </v-expansion-panel>
-                    </v-expansion-panels>
-
-                    <v-card height="300" class="mt-3 overflow-y-auto" flat>
-                        <div class="px-6 pt-3">Activities <span v-if="lead.activities" class="ml-2">({{lead.activities.length}})</span></div>
-                        <v-card-text>
-                            <v-timeline dense clipped>
-                                <v-timeline-item fill-dot class="white--text mb-3" color="grey lighten-3" >
-                                    <template v-slot:icon><v-icon>mdi-plus</v-icon></template>
-                                    <v-text-field
-                                        v-model="input"
-                                        hide-details
-                                        label="Add activity..."
-                                        outlined
-                                        dense
-                                        @keydown.enter="addActivityNotes"
+                        <v-expansion-panel>
+                            <v-expansion-panel-header>
+                                Activities <span v-if="lead.activities" class="ml-2">({{lead.activities.length}})</span>
+                            </v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                                <v-timeline dense clipped>
+                                    <v-timeline-item fill-dot class="white--text mb-12" color="grey lighten-3" large>
+                                        <template v-slot:icon><v-icon>mdi-plus</v-icon></template>
+                                        <v-text-field
+                                            v-model="input"
+                                            hide-details
+                                            label="Add activity..."
+                                            outlined
+                                            @keydown.enter="addActivityNotes"
+                                        >
+                                            <template v-slot:append>
+                                                <v-btn small class="text-capitalize grey darken-4 white--text" depressed @click="addActivityNotes">Post</v-btn>
+                                            </template>
+                                        </v-text-field>
+                                    </v-timeline-item>
+                                    <v-timeline-item
+                                        v-for="activity in lead.activities" :key="activity.id"
+                                        class="mb-4" color="pink" small
                                     >
-                                        <template v-slot:append>
-                                            <v-btn small class="text-capitalize grey darken-4 white--text" depressed @click="addActivityNotes">Add activity</v-btn>
-                                        </template>
-                                    </v-text-field>
-                                </v-timeline-item>
-                                <v-timeline-item
-                                    v-for="activity in lead.activities" :key="activity.id"
-                                    class="mb-4" color="pink" small
-                                >
-                                    <v-row justify="space-between">
-                                        <v-col cols="7" v-if="activity.action" v-text="activity.action"></v-col>
-                                        <v-col cols="7" v-if="activity.notes" v-text="activity.notes"></v-col>
-                                        <v-col cols="7" v-if="activity.call" v-text="activity.call"></v-col>
-                                        <v-col cols="7" v-if="activity.message" v-text="activity.message"></v-col>
-                                        <v-col cols="7" v-if="activity.whatsapp" v-text="activity.whatsapp"></v-col>
-                                        <v-col class="text-right" cols="5">{{activity.created_at | formatDate}}</v-col>
-                                    </v-row>
-                                </v-timeline-item>
-                            </v-timeline>
-                        </v-card-text>
-                    </v-card>
+                                        <v-row justify="space-between">
+                                            <v-col cols="7" v-text="activity.notes"></v-col>
+                                            <v-col class="text-right" cols="5">12 June</v-col>
+                                        </v-row>
+                                    </v-timeline-item>
+                                </v-timeline>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                    </v-expansion-panels>
 
                 </v-card>
             </v-navigation-drawer>
@@ -500,10 +504,11 @@ export default {
     },
     methods:{
         async fetchData(){
-            Lead.auth().then(response => {
+            Lead.authHotLead(this.page).then(response => {
+                // console.log(response.data)
                 this.leads = response.data.data;
                 this.total_leads = response.data.total;
-                // console.log(response.data)
+                this.last_page  = response.data.last_page;
             });
         },
         async fetchGroups(){
@@ -569,9 +574,8 @@ export default {
             data.append('call', 'Phone Call')
 
             Lead.addActivityCall(data)
-            .then((res) => {
-                // this.fetchData();
-                console.log(res)
+            .then(() => {
+                this.fetchData();
             })
         },
         addActivityMessage(){
@@ -581,7 +585,7 @@ export default {
 
             Lead.addActivityMessage(data)
             .then(() => {
-                // this.fetchData();
+                this.fetchData();
             })
         },
         addActivityWhatsapp(){
@@ -591,7 +595,7 @@ export default {
 
             Lead.addActivityWhatsapp(data)
             .then(() => {
-                // this.fetchData();
+                this.fetchData();
             })
         },
         addFollowup(){
@@ -699,7 +703,7 @@ export default {
                 $state.complete();
             } else {
                 this.page = this.page + 1;
-                Lead.auth(this.page).then(response => {
+                Lead.authHotLead(this.page).then(response => {
                     // console.log(response.data.data)
                     response.data.data.forEach(data => {
                         this.leads.push(data);
@@ -710,10 +714,14 @@ export default {
         },
         loadMoreDesktop($state){
             if (this.page == this.last_page) {
+                // console.log('no more data')
                 $state.complete();
             } else {
+                // console.log('this:', this.page , 'last_page:', this.last_page)
                 this.page = this.page + 1;
-                Lead.auth(this.page).then(response => {
+                // console.log(this.page);
+                Lead.authHotLead(this.page).then(response => {
+                    // console.log(response.data.data)
                     response.data.data.forEach(data => {
                         this.leads.push(data);
                     });
@@ -763,8 +771,6 @@ export default {
             // console.log(this.lead.contact, this.lead.name, this.tracker_id, this.websiteName.title);
 
             window.open(`https://wa.me/${this.lead.contact}?text=Hi ${this.lead.name} %0a Here is the details for ${this.websiteName.title} %0a https://agentsnest.com/wt/${this.tracker_id}`, '_blank');
-
-
         },
     },
     computed:{

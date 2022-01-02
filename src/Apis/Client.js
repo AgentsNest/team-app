@@ -14,6 +14,10 @@ export default {
     return Api().get(`/myClient?page=${page}`);
   },
 
+  countMyClient() {
+    return Api().get("/count-myClient");
+  },
+
   addNewClient(form) {
     return Api().post("/addNewClient/", form);
   },

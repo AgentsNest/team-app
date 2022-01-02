@@ -26,4 +26,7 @@ export default {
   messageSample() {
     return Api().get("/messages");
   },
+  new(form) {
+    return Api().post("/messages/", form);
+  },
 };

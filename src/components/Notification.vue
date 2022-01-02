@@ -24,11 +24,21 @@
                 </v-badge>
             </template>
             <v-card>
-                <v-btn class="text-capitalize" text @click="markAsRead()">clear all</v-btn>
+                <v-toolbar color="teal" dark dense>
+                    <v-toolbar-subtitle>Notification ({{unreadnotifications.length}})</v-toolbar-subtitle>
+                    <v-spacer></v-spacer>
+                    <v-btn icon @click="markAsRead()"><v-icon>mdi-checkbox-marked-circle</v-icon></v-btn>
+                </v-toolbar>
+
                 <v-list dense class="py-0" two-line>
                     <v-list-item v-for="notification in unreadnotifications" :key="notification.id">
-                        <v-list-item-title>{{notification.data.event}}</v-list-item-title>
-                        <v-list-item-subtitle>{{notification.data.description}}</v-list-item-subtitle>
+                        <v-list-item-content>
+                            <v-list-item-title>{{notification.data.event}}</v-list-item-title>
+                            <v-list-item-subtitle>{{notification.data.description}}</v-list-item-subtitle>
+                        </v-list-item-content>
+                        <v-list-item-actions>
+                            <v-list-item-action-text>{{notification.created_at | fromNow}}</v-list-item-action-text>
+                        </v-list-item-actions>
                     </v-list-item>
                 </v-list>
             </v-card>    
