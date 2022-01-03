@@ -24,7 +24,10 @@
       </v-list> -->
 
     <ul class="nav-links">
-      <router-link :to="{name: item.link}" v-for="item in items" :key="item.title">
+      <router-link :to="{name: item.link}" v-for="item in items" :key="item.title" 
+        :disabled="whateverActivatesThisLink" 
+        :event="whateverActivatesThisLink ? 'click' : ''"
+      >
         <li>
           <v-icon>{{item.icon}}</v-icon>
           <span class="ml-2">{{item.title}}</span>
@@ -44,6 +47,7 @@
 
 
 <script>
+import User from '../../Apis/User'
   export default {
     data () {
       return {
@@ -57,7 +61,19 @@
           { title: 'Groups', icon: 'mdi-group', link: 'Groups' },
           { title: 'Messages', icon: 'mdi-message-outline', link: 'Message' },
         ],
+        whateverActivatesThisLink: true,
+        agent: ''
       }
+    },
+    created(){
+      User.auth().then((response) => {
+        // console.log(response.data.data)
+        if (response.data.data.subscribed === 'YES') {
+          this.whateverActivatesThisLink = true
+        } else {
+          this.whateverActivatesThisLink = false
+        }
+      })
     },
   }
 </script>

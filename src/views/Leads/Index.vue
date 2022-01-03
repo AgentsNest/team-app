@@ -31,8 +31,14 @@
                         </v-btn>
                     </template>
                     <v-list dense>
-                        <v-list-item link :to="{name: 'AddLeads'}"><v-list-item-title>Manually add</v-list-item-title></v-list-item>
-                        <v-list-item link :to="{name: 'bulkUploadLead'}"><v-list-item-title>Bulk Upload</v-list-item-title></v-list-item>
+                        <v-list-item link :to="{name: 'AddLeads'}" 
+                            :disabled="whateverActivatesThisLink" 
+                            :event="whateverActivatesThisLink ? 'click' : ''"
+                        ><v-list-item-title>Manually add</v-list-item-title></v-list-item>
+                        <v-list-item link :to="{name: 'bulkUploadLead'}"
+                            :disabled="whateverActivatesThisLink" 
+                            :event="whateverActivatesThisLink ? 'click' : ''"
+                        ><v-list-item-title>Bulk Upload</v-list-item-title></v-list-item>
                     </v-list>
                 </v-menu>
             </v-toolbar>
@@ -546,7 +552,8 @@ export default {
             {id: 3, title: 'Hot'},
             {id: 4, title: 'Warm'},
             {id: 5, title: 'Dead'}
-        ]
+        ],
+        whateverActivatesThisLink: true,
       }
     },
     methods:{
@@ -573,6 +580,11 @@ export default {
             .then(response => {
                 this.agent = response.data.data.id;
                 this.agentName = response.data.data.name;
+                if (response.data.data.subscribed === 'YES') {
+                    this.whateverActivatesThisLink = true
+                } else {
+                    this.whateverActivatesThisLink = false
+                }
             })
         },
         shareWebsiteListDialog(){
