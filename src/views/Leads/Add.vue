@@ -18,14 +18,13 @@
                 <v-row>
                     <v-col md="6">
                         <v-text-field class="rounded-lg" label="Name" outlined v-model="lead.name"></v-text-field>
-                        <v-text-field class="rounded-lg" label="Contact Number" outlined v-model="lead.contact"></v-text-field>
+                        <v-text-field class="rounded-lg" label="Contact Number" prefix="+91" outlined v-model="lead.contact"></v-text-field>
                         <v-text-field class="rounded-lg" label="Address" outlined v-model="lead.address"></v-text-field>
                         <v-text-field class="rounded-lg" label="City" outlined v-model="lead.city"></v-text-field>
                         <v-row>
                             <v-col><v-text-field label="State" outlined class="rounded-lg" v-model="lead.state"></v-text-field></v-col>
                             <v-col><v-text-field label="Country" outlined class="rounded-lg" v-model="lead.country"></v-text-field></v-col>
                         </v-row>
-                        <v-text-field label="Lead Source" outlined class="rounded-lg" v-model="lead.lead_source"></v-text-field>
                     </v-col>
                     <v-col md="6">
                         <v-text-field class="rounded-lg" label="Email" outlined v-model="lead.email"></v-text-field>
@@ -33,10 +32,13 @@
                         <v-text-field class="rounded-lg" label="Custom Label" outlined v-model="lead.label"></v-text-field>
                         <v-select :items="propertyType" label="Property Type" outlined class="rounded-lg" v-model="lead.property_type"></v-select>
                         <v-row>
-                            <v-col><v-text-field type="date" class="rounded-lg" label="Followup Date" outlined v-model="lead.followup_date"></v-text-field></v-col>
-                            <v-col><v-text-field type="time" class="rounded-lg" label="Followup Time" outlined v-model="lead.followup_time"></v-text-field></v-col>
+                            <v-col>
+                                <v-select :items="leadstatus" label="Lead Status" outlined class="rounded-lg" v-model="lead.status"></v-select>
+                            </v-col>
+                            <v-col>
+                                <v-text-field label="Lead Source" outlined class="rounded-lg" v-model="lead.lead_source"></v-text-field>
+                            </v-col>
                         </v-row>
-                        <v-select :items="leadstatus" label="Lead Status" outlined class="rounded-lg" v-model="lead.status"></v-select>
                     </v-col>
                 </v-row>
                 <v-btn block class="py-7 rounded-lg gradient" dark @click="saveLead">Add New Leads</v-btn>
@@ -76,9 +78,7 @@ export default {
             email:"",
             pincode:"",
             label:"",
-            followup_date:"",
-            followup_time:"",
-            status: '',
+            status: 'New',
             property_type: '',
             agent_id: null
         },
@@ -99,8 +99,6 @@ export default {
                 this.lead.email = "",
                 this.lead.pincode = "",
                 this.lead.label = "",
-                this.lead.followup_date = "",
-                this.lead.followup_time = "",
                 this.lead.status = "",
                 this.lead.property_type =  "",
                 this.lead.agent_id =  null

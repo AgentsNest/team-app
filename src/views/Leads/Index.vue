@@ -12,6 +12,18 @@
             <v-toolbar flat>
                 <div class="font-weight-bold text-h6">Total Leads ({{total_leads}})</div>
                 <v-spacer></v-spacer>
+
+                <v-text-field
+                    v-model="search"
+                    append-icon="mdi-magnify"
+                    label="Search"
+                    single-line
+                    hide-details
+                    outlined
+                    dense
+                ></v-text-field>
+
+                <v-spacer></v-spacer>
                 <v-menu offset-y>
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn fab small depressed class="text-capitalize rounded-lg blue-grey darken-3" dark v-bind="attrs" v-on="on">
@@ -26,11 +38,12 @@
             </v-toolbar>
 
             <v-card flat>
-                <v-toolbar flat class="d-none d-md-block">
+                <!-- <v-toolbar flat class="d-none d-md-block">
                     <select class="mr-1" @change="onChangeGroup($event)">
                         <option selected disabled>Group</option>
                         <option v-for="group in groups" :key="group.id" :value="group.id">{{group.title}}</option>
                     </select>
+                    
                     <v-btn fab tile small elevation="0" dark class="gradient rounded-lg" @click="addLeadToGroup">
                         <v-icon>mdi-check</v-icon>
                     </v-btn>
@@ -39,6 +52,7 @@
                         <option selected disabled>Team</option>
                         <option v-for="team in teams" :key="team.id" :value="team.id">{{team.name}}</option>
                     </select>
+
                     <v-btn fab tile small elevation="0" dark class="gradient rounded-lg" @click="assignToTeam">
                         <v-icon>mdi-check</v-icon>
                     </v-btn>
@@ -53,31 +67,57 @@
                     <v-btn fab tile small elevation="0" dark class="gradient rounded-lg" @click="changeLeadStatus">
                         <v-icon>mdi-check</v-icon>
                     </v-btn>
+                </v-toolbar> -->
 
-                    <v-spacer></v-spacer>
-
-                    <v-menu offset-y>
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn small depressed class="text-capitalize rounded-lg blue-grey darken-3" dark v-bind="attrs" v-on="on">
-                                Sort
-                            </v-btn>
-                        </template>
-                        <v-list dense>
-                            <v-list-item>
-                                <v-btn small text link :to="{name: 'HotLeads'}">Hot</v-btn>
-                                <v-btn small text>Cold</v-btn>
-                            </v-list-item>
-                        </v-list>
-                    </v-menu>
-
-                    <v-text-field
-                        v-model="search"
-                        append-icon="mdi-magnify"
-                        label="Search"
-                        single-line
-                        hide-details
-                    ></v-text-field>
-                </v-toolbar>
+            <v-container>
+                <v-row>
+                    <v-col cols="4" class="d-flex">
+                        <v-autocomplete
+                            v-model="group_id"
+                            :items="groups"
+                            item-text="title"
+                            item-value="id"
+                            small-chips
+                            outlined
+                            dense
+                            label="Group"
+                        ></v-autocomplete>
+                        <v-btn fab tile small elevation="0" dark class="gradient rounded ml-2" @click="addLeadToGroup">
+                            <v-icon>mdi-check</v-icon>
+                        </v-btn>
+                    </v-col>
+                    <v-col cols="4" class="d-flex">
+                        <v-autocomplete
+                            v-model="team_id"
+                            :items="teams"
+                            item-text="name"
+                            item-value="id"
+                            small-chips
+                            outlined
+                            dense
+                            label="Team"
+                        ></v-autocomplete>
+                        <v-btn fab tile small elevation="0" dark class="gradient rounded ml-2" @click="assignToTeam">
+                            <v-icon>mdi-check</v-icon>
+                        </v-btn>
+                    </v-col>
+                    <v-col cols="4" class="d-flex">
+                        <v-autocomplete
+                            v-model="status_name"
+                            :items="leadStatus"
+                            item-text="title"
+                            item-value="title"
+                            small-chips
+                            outlined
+                            dense
+                            label="Lead Status"
+                        ></v-autocomplete>
+                        <v-btn fab tile small elevation="0" dark class="gradient rounded-lg ml-2" @click="changeLeadStatus">
+                            <v-icon>mdi-check</v-icon>
+                        </v-btn>
+                    </v-col>
+                </v-row>
+                </v-container>
 
                 <v-simple-table
                     fixed-header
@@ -364,11 +404,12 @@
                         <v-expansion-panel>
                             <v-expansion-panel-header>Followups</v-expansion-panel-header>
                             <v-expansion-panel-content>
-                                <v-text-field label="Remark" v-model="followup.remark" placeholder="Remark" outlined></v-text-field>
-                                <v-row>
-                                    <v-col><v-text-field type="date" label="Followup Date" outlined v-model="followup.followup_date"></v-text-field></v-col>
-                                    <v-col><v-text-field type="time" label="Followup Time" outlined v-model="followup.followup_time"></v-text-field></v-col>
-                                </v-row>
+                                <VueCtkDateTimePicker 
+                                    :no-button-now = "true" 
+                                    v-model="followup.send_date"  
+                                    format='YYYY-MM-DD HH:mm'
+                                />
+                                <v-text-field class="mt-3" dense label="Remark" v-model="followup.remarks" placeholder="Remark" outlined></v-text-field>
                                 <v-btn block class="text-capitalize gradient white--text" large @click="addFollowup">
                                     Add Followup
                                 </v-btn>
@@ -432,9 +473,12 @@ import User from '../../Apis/User'
 import Website from '../../Apis/Website'
 import Tracker from '../../Apis/Tracker'
 import Other from '../../Apis/Other'
+import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 
 
 export default {
+    components:{ VueCtkDateTimePicker },
     data () {
       return {
         search: '',
@@ -446,6 +490,7 @@ export default {
           { text: 'Assign', value: 'team_id' },
           { text: 'Last Remark', value: 'activites' },
         ],
+        status_name: '',
         leads:[],
         lead:{},
         total_leads : '',
@@ -456,13 +501,12 @@ export default {
         drawer: false,
         input: '',
         followup:{
-            followup_date : "",
-            followup_time : "",
-            remark: ""
+            send_date : "",
+            remarks: ""
         },
         snackbar: false,
         snackbarText: '',
-        leadStatus: [
+        leadStatusCustom: [
             'New',
             'Cold',
             'Hot',
@@ -496,6 +540,13 @@ export default {
         messages: [],
         whatsappShare: false,
         websiteName: '',
+        leadStatus:[
+            {id: 1, title: 'New'},
+            {id: 2, title: 'Cold'},
+            {id: 3, title: 'Hot'},
+            {id: 4, title: 'Warm'},
+            {id: 5, title: 'Dead'}
+        ]
       }
     },
     methods:{
@@ -598,9 +649,8 @@ export default {
             let data = new FormData();
             data.append('lead_id', this.lead.id)
             data.append('agent_id', this.agent)
-            data.append('followup_date', this.followup.followup_date)
-            data.append('followup_time', this.followup.followup_time)
-            data.append('remark', this.followup.remark)
+            data.append('send_date', this.followup.send_date)
+            data.append('remarks', this.followup.remarks)
 
             Lead.addFollowup(data)
             .then(() => {
@@ -654,7 +704,7 @@ export default {
             for (var key in selected) {
                 // console.log(selected[key]);
                 User.asignLeadToTeam(selected[key], {
-                    status: this.status
+                    status: this.status_name
                 })
                 .then(response => {
                     this.fetchData();

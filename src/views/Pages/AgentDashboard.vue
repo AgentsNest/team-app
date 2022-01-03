@@ -64,10 +64,12 @@
         </v-row>
 
         <v-row>
-          <v-col cols="8">
-            <v-card height="80vh" class="overflow-y-auto rounded-lg pa-2" flat>
+          <v-col md="8" cols="12">
+            <v-card height="64vh" class="overflow-y-auto rounded-lg pa-2" flat>
+
+    <!-- Agents Followups -->
               <v-card-title>Followups</v-card-title>
-              <v-row class="px-4 mb-4">
+              <!-- <v-row class="px-4 mb-4">
                 <v-col cols="4" v-for="event in events" :key="event.id">
                   <v-card class="rounded-lg">
                     <v-card-text>
@@ -77,34 +79,48 @@
                     </v-card-text>
                   </v-card>
                 </v-col>
-              </v-row>
+              </v-row> -->
+              <v-data-table
+                :headers="headers"
+                :items="events"
+                :items-per-page="5"
+                class="elevation-1"
+              >
+                <template v-slot:item.date_string="{ item }">
+                  {{ item.date_string | fromNow() }}
+                </template>
+              </v-data-table>
 
-
-              <v-card-title>Existing Clients</v-card-title>
-              <v-row class="px-4">
-                <v-col>
-                  <v-card class="rounded-lg pa-2">
-                    <v-card-actions>
-                      <v-btn fab depressed color="teal lighten-5"><v-icon color="teal">mdi-shield-account</v-icon></v-btn>
-                      <v-spacer></v-spacer>
-                      <div class="title">Total Clients</div>
-                      <v-spacer></v-spacer>
-                      <div class="title">{{clients.length}}</div>
-                    </v-card-actions>
-                  </v-card>
-                </v-col>
-                <v-col>
-                  <v-card class="rounded-lg pa-2">
-                    <v-card-actions>
-                      <v-btn fab depressed color="purple lighten-5"><v-icon color="purple">mdi-home-circle</v-icon></v-btn>
-                      <v-spacer></v-spacer>
-                      <div class="title">Client's Property</div>
-                      <v-spacer></v-spacer>
-                      <div class="title">34</div>
-                    </v-card-actions>
-                  </v-card>
-                </v-col>
-              </v-row>
+<!-- 
+  =========== Existing Clients ============
+ -->          
+              <v-card class="mt-4 d-none d-md-block"> 
+                  <v-card-title>Existing Clients</v-card-title>
+                  <v-row class="px-4">
+                    <v-col>
+                      <v-card class="rounded-lg pa-2">
+                        <v-card-actions>
+                          <v-btn fab depressed color="teal lighten-5"><v-icon color="teal">mdi-shield-account</v-icon></v-btn>
+                          <v-spacer></v-spacer>
+                          <div class="title">Total Clients</div>
+                          <v-spacer></v-spacer>
+                          <div class="title">{{clients.length}}</div>
+                        </v-card-actions>
+                      </v-card>
+                    </v-col>
+                    <v-col>
+                      <v-card class="rounded-lg pa-2">
+                        <v-card-actions>
+                          <v-btn fab depressed color="purple lighten-5"><v-icon color="purple">mdi-home-circle</v-icon></v-btn>
+                          <v-spacer></v-spacer>
+                          <div class="title">Client's Property</div>
+                          <v-spacer></v-spacer>
+                          <div class="title">34</div>
+                        </v-card-actions>
+                      </v-card>
+                    </v-col>
+                  </v-row>
+              </v-card>
 
             </v-card>
           </v-col>
@@ -112,7 +128,7 @@
       <!--=======================
             Right Sidebar
       ========================  -->
-          <v-col cols="4">
+          <v-col cols="12" md="4">
             <v-card flat class="rounded-lg pa-3 mb-4">
                 <v-card-actions>
                   <v-icon size="38" color="teal">mdi-fire</v-icon>
@@ -135,7 +151,7 @@
 
               <v-card flat height="100%" class="overflow-y-auto">
                 <v-card-text class="pa-0">
-                  <v-timeline align-top dense class="overflow-y-auto pr-5" style="height:28vh">
+                  <v-timeline align-top dense class="overflow-y-auto pr-5" style="height:37vh">
                     <v-timeline-item color="pink" small v-for="activity in activities" :key="activity.id">
                       <v-row class="">
                         <v-col cols="7" v-if="activity.action">
@@ -162,9 +178,9 @@
                       </v-row>
                     </v-timeline-item>
                   </v-timeline>
-                  <v-card-actions>
+                  <!-- <v-card-actions>
                     <v-btn block depressed class="text-capitalize grey--text text--darken-2">Load more</v-btn>
-                  </v-card-actions>
+                  </v-card-actions> -->
                 </v-card-text>
               </v-card>
 
@@ -188,13 +204,10 @@ export default {
     warmLead: '',
     totalLead: '',
     newLead: '',
-    items: [
-      { header: 'New Lead' },
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-        title: 'Brunch this weekend?',
-        subtitle: `<span class="text--primary">Ali Connors</span>`,
-      }
+    headers: [
+      { text: 'Lead Name', align: 'start', sortable: false, value: 'lead.name',},
+      { text: 'Remarks', value: 'remarks', sortable: false, },
+      { text: 'Date', value: 'date_string' }
     ],
     activities: [],
     clients: '',

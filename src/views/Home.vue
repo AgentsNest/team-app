@@ -10,12 +10,13 @@
             
             <v-spacer></v-spacer>
 
-            <v-btn text class="text-capitalize">Case Studies</v-btn>
+            <!-- <v-btn text class="text-capitalize">Case Studies</v-btn>
             <v-btn text class="text-capitalize">Pricing</v-btn>
-            <v-btn text class="text-capitalize">Integration</v-btn>
+            <v-btn text class="text-capitalize">Integration</v-btn> -->
             <v-btn text class="text-capitalize">Resources</v-btn>
             <v-btn text class="text-capitalize">About Us</v-btn>
-            <v-btn color="yellow darken-2" elevation="0" class="text-capitalize" link :to="{name: 'Login'}">Login</v-btn>
+            <v-btn color="teal darken-2" dark elevation="0" class="text-capitalize" link :to="{name: 'Login'}">Login</v-btn>
+            <v-btn text elevation="0" class="text-capitalize" link :to="{name: 'Register'}">Join Now</v-btn>
 
         </v-app-bar>
 
@@ -41,12 +42,12 @@
                             <div class="text-capitalize">Your Own Solution | Join the AgentsNest community today!</div>
                         </v-alert>
                     </v-col>
-                    <v-col>
-                        <v-img src="../assets/img/hero1.png" max-width="36vw" @click="videoOne = !videoOne" style="cursor: pointer"></v-img>
-                        <v-dialog v-model="videoOne" width="500">
-                            <v-card flat height="100%">
+                    <v-col cols="6">
+                        <v-img src="../assets/Screens/main.png" contain width="100%" @click="videoOne = !videoOne" style="cursor: pointer"></v-img>
+                        <v-dialog v-model="videoOne" width="70%" flat class="transparent">
+                            <v-card flat height="100%" class="transparent">
                                 <!-- <iframe id="ytplayer" type="text/html" src="https://player.vimeo.com/video/122282652?h=104b3eccc2" width="100%" height="400" frameborder="0"></iframe> -->
-                                <video src="../assets/img/vid.mp4" width="100%" height="400" autoplay loop></video>
+                                <video src="../assets/img/demo.mp4" width="100%" height="100%" autoplay></video>
                             </v-card>
                         </v-dialog>
                     </v-col>
@@ -84,7 +85,7 @@
                             </ul>
                         </v-col>
                         <v-col cols="7">
-                            <v-img src="../assets/img/hero2.png" width="100%"></v-img>
+                            <v-img src="../assets/Screens/design.jpg" width="100%"></v-img>
                         </v-col>
                     </v-row>
                 </v-container>
@@ -95,15 +96,15 @@
                     <!-- LEAD GENERATION -->
                     <v-row class="my-12">
                         <v-col cols="7">
-                            <v-img src="../assets/img/hero2.png" width="100%"></v-img>
+                            <v-img src="../assets/Screens/existing.jpg" width="100%"></v-img>
                         </v-col>
                         <v-col cols="5">
-                            <div class="display-1 mb-4 fotn-weight-bold">LEAD GENERATION</div>
-                            <div class="mb-4">Lead generation has never been this easy.</div>
-                            <div class="mb-4">With AgentsNest, you have the ability to choose, track, and maintain your lead activity on a single platform. Select your perspective goals, and lead the way.</div>
+                            <div class="display-1 mb-4 fotn-weight-bold">Existing Clients</div>
+                            <div class="mb-4">Manage your all existing clients at one place. </div>
+                            <div class="mb-4">Keep record of payments.</div>
                             <ul>
-                                <li class="mb-3">All your leads automatically sync to the platform, and gives you instant access for connection.</li>
-                                <li class="mb-3">Now, never miss another lead or a potential client.</li>
+                                <li class="mb-3">Share property details with client</li>
+                                <li class="mb-3">Notify client for next payment or updates.</li>
                             </ul>
                         </v-col>
                     </v-row>
@@ -123,16 +124,16 @@
                             </ul>
                         </v-col>
                         <v-col cols="7">
-                            <v-img src="../assets/img/hero2.png" width="100%"></v-img>
+                            <v-img contain src="../assets/Screens/crm.png" width="100%"></v-img>
                         </v-col>
                     </v-row>
 
                     <!-- TRACK ACTIVITY -->
                     <v-row class="my-12">
-                        <v-col cols="7">
-                            <v-img src="../assets/img/hero2.png" width="100%"></v-img>
-                        </v-col>
                         <v-col cols="5">
+                            <v-img contain height="420" src="../assets/Screens/tracker.png" width="100%"></v-img>
+                        </v-col>
+                        <v-col cols="7">
                             <div class="display-1 mb-4 fotn-weight-bold">TRACK ACTIVITY</div>
                             <div class="mb-4">Now track the activity of each feature you operate. Follow up on leads, clients, and team members, open/unopnened timestamp and duration of the files shared with clients and leads so you can turn a hot lead into a potential buyer. </div>
                             <ul>

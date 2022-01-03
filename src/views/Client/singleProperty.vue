@@ -39,18 +39,8 @@
                                         <tr><td><strong>Unit No.:</strong></td><td>{{property.unit}}</td></tr>
                                         <tr><td><strong>Floor:</strong></td><td>{{property.floor}}</td></tr>
                                         <tr><td><strong>Location:</strong></td><td>{{property.location}}</td></tr>
-                                    </tbody>
-                                </template>
-                            </v-simple-table>
-                        </v-card>
-                    </v-col>
-                    <v-col md="6" cols="12">
-                        <v-card class="rounded-lg" elevation="0">
-                            <v-simple-table>
-                                <template v-slot:default>
-                                    <tbody>
-                                        <tr><td><strong>Payment Received:</strong></td><td>{{property.paymentreceived}}</td></tr>
                                         <tr><td><strong>Balance:</strong></td><td>{{property.balance}}</td></tr>
+                                        <tr><td><strong>Payment Received:</strong></td><td>{{property.paymentreceived}}</td></tr>
                                     </tbody>
                                 </template>
                             </v-simple-table>

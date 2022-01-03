@@ -48,11 +48,8 @@
             </v-toolbar>
 
             <v-card flat>
-                <v-list three-line>
+                <!-- <v-list three-line>
                     <v-list-item v-for="event in events" :key="event.id">
-                        <v-list-item-avatar color="red">
-                            <!-- {{event.lead.name[0]}} -->V
-                        </v-list-item-avatar>
                         <v-list-item-content>
                             <v-list-item-title>{{event.lead.name}}</v-list-item-title>
                             <v-list-item-subtitle>{{event.remarks}}</v-list-item-subtitle>
@@ -63,7 +60,17 @@
                             </v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
-                </v-list>
+                </v-list> -->
+                <v-data-table
+                    :headers="headers"
+                    :items="events"
+                    :items-per-page="5"
+                    class="elevation-1"
+                >
+                    <template v-slot:item.date_string="{ item }">
+                    {{ item.date_string | fromNow() }}
+                    </template>
+                </v-data-table>
             </v-card>
 
         </v-card>
@@ -93,12 +100,17 @@ export default {
             },
             agent_id: null,
             agent_name: '',
+            headers: [
+                { text: 'Lead Name', align: 'start', sortable: false, value: 'lead.name',},
+                { text: 'Remarks', value: 'remarks', sortable: false, },
+                { text: 'Date', value: 'date_string' }
+            ],
         }
     },
     methods:{
         async fetchData(){
             Lead.getFollowups().then(response => {
-                this.events = response.data.events;
+                this.events = response.data.events.data;
                 // console.log(response.data)
             });
         },

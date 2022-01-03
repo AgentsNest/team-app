@@ -59,21 +59,22 @@
                 <!-- Frame One -->
                 <div class="layout-one" v-if="frameOne">
                   <div class="brand-contents">
-                      <v-img :src="agent.brand_logo" height="20px" contain class="logo"></v-img>
+                      <!-- <v-img :src="agent.brand_logo" height="20px" contain class="logo"></v-img> -->
+                      <img :src="agent.brand_logo" class="logo">
                       <div class="brand-text">{{agent.brand_text}}</div>
                       <div class="rera-text">{{agent.rera}}</div>
                   </div>
                   <div class="details-box">
-                      <div class="flexbox">
-                          <v-img src="../../assets/img/phone.png" width="15" class="mr-1"></v-img>
-                          {{agent.contact}} Vimal Bharti
+                      <div>
+                          <v-icon size="10" color="white" class="mr-1">mdi-phone</v-icon>
+                          {{agent.contact}}
                       </div>
-                      <div class="flexbox">
-                          <v-img src="../../assets/img/web.png" width="15" class="mr-1"></v-img>
+                      <div>
+                          <v-icon size="10" color="white" class="mr-1">mdi-web</v-icon>
                           {{agent.website}}
                       </div>
-                      <div class="flexbox">
-                          <v-img src="../../assets/img/email.png" width="15" class="mr-1"></v-img>
+                      <div>
+                          <v-icon size="10" color="white" class="mr-1">mdi-email</v-icon>
                           {{agent.email}}
                       </div>
                   </div>  
@@ -82,31 +83,24 @@
                 <!-- Frame Two -->
                 <div class="layout-two" v-if="frameTwo">
                   <div class="brand-contents">
-                      <v-img :src="agent.brand_logo" height="30px" contain class="logo"></v-img>
+                      <!-- <v-img :src="agent.brand_logo" height="30px" contain class="logo"></v-img> -->
+                      <img :src="agent.brand_logo" class="logo">
                       <div class="brand-text">{{agent.brand_text}}</div>
                       <div class="rera-text">{{agent.rera}}</div>
                   </div>
+                  <div class="frame-border"></div>
                   <div class="details-box">
-                      <div class="flexbox">
-                          <!-- <v-btn icon width="16px" height="16px" class="grey darken-4 mr-1" dark>
-                            <v-icon size="10px">mdi-phone</v-icon>
-                          </v-btn> -->
-                          <v-icon color="grey darken-4" size="18px">mdi-phone-in-talk</v-icon>
-                          <span class="ml-1">{{agent.contact}}</span>
+                      <div>
+                          <v-icon size="10" color="black" class="mr-1">mdi-phone</v-icon>
+                          {{agent.contact}}
                       </div>
-                      <div class="flexbox">
-                          <!-- <v-btn icon width="16px" height="16px" class="grey darken-4 mr-1" dark>
-                            <v-icon size="10px">mdi-email-outline</v-icon>
-                          </v-btn> -->
-                          <v-icon color="grey darken-4" size="18px">mdi-email</v-icon>
-                          <span class="ml-1">{{agent.website}}</span>
+                      <div>
+                          <v-icon size="10" color="black" class="mr-1">mdi-web</v-icon>
+                          {{agent.website}}
                       </div>
-                      <div class="flexbox">
-                          <!-- <v-btn icon width="16px" height="16px" class="grey darken-4 mr-1" dark>
-                            <v-icon size="10px">mdi-web</v-icon>
-                          </v-btn> -->
-                          <v-icon color="grey darken-4" size="18px">mdi-web-box</v-icon>
-                          <span class="ml-1">{{agent.email}}</span>
+                      <div>
+                          <v-icon size="10" color="black" class="mr-1">mdi-email</v-icon>
+                          {{agent.email}}
                       </div>
                   </div>  
                 </div>
@@ -123,7 +117,7 @@
                 <!-- Frame Four -->
                 <div class="layout-four" v-if="frameFour">
                   <div class="brand-contents">
-                      <v-img :src="agent.brand_logo" height="30px" contain class="logo"></v-img>
+                      <img :src="agent.brand_logo" class="logo">
                       <div class="brand-text">{{agent.brand_text}}</div>
                       <div class="rera-text">{{agent.rera}}</div>
                   </div>
@@ -132,21 +126,21 @@
                           <!-- <v-btn icon width="16px" height="16px" class="grey darken-4 mr-1" dark>
                             <v-icon size="10px">mdi-phone</v-icon>
                           </v-btn> -->
-                          <v-icon color="grey darken-4" size="18px">mdi-phone-in-talk</v-icon>
+                          <v-icon color="grey darken-4" size="12px">mdi-phone-in-talk</v-icon>
                           <span class="ml-1">{{agent.contact}}</span>
                       </div>
                       <div class="flexbox">
                           <!-- <v-btn icon width="16px" height="16px" class="grey darken-4 mr-1" dark>
                             <v-icon size="10px">mdi-email-outline</v-icon>
                           </v-btn> -->
-                          <v-icon color="grey darken-4" size="18px">mdi-email</v-icon>
+                          <v-icon color="grey darken-4" size="12px">mdi-email</v-icon>
                           <span class="ml-1">{{agent.website}}</span>
                       </div>
                       <div class="flexbox">
                           <!-- <v-btn icon width="16px" height="16px" class="grey darken-4 mr-1" dark>
                             <v-icon size="10px">mdi-web</v-icon>
                           </v-btn> -->
-                          <v-icon color="grey darken-4" size="18px">mdi-web-box</v-icon>
+                          <v-icon color="grey darken-4" size="12px">mdi-web-box</v-icon>
                           <span class="ml-1">{{agent.email}}</span>
                       </div>
                   </div>  
@@ -229,25 +223,19 @@
           <v-btn block class="mb-4 gradient py-6 rounded-lg" dark @click="download">Download</v-btn>
 
           <v-card flat>
-            <v-alert text dense color="teal" border="left">Select Layout</v-alert>
+            <v-alert text dense color="teal" border="left">Frames</v-alert>
             <v-row>
               <v-col md="6">
-                <v-card><v-btn @click="selectFrameOne">Layout One</v-btn></v-card>
+                <v-card height="100" class="justify-center d-flex align-center grey--text text--darken-1" @click="selectFrameOne">Frame One</v-card>
               </v-col>
               <v-col md="6">
-                <v-card><v-btn @click="selectFrameTwo">Layout Two</v-btn></v-card>
+                <v-card height="100" class="justify-center d-flex align-center grey--text text--darken-1" @click="selectFrameTwo">Frame Two</v-card>
               </v-col>
               <v-col md="6">
-                <v-card><v-btn @click="selectFrameTwo">Layout Three</v-btn></v-card>
+                <v-card height="100" class="justify-center d-flex align-center grey--text text--darken-1" @click="selectFrameThree">Frame Three</v-card>
               </v-col>
               <v-col md="6">
-                <v-card><v-btn @click="selectFrameTwo">Layout Four</v-btn></v-card>
-              </v-col>
-              <v-col md="6">
-                <v-card><v-btn @click="selectFrameTwo">Layout Five</v-btn></v-card>
-              </v-col>
-              <v-col md="6">
-                <v-card><v-btn @click="selectFrameTwo">Layout Six</v-btn></v-card>
+                <v-card height="100" class="justify-center d-flex align-center grey--text text--darken-1" @click="selectFrameFour">Frame Four</v-card>
               </v-col>
             </v-row>
           </v-card>
@@ -282,7 +270,7 @@ export default {
       agent:'',
       frameOne: false,
       frameTwo: false,
-      frameThree: true,
+      frameThree: false,
       frameFour: false,
       frameFive: false,
       frameSix: false,
@@ -307,7 +295,7 @@ export default {
     download(){
         html2canvas(document.getElementById("capture"),{
             dpi: 300,
-            scale: 2
+            scale: 1
         })
         .then(function (canvas) {
             let a = document.createElement("a");
@@ -341,10 +329,50 @@ export default {
     selectFrameOne(){
       this.frameOne = true
       this.frameTwo = false
+      this.frameThree = false
+      this.frameFour = false
+      this.frameFive = false
+      this.frameSix = false
     },
     selectFrameTwo(){
       this.frameOne = false
       this.frameTwo = true
+      this.frameThree = false
+      this.frameFour = false
+      this.frameFive = false
+      this.frameSix = false
+    },
+    selectFrameThree(){
+      this.frameOne = false
+      this.frameTwo = false
+      this.frameThree = true
+      this.frameFour = false
+      this.frameFive = false
+      this.frameSix = false
+    },
+    selectFrameFour(){
+      this.frameOne = false
+      this.frameTwo = false
+      this.frameThree = false
+      this.frameFour = true
+      this.frameFive = false
+      this.frameSix = false
+    },
+    selectFrameFive(){
+      this.frameOne = false
+      this.frameTwo = false
+      this.frameThree = false
+      this.frameFour = false
+      this.frameFive = true
+      this.frameSix = false
+    },
+    selectFrameSiz(){
+      this.frameOne = false
+      this.frameTwo = false
+      this.frameThree = false
+      this.frameFour = false
+      this.frameFive = false
+      this.frameSix = true
     },
   },
   mounted(){
@@ -379,18 +407,18 @@ export default {
 .mainCanvas{
     position: relative;
 }
-.details-box{
-    position: absolute;
-    bottom: 10px;
-    width: 90%;
-    left: 5%;
-    border-radius: 5px;
-    display: flex;
-    font-size: 0.5rem;
-    justify-content: space-between;
-    padding: 5px 8px;
-    background: #ffffff;
-}
+// .details-box{
+//     position: absolute;
+//     bottom: 10px;
+//     width: 90%;
+//     left: 5%;
+//     border-radius: 5px;
+//     display: flex;
+//     font-size: 0.5rem;
+//     justify-content: space-between;
+//     padding: 5px 8px;
+//     background: #ffffff;
+// }
 .icon-bg{
     background: #343434;
     padding: 2px 4px;
@@ -407,43 +435,77 @@ export default {
         position: absolute;
         top: 10px;
         left: 10px;
+        font-size: 0.9em;
+        font-weight: bold;
     }
     .logo{
         position: absolute;
-        left: 8vw;
-        bottom: 9vh;
+        right: 10px;
+        top: 25px;
+        width: 50px;
     }
     .rera-text{
         position: absolute;
         right: 10px;
         top: 10px;
-        font-size: 0.8rem;
+        font-size: 0.5rem;
+        font-weight: bold;
+    }
+    .details-box{
+      background: #222;
+      color: #fff;
+      position: absolute;
+      bottom: 10px;
+      width: 94%;
+      left: 3%;
+      border-radius: 5px;
+      display: flex;
+      font-size: 0.4rem;
+      justify-content: space-between;
+      padding: 5px 8px;
     }
 }
 .layout-two{
-    .brand-text{
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        font-weight: bold;
-        font-size: 1.2em;
-        color: red;
-    }
-    .logo{
-        position: absolute;
-        right: 0;
-        top: 2em;
-    }
-    .rera-text{
-        position: absolute;
-        right: 0;
-        top: 0;
-        font-size: 0.7rem;
-        color: white;
-        background: #333;
-        padding: 3px 8px;
-        font-weight: bold;
-    }
+  .brand-text{
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      font-size: 0.9em;
+      font-weight: bold;
+  }
+  .frame-border{
+    border: 2px solid #fff;
+    position: absolute;
+    top: 10px;
+    left: 13px;
+    bottom: 10px;
+    right: 13px;
+  }
+  .logo{
+      position: absolute;
+      right: 20px;
+      top: 25px;
+      width: 50px;
+  }
+  .rera-text{
+      position: absolute;
+      right: 20px;
+      top: 13px;
+      font-size: 0.5rem;
+      font-weight: bold;
+  }
+  .details-box{
+    background: #fff;
+    color: #333;
+    position: absolute;
+    bottom: 10px;
+    width: 94%;
+    left: 3%;
+    display: flex;
+    font-size: 0.4rem;
+    justify-content: space-between;
+    padding: 5px 8px;
+  }
 }
 .layout-three{
     .brand-text{
@@ -468,6 +530,30 @@ export default {
         font-size: 0.6rem;
         color: white;
     }
+}
+
+.layout-four{
+  .details-box{
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+    font-size: 0.7em;
+  }
+  .brand-text{
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+  .rera-text  {
+    margin-left: 10px;
+    font-size: 0.5em;
+    font-weight: bold;
+  }
+  .logo{
+    position: absolute;
+    right: 10px;
+    width: 70px;
+  }
 }
 
 </style>
