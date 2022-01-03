@@ -9,10 +9,9 @@
 
         <v-card class="rounded-xl pa-2 shadow" elevation="0">
             <v-toolbar flat>
-                <div class="font-weight-bold text-h6">Websites</div>
-                <v-spacer></v-spacer>
+                <!-- <div class="font-weight-bold text-h6">Websites</div> -->
 
-                <input type="text" placeholder="Search by Project name..." class="search-input">
+                <!-- <input type="text" placeholder="Search by Project name..." class="search-input"> -->
 
                 <!-- <v-autocomplete
                     v-model="select"
@@ -28,7 +27,6 @@
                     solo-inverted
                 ></v-autocomplete> -->
 
-                <v-spacer></v-spacer>
 
                 <v-btn class="text-capitalize mr-3 dark" dark depressed :to="{name: 'MyWebsite'}">My Websites</v-btn>
                 <v-btn class="text-capitalize" outlined :to="{name: 'Website'}">All Websites</v-btn>

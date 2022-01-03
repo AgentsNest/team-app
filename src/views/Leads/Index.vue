@@ -8,7 +8,7 @@
         </v-snackbar>
 
         <!-- Desktop Screen -->
-        <v-card class="rounded-xl pa-md-5 shadow content-card d-none d-md-block" height="88vh" elevation="0">
+        <v-card class="rounded-xl pa-md-5 shadow content-card" height="88vh" elevation="0">
             <v-toolbar flat>
                 <div class="font-weight-bold text-h6">Total Leads ({{total_leads}})</div>
                 <v-spacer></v-spacer>
@@ -31,14 +31,8 @@
                         </v-btn>
                     </template>
                     <v-list dense>
-                        <v-list-item link :to="{name: 'AddLeads'}" 
-                            :disabled="whateverActivatesThisLink" 
-                            :event="whateverActivatesThisLink ? 'click' : ''"
-                        ><v-list-item-title>Manually add</v-list-item-title></v-list-item>
-                        <v-list-item link :to="{name: 'bulkUploadLead'}"
-                            :disabled="whateverActivatesThisLink" 
-                            :event="whateverActivatesThisLink ? 'click' : ''"
-                        ><v-list-item-title>Bulk Upload</v-list-item-title></v-list-item>
+                        <v-list-item link :to="{name: 'AddLeads'}"><v-list-item-title>Manually add</v-list-item-title></v-list-item>
+                        <v-list-item link :to="{name: 'bulkUploadLead'}"><v-list-item-title>Bulk Upload</v-list-item-title></v-list-item>
                     </v-list>
                 </v-menu>
             </v-toolbar>

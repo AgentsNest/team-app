@@ -142,7 +142,7 @@ export default {
       mSidebar: false,
       items: [
         { title: 'Dashboard', icon: 'mdi-apps-box', link: 'Dashboard' },
-        { title: 'Leads', icon: 'mdi-format-list-bulleted-square', link: 'Leads' },
+        { title: 'Leads', icon: 'mdi-format-list-bulleted-square', link: 'mLeads' },
         { title: 'Graphics', icon: 'mdi-image-size-select-large', link: 'mGraphic' },
         { title: 'Existing Clients', icon: 'mdi-account-multiple-outline', link: 'Client' },
         { title: 'Social Ads', icon: 'mdi-advertisements', link: 'Smm' },

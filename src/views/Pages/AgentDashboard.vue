@@ -8,7 +8,10 @@
                       <v-spacer></v-spacer>
                       <div>
                         <div class="">Hot Lead</div>
-                        <div class="font-weight-bold display-1">{{hotLeadPercentage}}%</div>
+                        <div class="font-weight-bold display-1">
+                          <span v-if="totalLead > 0">{{hotLeadPercentage}}%</span>
+                          <span v-else>0</span>
+                        </div>
                       </div>
                     </v-card-actions>
                     <v-card-actions>
@@ -23,7 +26,10 @@
                       <v-spacer></v-spacer>
                       <div>
                         <div class="">Warm Lead</div>
-                        <div class="font-weight-bold display-1">{{warmLeadPercentage}}%</div>
+                        <div class="font-weight-bold display-1">
+                          <span v-if="totalLead > 0">{{warmLeadPercentage}}%</span>
+                          <span v-else>0</span>
+                        </div>
                       </div>
                     </v-card-actions>
                     <v-card-actions>
@@ -38,7 +44,10 @@
                       <v-spacer></v-spacer>
                       <div>
                         <div class="">Cold Lead</div>
-                        <div class="font-weight-bold display-1">{{coldLeadPercentage}}%</div>
+                        <div class="font-weight-bold display-1">
+                          <span v-if="totalLead > 0">{{coldLeadPercentage}}%</span>
+                          <span v-else>0</span>
+                        </div>
                       </div>
                     </v-card-actions>
                     <v-card-actions>
@@ -53,7 +62,10 @@
                       <v-spacer></v-spacer>
                       <div>
                         <div class="">Dead Lead</div>
-                        <div class="font-weight-bold display-1">{{deadLeadPercentage}}%</div>
+                        <div class="font-weight-bold display-1">
+                          <span v-if="totalLead > 0">{{deadLeadPercentage}}%</span>
+                          <span v-else>0</span>
+                        </div>
                       </div>
                     </v-card-actions>
                     <v-card-actions>
@@ -134,12 +146,9 @@
                   <v-icon size="38" color="teal">mdi-fire</v-icon>
                   <v-spacer></v-spacer>
                   <div>
-                    <div class="">New Lead</div>
-                    <div class="font-weight-bold display-1">{{newLeadPercentage}}%</div>
+                    <div class="">{{agent.trial_until}}</div>
+                    <div class="font-weight-bold display-1">trials end at</div>
                   </div>
-                </v-card-actions>
-                <v-card-actions>
-                  <v-progress-linear rounded v-model="newLeadPercentage" color="teal" striped height="8"></v-progress-linear>
                 </v-card-actions>
             </v-card>
           
@@ -212,6 +221,7 @@ export default {
     activities: [],
     clients: '',
     events: [],
+    agent: ''
   }),
   methods:{
     fetchData(){

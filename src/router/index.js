@@ -197,6 +197,12 @@ const routes = [
           import(/* webpackChunkName: "leads" */ "../views/Leads/Index.vue"),
       },
       {
+        path: "/m-leads",
+        name: "mLeads",
+        component: () =>
+          import(/* webpackChunkName: "m-leads" */ "../views/Leads/mIndex.vue"),
+      },
+      {
         path: "/leads/hot",
         name: "HotLeads",
         component: () =>

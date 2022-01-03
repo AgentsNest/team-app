@@ -6,15 +6,66 @@
                 <v-btn small color="pink" text v-bind="attrs" @click="snackbar = false">Close</v-btn>
             </template>
         </v-snackbar>
-        <v-card class="rounded-xl pa-10 shadow content-card" height="88vh" elevation="0">
+        <v-card class="rounded-xl pa-3 shadow content-card overflow-y-auto" height="88vh" elevation="0">
             <v-toolbar flat class="mb-6">
-                <v-btn class="white rounded-lg mr-6" elevation="1" depressed icon @click="$router.go(-1)">
+                <v-btn class="white rounded-lg mr-6" elevation="0" depressed icon @click="$router.go(-1)">
                     <v-icon>mdi-arrow-left</v-icon>
                 </v-btn>
-                <div class="font-weight-bold text-h6">Add New Lead</div>
+                <div class="">Add New Lead</div>
             </v-toolbar>
 
-            <v-container>
+            <v-row>
+                <v-col cols="4"><v-subheader>Name</v-subheader></v-col>
+                <v-col cols="8"><v-text-field dense v-model="lead.name"></v-text-field></v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4"><v-subheader>Email</v-subheader></v-col>
+                <v-col cols="8"><v-text-field dense v-model="lead.email"></v-text-field></v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4"><v-subheader>Contact</v-subheader></v-col>
+                <v-col cols="8"><v-text-field dense v-model="lead.contact" prefix="+91"></v-text-field></v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4"><v-subheader>Lead Source</v-subheader></v-col>
+                <v-col cols="8"><v-text-field dense v-model="lead.lead_source"></v-text-field></v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4"><v-subheader>Lead Status</v-subheader></v-col>
+                <v-col cols="8"><v-select dense :items="leadstatus" class="rounded-lg" v-model="lead.status"></v-select></v-col>
+            </v-row>
+
+            <v-card flat>
+                <v-card-text>
+                <v-btn outlined block @click="more = !more" class="text-capitalize grey--text text--darken-2">
+                    More details
+                    <v-icon>mdi-chevron-down</v-icon>
+                </v-btn>
+                </v-card-text>
+
+                <div v-if="more">
+                    <v-row>
+                        <v-col cols="4"><v-subheader>Address</v-subheader></v-col>
+                        <v-col cols="8"><v-text-field dense v-model="lead.address"></v-text-field></v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="4"><v-subheader>City</v-subheader></v-col>
+                        <v-col cols="8"><v-text-field dense v-model="lead.city"></v-text-field></v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="4"><v-subheader>State</v-subheader></v-col>
+                        <v-col cols="8"><v-text-field dense v-model="lead.state"></v-text-field></v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="4"><v-subheader>Country</v-subheader></v-col>
+                        <v-col cols="8"><v-text-field dense v-model="lead.country"></v-text-field></v-col>
+                    </v-row>
+                </div>
+            </v-card>
+
+            <v-btn block class="py-6 mt-3 rounded-lg gradient" dark @click="saveLead">Save Leads</v-btn>
+
+            <!-- <v-container>
                 <v-row>
                     <v-col md="6">
                         <v-text-field class="rounded-lg" label="Name" outlined v-model="lead.name"></v-text-field>
@@ -42,7 +93,7 @@
                     </v-col>
                 </v-row>
                 <v-btn block class="py-7 rounded-lg gradient" dark @click="saveLead">Add New Leads</v-btn>
-            </v-container>
+            </v-container> -->
 
         </v-card>
     </div>
@@ -56,6 +107,7 @@ import User from '../../Apis/User'
 export default {
     data () {
       return {
+        more: false,
         snackbar: false,
         leadstatus: [
             'New',
