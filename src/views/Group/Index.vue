@@ -11,31 +11,12 @@
             <v-toolbar flat>
                 <div class="font-weight-bold text-h6">Groups</div>
                 <v-spacer></v-spacer>
+                <v-btn fab small depressed @click="addGroupBox = !addGroupBox"><v-icon>mdi-plus</v-icon></v-btn>
             </v-toolbar>
             
             <v-card-text>
                 <v-row>
-                    <v-col md="8">
-                        <v-row>
-                            <v-col md="3" v-for="group in groups" :key="group">
-                                <!-- <v-card class="rounded-lg" height="100" :color="group.color" dark>
-                                    <v-card-title>{{group.title}}</v-card-title>
-                                    <v-card-subtitle>Leads:</v-card-subtitle>
-                                </v-card> -->
-                                <!-- <div class="folder">
-                                    <div>{{group.title}}</div>
-                                    <div>Leads:</div>
-                                </div> -->
-
-                                <v-card class="folder" :color="group.color" @click="leadSidebar(group.id)">
-                                    <v-btn class="folder-handle" :color="group.color" depressed></v-btn>
-                                    <span class="white--text">{{group.title}}</span>
-                                    <span class="white--text"><strong>Leads:</strong> {{group.leads.length}}</span>
-                                </v-card>
-                            </v-col>
-                        </v-row>
-                    </v-col>
-                    <v-col md="4">
+                    <v-col md="4" cols="12" v-if="addGroupBox">
                         <div class="font-weight-bold subtitle-1 mb-3">Create new Group</div>
                         <input type="text" placeholder="Add group name..." class="search-input" v-model="form.title">
                         <div class="mt-6 d-flex">
@@ -54,10 +35,30 @@
                         </div>
                         <v-btn block class="mt-6" :color="form.color" large dark @click="newGroup">Create Group</v-btn>
                     </v-col>
+                    <v-col md="8" cols="12">
+                        <v-row>
+                            <v-col md="3" cols="6" v-for="group in groups" :key="group.id">
+                                <!-- <v-card class="rounded-lg" height="100" :color="group.color" dark>
+                                    <v-card-title>{{group.title}}</v-card-title>
+                                    <v-card-subtitle>Leads:</v-card-subtitle>
+                                </v-card> -->
+                                <!-- <div class="folder">
+                                    <div>{{group.title}}</div>
+                                    <div>Leads:</div>
+                                </div> -->
+
+                                <v-card class="folder" :color="group.color" @click="leadSidebar(group.id)">
+                                    <v-btn class="folder-handle" :color="group.color" depressed></v-btn>
+                                    <span class="white--text">{{group.title}}</span>
+                                    <span class="white--text"><strong>Leads:</strong> {{group.leads.length}}</span>
+                                </v-card>
+                            </v-col>
+                        </v-row>
+                    </v-col>
                 </v-row>
             </v-card-text>
 
-            <v-navigation-drawer v-model="drawer" tile absolute temporary right width="30vw" v-if="group">
+            <v-navigation-drawer v-model="drawer" tile absolute temporary right xs12 md3 v-if="group">
                 <v-card flat tile>
                     <!-- {{group.leads}} -->
                     <v-list two-line>
@@ -132,6 +133,7 @@ import User from '../../Apis/User'
 export default {
     data () {
       return {
+        addGroupBox: false,
         loading: false,
         snackbar: false,
         groups:[],

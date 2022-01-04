@@ -1,20 +1,10 @@
 <template>
     <div>
-        <v-card class="rounded-xl pa-2 shadow" elevation="0">
+        <v-card class="rounded-xl shadow" elevation="0">
             <v-toolbar flat>
-                <div class="font-weight-bold text-h6">Websites ({{websites.length}})</div>
+                <v-btn width="50%" class="rounded-l-xl text-capitalize dark" dark depressed :to="{name: 'MyWebsite'}">My Websites</v-btn>
                 <v-spacer></v-spacer>
-
-                <input type="text" placeholder="Search by Project name..." class="search-input">
-
-                <v-spacer></v-spacer>
-
-                <!-- <v-btn class="grey darken-3" dark icon :to="{name: 'addNewWebsite'}">
-                    <v-icon>mdi-plus</v-icon>
-                </v-btn> -->
-
-                <v-btn class="text-capitalize mx-3 dark" dark depressed :to="{name: 'MyWebsite'}">My Websites</v-btn>
-                <v-btn class="text-capitalize" outlined :to="{name: 'Website'}">All Websites</v-btn>
+                <v-btn width="50%" class="rounded-r-xl text-capitalize" depressed :to="{name: 'Website'}">All Websites</v-btn>
             
             </v-toolbar>
         </v-card>

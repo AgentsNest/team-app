@@ -21,12 +21,13 @@
             <v-container>
                 <v-row>
                     <v-col md="6">
-                        <v-carousel v-model="projectGallery" height="300" hide-delimiters>
+                        <v-carousel v-model="projectGallery" height="220" hide-delimiters>
                             <v-carousel-item v-for="(image, i) in website.website_images" :key="i">
                                 <v-img
                                     :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
                                     :lazy-src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
-                                    cover
+                                    contain
+                                    max-height="220"
                                 ></v-img>
                             </v-carousel-item>
                         </v-carousel>

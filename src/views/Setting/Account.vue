@@ -1,21 +1,27 @@
 <template>
     <div>
+        <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
+            Profile Updated
+            <template v-slot:action="{ attrs }">
+                <v-btn small color="pink" text v-bind="attrs" @click="snackbar = false">Close</v-btn>
+            </template>
+        </v-snackbar>
         <v-row>
-            <v-col md="4">
+            <v-col md="4" class="d-none d-md-block">
                 <Sidebar />
             </v-col>
-            <v-col md="8">
+            <v-col md="8" cols="12">
                 <v-card height="88vh" flat class="content-card transparent">
                     <v-card class="mb-5 rounded-xl" flat>
-                        <v-card-actions class="px-6 py-6">
+                        <v-card-actions class="px-6 py-6 d-block d-md-flex">
                             <v-img
                                 :src="preview ? preview : agent.brand_logo"
-                                max-height="60px"
+                                max-height="40px"
                                 aspect-ratio="2"
                                 contain
                             ></v-img>
                             <div class="ml-8">
-                                <span>Upload new Photo</span> <br/>
+                                <span class="d-none d-md-block">Company Logo</span> <br/>
                                 <span class="caption grey--text">Allowed JPG, GIF or PNG. Max size of 800K</span>
                             </div>
                             <v-spacer></v-spacer>
@@ -26,13 +32,18 @@
                         </v-card-actions>
                     </v-card>
 
+                <!-- Update Button -->
+                <v-btn fab class="teal update-btn" @click="saveDetails()"><v-icon color="white">mdi-content-save</v-icon></v-btn>
+
+
                 <!-- Agent Avatar -->
-                    <v-card class="rounded-xl mb-5 pa-5 content-card" flat>
+                    <v-card class="rounded-xl mb-5 content-card" flat>
                         <v-toolbar flat class="mt-8 mb-10">
                             <v-img 
                                 :src="avatarPreview ? avatarPreview : agent.image"
                                 max-width="120"
-                                class="rounded-xl align-end text-right"
+                                max-height="120"
+                                class="rounded-lg align-end text-right mt-4"
                             >
                                 <v-btn fab depressed color="grey" small>
                                     <label for="brandAvatar">
@@ -42,10 +53,10 @@
                                 </v-btn>
                             </v-img>
                             <v-spacer></v-spacer>
-                            <div class="title">Change Information here</div>
+                            <!-- <div class="title">Change Information here</div> -->
                             <v-spacer></v-spacer>
                             <v-btn 
-                                class="white--text rounded-lg" 
+                                class="white--text rounded-lg d-none d-md-block" 
                                 @click="saveDetails()"
                                 :class="success == true ? 'gradient' : 'grey darken-4'"
                             >{{submitBtn}}</v-btn>
@@ -53,23 +64,19 @@
 
                         <v-card-text>
                             <v-row>
-                                <v-col md="6">
+                                <v-col md="6" cols="12">
                                     <label>Full Name</label>
                                     <input type="text" class="search-input" v-model="agent.name">
                                 </v-col>
-                                <v-col md="6">
+                                <v-col md="6" cols="12">
                                     <label>Email</label>
-                                    <input type="text" class="search-input" v-model="agent.email">
+                                    <input type="text" readonly class="search-input" v-model="agent.email">
                                 </v-col>
-                                <v-col md="6">
+                                <v-col md="6" cols="12">
                                     <label>Contact Number</label>
                                     <input type="text" class="search-input" v-model="agent.contact">
                                 </v-col>
-                                <v-col md="6">
-                                    <label>Website</label>
-                                    <input type="text" class="search-input" v-model="agent.website">
-                                </v-col>
-                                <v-col md="12">
+                                <v-col md="6" cols="12">
                                     <label>Website</label>
                                     <input type="text" class="search-input" v-model="agent.website">
                                 </v-col>
@@ -78,19 +85,19 @@
                         
                         <v-card-title>Basic Info</v-card-title>
                         <v-card-text>
-                            <textarea rows="6" placeholder="About You" class="search-input mb-6"></textarea>
+                            <textarea rows="6" placeholder="About You" class="search-input mb-6" v-model="agent.bio"></textarea>
                             <v-row>
-                                <v-col md="4">
+                                <v-col md="4" cols="12">
                                     <label>City</label>
-                                    <input type="text" class="search-input" v-model="agent.facebook" placeholder="City">
+                                    <input type="text" class="search-input" v-model="agent.city" placeholder="City">
                                 </v-col>
-                                <v-col md="4">
+                                <v-col md="4" cols="12">
                                     <label>State</label>
-                                    <input type="text" class="search-input" v-model="agent.linkedin" placeholder="State">
+                                    <input type="text" class="search-input" v-model="agent.state" placeholder="State">
                                 </v-col>
-                                <v-col md="4">
+                                <v-col md="4" cols="12">
                                     <label>Country</label>
-                                    <input type="text" class="search-input" v-model="agent.instagram" placeholder="Country">
+                                    <input type="text" class="search-input" v-model="agent.country" placeholder="Country">
                                 </v-col>
                             </v-row>
                         </v-card-text>
@@ -98,19 +105,19 @@
                         <v-card-title>Social Links</v-card-title>
                         <v-card-text>
                             <v-row>
-                                <v-col md="6">
+                                <v-col md="6" cols="12">
                                     <label><v-icon size="20">mdi-facebook</v-icon> Facebook</label>
                                     <input type="text" class="search-input" v-model="agent.facebook" placeholder="Facebook">
                                 </v-col>
-                                <v-col md="6">
+                                <v-col md="6" cols="12">
                                     <label><v-icon size="20">mdi-linkedin</v-icon> LinkedIn</label>
                                     <input type="text" class="search-input" v-model="agent.linkedin" placeholder="LinkedIn">
                                 </v-col>
-                                <v-col md="6">
+                                <v-col md="6" cols="12">
                                     <label><v-icon size="20">mdi-instagram</v-icon> Instagram</label>
                                     <input type="text" class="search-input" v-model="agent.instagram" placeholder="Instagram">
                                 </v-col>
-                                <v-col md="6">
+                                <v-col md="6" cols="12">
                                     <label><v-icon size="20">mdi-twitter</v-icon> Twitter</label>
                                     <input type="text" class="search-input" v-model="agent.twitter" placeholder="Twitter">
                                 </v-col>
@@ -120,16 +127,16 @@
                     </v-card>
 
                     <!-- Business Details -->
-                    <v-card class="rounded-xl mb-5 pa-5 content-card" flat>
+                    <v-card class="rounded-xl mb-5 content-card" flat>
                         
                         <v-card-title>Business Details</v-card-title>
                         <v-card-text>
                             <v-row>
-                                <v-col md="6">
+                                <v-col md="6" cols="12">
                                     <label>Company Name</label>
                                     <input type="text" class="search-input" v-model="agent.brand_text">
                                 </v-col>
-                                <v-col md="6">
+                                <v-col md="6" cols="12">
                                     <label>RERA
                                         <span v-if="verified" class="red--text ml-1 font-weight-bold caption">
                                         (not verified)</span> 
@@ -160,12 +167,19 @@ export default {
                 contact: '',
                 website: '',
                 brand_logo: '',
+                bio: '',
+                city: '',
+                state: '',
+                country: '',
                 facebook: '',
+                linkedin: '',
                 instagram: '',
                 twitter: '',
-                linkedin: '',
                 rera: '',
+                brand_text: ''
+
             },
+            snackbar: false,
             preview: '',
             submitBtn: "Update",
             success: false,
@@ -175,10 +189,10 @@ export default {
     },
     methods: {
         saveDetails() {
-            User.update(this.agent.id, this.agent).then((response) => {
-                this.success = true;
-                this.submitBtn = "Profile Updated";
-                console.log(response);
+            User.update(this.agent.id, this.agent)
+            .then((response) => {
+                this.snackbar = true
+                // console.log(response);
             });
         },
         previewLogo(e) {
@@ -209,7 +223,7 @@ export default {
     beforeMount(){
         User.authForUpdate().then((response) => {
             this.agent = response.data.data;
-            console.log(response)
+            // console.log(response)
         });
     }
 }
@@ -218,6 +232,13 @@ export default {
 <style scoped>
 .content-card{
     overflow-y: scroll;
+}
+#brandLogo{width: 100%;margin-top:2em}
+.update-btn{
+    position: fixed;
+    right: 10px;
+    bottom: 20px;
+    z-index: 999;
 }
 .search-input{
   background-color: #fefefe;

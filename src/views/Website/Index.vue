@@ -7,7 +7,7 @@
             </template>
         </v-snackbar>
 
-        <v-card class="rounded-xl pa-2 shadow" elevation="0">
+        <v-card class="rounded-xl shadow" elevation="0">
             <v-toolbar flat>
                 <!-- <div class="font-weight-bold text-h6">Websites</div> -->
 
@@ -28,8 +28,9 @@
                 ></v-autocomplete> -->
 
 
-                <v-btn class="text-capitalize mr-3 dark" dark depressed :to="{name: 'MyWebsite'}">My Websites</v-btn>
-                <v-btn class="text-capitalize" outlined :to="{name: 'Website'}">All Websites</v-btn>
+                <v-btn width="50%" class="rounded-l-xl text-capitalize" depressed :to="{name: 'MyWebsite'}">My Websites</v-btn>
+                <v-spacer></v-spacer>
+                <v-btn width="50%" class="rounded-r-xl text-capitalize dark" dark depressed :to="{name: 'Website'}">All Websites</v-btn>
             
             </v-toolbar>
         </v-card>
@@ -38,19 +39,25 @@
           <v-row class="mt-4 content-card">
               <v-col md="3" v-for="(website, index) in websites" :key="index">
                   <v-card>
-                      <v-img
-                          height="160px"
-                          src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-                      ></v-img>
+                      <v-carousel v-model="projectGallery" height="200" hide-delimiters>
+                          <v-carousel-item v-for="(image, i) in website.website_images" :key="i">
+                              <v-img
+                                  :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
+                                  :lazy-src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
+                                  cover
+                                  center
+                              ></v-img>
+                          </v-carousel-item>
+                      </v-carousel>
 
                       <v-card-title>{{website.title}}</v-card-title>
 
                       <v-card-actions>
-                          <router-link :to="{name: 'SingleWebsite', params:{id: website.id}}" target="_blank">
-                            <v-btn color="orange" class="text-capitalize" text>View</v-btn>
-                          </router-link>
+                          <v-btn :to="{name: 'SingleWebsite', params:{id: website.id}}" text target="_blank" link width="50%" class="text-capitalize" outlined small>
+                            View
+                          </v-btn>
                           <v-spacer></v-spacer>
-                          <v-btn color="dark" class="text-capitalize" outlined small @click="cloneWebsite(website.id)">
+                          <v-btn color="grey darken-3" width="50%" class="text-capitalize" dark small @click="cloneWebsite(website.id)">
                             <v-icon left>mdi-content-copy</v-icon>
                             Clone
                           </v-btn>
@@ -82,7 +89,8 @@ export default {
         drawer: false,
         snackbar: false,
         snackbarText: '',
-        website: ''
+        website: '',
+        projectGallery: 0
       }
     },
     watch: {
@@ -119,11 +127,11 @@ export default {
           if (response.data === 'Already Cloned') {
             this.snackbarText = 'Already Cloned'
             this.snackbar = true
-            console.log(response)
+            // console.log(response)
           } else {
             this.snackbarText = 'Website Cloned Successfully'
             this.snackbar = true
-            console.log(response)
+            // console.log(response)
           }
         })
         .catch();

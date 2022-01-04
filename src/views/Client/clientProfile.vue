@@ -18,7 +18,7 @@
             </v-list-item>
         </v-toolbar>
 
-        <v-card-actions class="d-none d-md-flex mb-6">
+        <v-card-actions class="d-none d-md-flex mb-6" v-if="properties">
             <span>Total Property ({{properties.length}})</span>
             <v-spacer></v-spacer>
             <input type="text" placeholder="Search Property..." class="search-input py-2" v-model="search">
@@ -28,7 +28,7 @@
             </router-link>
         </v-card-actions>
 
-        <v-card-title class="flex justify-space-between align-center d-sm-none">
+        <v-card-title class="flex justify-space-between align-center d-sm-none" v-if="properties">
             <div class="subtitle-1">Total Property ({{properties.length}})</div>            
 
             <router-link :to="{name: 'AddProperty'}">
@@ -41,7 +41,7 @@
 
         <!-- Properties -->
         <v-container>
-            <v-row>
+            <v-row v-if="properties.length">
                 <v-col md="6" cols="12" v-for="(property, index) in filterLead" :key="index">
                     <v-card class="mb-4 rounded-lg">
                         <router-link :to="{name: 'singleProperty', params:{id: property.id}}">
@@ -51,7 +51,7 @@
                             ></v-img> -->
 
                             <v-row>
-                                <v-col md="6">
+                                <v-col md="6" cols="12">
                                     <v-card-title class="grey--text text--darken-3">{{property.title}}</v-card-title>
                                     <v-card-subtitle class="grey--text text--darken-1">Closing Date: {{property.date}}</v-card-subtitle>
                                     <v-simple-table dense>
@@ -61,29 +61,42 @@
                                                 <tr><td>Unit No.:</td><td>{{property.unit}}</td></tr>
                                                 <tr><td>Floor:</td><td>{{property.floor}}</td></tr>
                                                 <tr><td>Location:</td><td>{{property.location}}</td></tr>
-                                                <tr><td>Builder:</td><td>Sushma Buildtech</td></tr>
                                             </tbody>
                                         </template>
                                     </v-simple-table>
                                 </v-col>
                                 <v-col>
                                     <v-card flat>
-                                        <v-card-text class="text-center">
+                                        <div class="text-center">
                                             <v-progress-circular 
+                                                striped
                                                 :rotate="-90" 
                                                 :size="100" 
                                                 :width="15" 
                                                 :value="property.paymentreceived / property.allotmentvalue * 100" 
-                                                :color="property.paymentreceived / allotmentvalue * 100 > 74 ? 'green' : 'red' " 
-                                            >{{(property.paymentreceived / property.allotmentvalue * 100).toFixed(2)}}</v-progress-circular>
-                                        </v-card-text>
+                                                :color="property.paymentreceived / property.allotmentvalue * 100 > 74 ? 'green' : 'red' " 
+                                            >
+                                                {{(property.paymentreceived / property.allotmentvalue * 100).toFixed(2)}}%
+                                            </v-progress-circular>
+                                            <div>Allotment Price</div>
+                                            <!-- <v-progress-linear
+                                                height="20"
+                                                class="rounded-lg"
+                                                :value="property.paymentreceived / property.allotmentvalue * 100" 
+                                                :color="property.paymentreceived / property.allotmentvalue * 100 > 74 ? 'green' : 'red' "
+                                                striped
+                                            >
+                                                <template v-slot:default="{ value }">
+                                                    <strong>{{ Math.ceil(value) }}%</strong>
+                                                </template>
+                                            </v-progress-linear> -->
+                                        </div>
                                         <v-simple-table dense>
                                             <template v-slot:default>
                                                 <tbody>
                                                     <tr><td>BSP:</td><td>{{property.bsp}}</td></tr>
                                                     <tr><td>DP:</td><td>{{property.dealprice}}</td></tr>
                                                     <tr><td>Allotment Price:</td><td>{{property.allotmentvalue}}</td></tr>
-                                                    <tr><td>Payment Received:</td><td>{{property.received}}</td></tr>
                                                 </tbody>
                                             </template>
                                         </v-simple-table>
@@ -108,8 +121,8 @@ export default {
         client:'',
         properties: [],
         search: '',
-        dp: 8000000,
-        received: 5000000
+        dp: '',
+        received: ''
     }),
 
     mounted(){

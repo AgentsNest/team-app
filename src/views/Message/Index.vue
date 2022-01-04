@@ -8,26 +8,32 @@
         </v-snackbar>
 
         <v-card class="rounded-xl pa-2 shadow content-card" elevation="0" height="88vh">
-            <v-toolbar flat>
+            <!-- <v-toolbar flat>
                 <div class="font-weight-bold text-h6">Messages</div>
                 <v-spacer></v-spacer>
                 <input type="text" placeholder="Search message..." class="search-input">
+            </v-toolbar> -->
+
+            <v-toolbar flat>
+                <div class="font-weight-bold text-h6">Messages</div>
+                <v-spacer></v-spacer>
+                <v-btn fab small depressed @click="addMsgBox = !addMsgBox"><v-icon>mdi-plus</v-icon></v-btn>
             </v-toolbar>
             
             <v-card-text>
                 <v-row>
-                    <v-col md="8">
+                    <v-col md="4" cols="12" v-if="addMsgBox">
+                        <textarea rows="3" placeholder="Add message..." class="search-input" v-model="form.text"></textarea>
+                        <v-btn block class="mt-2" large dark @click="newMessage">Create Message</v-btn>
+                    </v-col>
+                    <v-col md="8" cols="12">
                         <v-row>
-                            <v-col md="6" v-for="message in messages" :key="message.id">
+                            <v-col md="6" cols="12" v-for="message in messages" :key="message.id">
                                 <v-card class="align-stretch" height="100%">
                                     <v-card-text><strong>Hi, @clientName -</strong> <br> {{message.text}} <strong><br> Regards: <br> @yourName</strong></v-card-text>
                                 </v-card>
                             </v-col>
                         </v-row>
-                    </v-col>
-                    <v-col md="4">
-                        <input type="text" placeholder="Add group name..." class="search-input" v-model="form.text">
-                        <v-btn block class="mt-6" large dark @click="newMessage">Create Message</v-btn>
                     </v-col>
                 </v-row>
             </v-card-text>
@@ -53,6 +59,7 @@ export default {
             type: 'agent',
             agent_id: null,
         },
+        addMsgBox: false
       }
     },
     methods: {

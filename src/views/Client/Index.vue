@@ -12,11 +12,10 @@
       </v-toolbar>
 
       <v-card-text>
-
         <input type="text" placeholder="Search by name..." class="search-input" v-model="search">
 
         <v-row>
-          <v-col md="4" v-for="(item, index) in filterLead" :key="index">
+          <v-col md="4" cols="12" v-for="(item, index) in filterLead" :key="index">
               <v-list-item class="shadow rounded-lg">
                   <v-list-item-avatar tile :color="randomColor(item.id)" class="white--text rounded-lg" size="48">{{item.name[0]}}</v-list-item-avatar>
 
@@ -61,9 +60,9 @@ export default {
   methods:{
     fetchData(){
       Client.myClient(this.page).then((response) => {
-        this.clients = response.data;
-        this.clientsCount = response.data.length;
-        console.log(response.data);
+        this.clients = response.data.data;
+        this.clientsCount = response.data.data.length;
+        // console.log(response.data);
         this.last_page = response.data.last_page
       })
     },

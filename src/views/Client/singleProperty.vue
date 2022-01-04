@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-card class="rounded-xl pa-0 shadow content-card" height="88vh" elevation="0">
+        <v-card class="rounded-xl pa-0 shadow content-card overflow-y-auto" height="88vh" elevation="0">
             <v-img
                 :src="
                     property.images.length == 0 ? 
@@ -27,7 +27,7 @@
                 </v-toolbar>
             </v-img>
 
-            <div class="pb-6 px-4">
+            <div class="pb-6">
                 
                 <v-row>
                     <v-col md="6" cols="12">
@@ -56,7 +56,7 @@
                             <v-col>
                                 <v-card>
                                     <v-toolbar color="indigo" dark dense>
-                                        <v-toolbar-subtitle>Base Selling Price : </v-toolbar-subtitle>
+                                        <div>Base Selling Price : </div>
                                         <v-spacer></v-spacer>
                                         ₹ {{property.bsp}}
                                     </v-toolbar>
@@ -71,7 +71,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="bsp in property.bsps" :key="bsp">
+                                            <tr v-for="bsp in property.bsps" :key="bsp.id">
                                                 <td>{{ bsp.title }}</td>
                                                 <td>{{ bsp.amount }}</td>
                                                 <td>{{ bsp.percentage }}%</td>
@@ -85,7 +85,7 @@
                             <v-col>
                                 <v-card>
                                     <v-toolbar color="indigo" dark dense>
-                                        <v-toolbar-subtitle>Deal Price :</v-toolbar-subtitle>
+                                        <div>Deal Price :</div>
                                         <v-spacer></v-spacer>
                                         ₹ {{property.dealprice}}
                                     </v-toolbar>
@@ -100,7 +100,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="deal in property.dealprices" :key="deal">
+                                            <tr v-for="deal in property.dealprices" :key="deal.id">
                                                 <td>{{ deal.title }}</td>
                                                 <td>{{ deal.amount }}</td>
                                                 <td>{{ deal.percentage }}%</td>
@@ -114,7 +114,7 @@
                             <v-col>
                                 <v-card>
                                     <v-toolbar color="indigo" dark dense>
-                                        <v-toolbar-subtitle>Allotment Price :</v-toolbar-subtitle>
+                                        <div>Allotment Price :</div>
                                         <v-spacer></v-spacer>
                                         ₹ {{property.allotmentvalue}}
                                     </v-toolbar>
@@ -129,7 +129,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="allotment in property.allotments" :key="allotment">
+                                            <tr v-for="allotment in property.allotments" :key="allotment.id">
                                                 <td>{{ allotment.title }}</td>
                                                 <td>{{ allotment.amount }}</td>
                                                 <td>{{ allotment.percentage }}%</td>
@@ -144,7 +144,7 @@
                     </v-col>
 
                     <!-- All Applicant List -->
-                    <v-col cols="12">
+                    <v-col cols="12" v-if="applicantOneDetails.length">
                         <v-card class="mt-4 rounded-lg">
                             <v-toolbar flat>
                                 <v-toolbar-title>Applicants</v-toolbar-title>
@@ -153,7 +153,7 @@
                                 <v-row>
                                     <v-col v-if="applicantOneDetails.name !== null">
                                         <v-card outlined>
-                                            <v-card-subtitle>Applicant 1st Details</v-card-subtitle>
+                                            <v-card-subtitle>Applicant 2nd Details</v-card-subtitle>
                                             <v-simple-table dense>
                                                 <tbody>
                                                     <tr><td><strong>Name:</strong></td><td>{{applicantOneDetails.name}}</td></tr>
@@ -168,7 +168,7 @@
                                     </v-col>
                                     <v-col v-if="applicantTwoDetails.name !== null">
                                         <v-card outlined>
-                                            <v-card-subtitle>Applicant 2nd Details</v-card-subtitle>
+                                            <v-card-subtitle>Applicant 3rd Details</v-card-subtitle>
                                             <v-simple-table dense>
                                                 <tbody>
                                                     <tr><td><strong>Name:</strong></td><td>{{applicantTwoDetails.name}}</td></tr>
@@ -183,7 +183,7 @@
                                     </v-col>
                                     <v-col v-if="applicantThreeDetails.name !== null ">
                                         <v-card outlined>
-                                            <v-card-subtitle>Applicant 3rd Details</v-card-subtitle>
+                                            <v-card-subtitle>Applicant 4th Details</v-card-subtitle>
                                             <v-simple-table dense>
                                                 <tbody>
                                                     <tr><td><strong>Name:</strong></td><td>{{applicantThreeDetails.name}}</td></tr>
@@ -203,7 +203,7 @@
 
                     <!-- Payment List and Add new -->
                     <v-col cols="12">
-                        <v-card class="mt-4 rounded-lg">
+                        <v-card class="mt-2 rounded-lg">
                             <v-toolbar flat>
                                 <v-toolbar-title>Payments</v-toolbar-title>
                                 <v-spacer></v-spacer>
@@ -211,7 +211,7 @@
                                     <v-icon>mdi-plus</v-icon>
                                 </v-btn>
                             </v-toolbar>
-                            <v-simple-table height="190px" fixed-header>
+                            <v-simple-table max-height="190px">
                                 <template v-slot:default>
                                     <thead>
                                         <tr>
@@ -232,8 +232,8 @@
                                                 <div v-else>no file</div>
                                             </td>
                                             <td>
-                                                <v-btn small class="rounded-xl text-capitalize" @click="editPaymentDialog = !editPaymentDialog">
-                                                    <v-icon left size="16">mdi-pencil</v-icon>edit
+                                                <v-btn x-small fab elevation="1" class="rounded-xl text-capitalize" @click="editPayment(payment.id)">
+                                                    <v-icon size="16">mdi-pencil</v-icon>
                                                 </v-btn>
                                             </td>
                                         </tr>
@@ -241,25 +241,28 @@
                                 </template>
                             </v-simple-table>
 
-                            <!-- Edit Payment -->
+                        <!-- 
+                            ==================
+                                Edit Payment 
+                        ======================= -->
                             <v-dialog v-model="editPaymentDialog" width="500">
                                 <v-card>
-                                    <v-card-title class="title grey lighten-2">Edit Payment</v-card-title>
+                                    <div class="px-6 py-4 grey lighten-2">Edit Payment</div>
 
                                     <v-card-text class="pt-6">
-                                        <v-text-field outlined label="Payment Title" v-model="payment.title"></v-text-field>
+                                        <v-text-field solo class="rounded-lg" label="Payment Title" v-model="singlePayment.title"></v-text-field>
 
-                                        <v-text-field outlined label="Payment Amount" v-model="payment.amount"></v-text-field>
+                                        <v-text-field solo class="rounded-lg" label="Payment Amount" v-model="singlePayment.amount"></v-text-field>
                                             
-                                        <v-btn outlined x-small class="grey darken-2" link dark>
+                                        <v-btn outlined x-small class="grey darken-2 py-4" link dark block>
                                             <label for="invoice">
-                                                Upload
+                                                Select File
                                                 <input 
                                                     type="file" 
                                                     id="invoice" 
                                                     hidden 
-                                                    ref="docs" 
-                                                    @change="uploadInvoice"
+                                                    ref="payment" 
+                                                    @change="updatePayment"
                                                     accept="application/pdf, application/doc"
                                                 >
                                             </label>
@@ -280,12 +283,12 @@
                         <!-- Add new payment -->
                         <v-dialog v-model="paymentDialog" width="500">
                             <v-card>
-                                <v-card-title class="title grey lighten-2">Add Payment</v-card-title>
+                                <div class="grey lighten-2 px-6 py-4">Add Payment</div>
 
                                 <v-card-text class="pt-6">
-                                    <v-text-field outlined label="Payment Title" v-model="payment.title"></v-text-field>
+                                    <v-text-field solo class="rounded-lg" label="Payment Title" v-model="payment.title"></v-text-field>
 
-                                    <v-text-field outlined label="Payment Amount" v-model="payment.amount"></v-text-field>
+                                    <v-text-field solo class="rounded-lg" label="Payment Amount" v-model="payment.amount"></v-text-field>
                                         
                                     <input type="file" name="file" @change="onChange">
                                 </v-card-text>
@@ -294,7 +297,7 @@
 
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-                                    <v-btn color="dark" block @click="addPayment">Save</v-btn>
+                                    <v-btn class="grey darken-3" dark block @click="addPayment">Save</v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
@@ -302,7 +305,7 @@
                 </v-row>
 
             <!-- Document List -->
-                <v-card class="rounded-lg mt-4">
+                <v-card class="rounded-lg mt-4" v-if="property.documents.length">
                     <v-card-subtitle class="py-2 font-weight-bold">Documents</v-card-subtitle>
                     <v-card-text class="px-2">
                         <v-row no-gutters>
@@ -383,6 +386,8 @@ export default {
             ],
             amountType: '',
             paymentDialog: false,
+            singlePayment: '',
+            paymentFile: '',
             editPaymentDialog: false,
             applicantOneDetails: null,
             applicantTwoDetails: null,
@@ -438,9 +443,9 @@ export default {
             var fileData = this.$refs.docs.files;
             for (let i = 0; i < fileData.length; i++) {
                 let pdf = {
-                file: fileData[i],
-                name: fileData[i].name,
-                size: Math.round(fileData[i].size / 1024) + 'kb'
+                    file: fileData[i],
+                    name: fileData[i].name,
+                    size: Math.round(fileData[i].size / 1024) + 'kb'
                 }
                 this.allPdf.push(pdf);
             }
@@ -465,6 +470,35 @@ export default {
                     document.body.appendChild(docUrl);
                     docUrl.click();
             });
+        },
+        editPayment(payment){
+            this.editPaymentDialog = true;
+            Client.singlePropertyPayment(payment)
+            .then((res) => {
+                this.singlePayment = res.data
+                // console.log(res.data)
+            })
+        },
+        uploadPaymentFile(e){
+            let file = e.target.files[0];
+
+            let reader = new FileReader();
+
+            reader.readAsDataURL(file);
+
+            reader.onload = (e) => {
+                this.singlePayment = e.target.result;
+            };
+                
+        },
+        updatePayment(){
+            let form = new FormData();
+            form.append('amount', this.payment.amount)
+
+            Client.updateProperty(form)
+            .then(()=> {
+
+            })
         }
     }
 }

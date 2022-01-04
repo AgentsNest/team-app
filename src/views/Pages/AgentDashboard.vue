@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <v-card flat height="88vh" class="overflow-y-auto">
         <v-row>
-            <v-col md="3" cols="6">
-                <v-card flat class="rounded-lg pa-3">
-                    <v-card-actions>
+            <v-col md="3" cols="12">
+                <v-card class="rounded-lg pa-2 pa-md-3">
+                    <v-card-actions class="">
                       <v-icon size="38" color="red">mdi-fire-circle</v-icon>
                       <v-spacer></v-spacer>
                       <div>
@@ -19,9 +19,9 @@
                     </v-card-actions>
                 </v-card>
             </v-col>
-            <v-col md="3" cols="6">
-                <v-card flat class="rounded-lg pa-3">
-                    <v-card-actions>
+            <v-col md="3" cols="12">
+                <v-card class="rounded-lg pa-2 pa-md-3">
+                    <v-card-actions class="">
                       <v-icon size="38" color="orange">mdi-account-group-outline</v-icon>
                       <v-spacer></v-spacer>
                       <div>
@@ -37,9 +37,9 @@
                     </v-card-actions>
                 </v-card>
             </v-col>
-            <v-col md="3" cols="6">
-                <v-card flat class="rounded-lg pa-3">
-                    <v-card-actions>
+            <v-col md="3" cols="12">
+                <v-card class="rounded-lg pa-2 pa-md-3">
+                    <v-card-actions class="">
                       <v-icon size="38" color="blue">mdi-snowflake-alert</v-icon>
                       <v-spacer></v-spacer>
                       <div>
@@ -55,9 +55,9 @@
                     </v-card-actions>
                 </v-card>
             </v-col>
-            <v-col md="3" cols="6">
-                <v-card flat class="rounded-lg pa-3">
-                    <v-card-actions>
+            <v-col md="3" cols="12">
+                <v-card class="rounded-lg pa-2 pa-md-3">
+                    <v-card-actions class="">
                       <v-icon size="38" color="grey">mdi-emoticon-sad-outline</v-icon>
                       <v-spacer></v-spacer>
                       <div>
@@ -75,23 +75,17 @@
             </v-col>
         </v-row>
 
-        <v-row>
+        <v-row class="d-none">
           <v-col md="8" cols="12">
-            <v-card height="64vh" class="overflow-y-auto rounded-lg pa-2" flat>
+            <v-card class="overflow-y-auto rounded-lg pa-2" flat>
 
     <!-- Agents Followups -->
-              <v-card-title>Followups</v-card-title>
-              <!-- <v-row class="px-4 mb-4">
-                <v-col cols="4" v-for="event in events" :key="event.id">
-                  <v-card class="rounded-lg">
-                    <v-card-text>
-                      <h3>{{event.lead.name}}</h3>
-                      <div>{{event.remarks}}</div>
-                      <div class="caption"><v-icon size="16">mdi-alarm</v-icon>{{event.send_date}}</div>
-                    </v-card-text>
-                  </v-card>
-                </v-col>
-              </v-row> -->
+              <v-card-actions>
+                <div>Followups</div>
+                <v-spacer></v-spacer>
+                <v-btn fab small elevation="1" class="white"><v-icon>mdi-plus</v-icon></v-btn>
+              </v-card-actions>
+
               <v-data-table
                 :headers="headers"
                 :items="events"
@@ -103,10 +97,12 @@
                 </template>
               </v-data-table>
 
+
+
 <!-- 
   =========== Existing Clients ============
  -->          
-              <v-card class="mt-4 d-none d-md-block"> 
+              <v-card class="mt-4 d-none d-md-block "> 
                   <v-card-title>Existing Clients</v-card-title>
                   <v-row class="px-4">
                     <v-col>
@@ -140,7 +136,7 @@
       <!--=======================
             Right Sidebar
       ========================  -->
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="4" class="d-none d-md-block">
             <v-card flat class="rounded-lg pa-3 mb-4">
                 <v-card-actions>
                   <v-icon size="38" color="teal">mdi-fire</v-icon>
@@ -198,7 +194,7 @@
           </v-col>
         </v-row>
 
-    </div>
+    </v-card>
 </template>
 
 <script>

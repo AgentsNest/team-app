@@ -8,9 +8,9 @@
             </template>
         </v-snackbar>
 
-        <v-card class="rounded-xl pa-5 shadow content-card" height="88vh" elevation="0">
+        <v-card class="rounded-xl pa-2 shadow content-card" height="88vh" elevation="0">
 
-            <v-toolbar flat>
+            <v-toolbar flat class="mb-2">
                 <v-btn icon class="mr-4" @click="$router.go(-1)">
                     <v-icon size="28" color="grey darken-3">mdi-arrow-left</v-icon>
                 </v-btn>
@@ -21,7 +21,7 @@
 
             <v-row>
                 <v-col>
-                    <v-card class="pa-5 rounded-xl">
+                    <v-card class="pa-2 rounded-xl">
                         <v-img
                             max-width="300"
                             class="mx-auto"
@@ -44,7 +44,7 @@
                     </v-card>
                 </v-col>
                 <v-col>
-                    <v-card class="pa-5 rounded-xl">
+                    <v-card class="pa-2 rounded-xl">
                         <v-card-text>
                             <div class="text-h6 mb-4">Search Existing Client (UID)</div>
                             <div class="d-flex">
@@ -86,7 +86,7 @@ export default {
             email: '',
             password: '',
         },
-        searchClient: 'PVri3798',
+        searchClient: '',
         result: '',
         snackbar : false,
         connectBtnText: 'Connect',
@@ -102,7 +102,7 @@ export default {
 
             Client.addNewClient(data)
             .then((response) => {
-                console.log(response)
+                // console.log(response)
                 this.client.name = ''
                 this.client.email =''
                 this.client.password = ''
@@ -133,7 +133,7 @@ export default {
                     this.connectBtnText = 'Already Connected'
                 } else {
                     this.snackbar = true
-                    console.log(response)
+                    // console.log(response)
                 }
             }).catch((error) => {
                 console.log(error)

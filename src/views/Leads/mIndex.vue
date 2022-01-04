@@ -20,9 +20,10 @@
                 <v-spacer></v-spacer>
             </v-toolbar>
 
-            <v-card height="70vh" class="overflow-y-auto" flat>
+            <v-card height="70vh" class="overflow-y-auto pb-8" flat>
                 <v-list three-line>
                     <v-list-item v-for="lead in filterLead" :key="lead.id">
+                        <v-checkbox refs="checkItem" :value="lead.id" v-model="selectedLeads"></v-checkbox>
                         <v-list-item-content>
                             <v-list-item-title @click="detailsSidebar(lead.id)">{{ lead.name }}</v-list-item-title>
                             <v-list-item-subtitle>
@@ -55,7 +56,21 @@
                     <v-toolbar flat>
                         <v-btn icon @click="drawer = false"><v-icon>mdi-close</v-icon></v-btn>
                         <v-spacer></v-spacer>
-                        <v-toolbar-items><v-btn text @click="drawer = false">Options</v-btn></v-toolbar-items>
+
+                        <v-menu offset-y>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn class="text-capitalize" text v-bind="attrs" v-on="on">Options</v-btn>
+                            </template>
+                            <v-list dense flat elevation="0">
+                                <v-list-item @click="groupDailog = !groupDailog">
+                                    <v-list-item-title>Update Group</v-list-item-title>
+                                </v-list-item>
+                                <v-list-item @click="statusDailog = !statusDailog">
+                                    <v-list-item-title>Lead Status</v-list-item-title>
+                                </v-list-item>
+                            </v-list>
+                        </v-menu>
+
                     </v-toolbar>
                     <v-card-title>{{lead.name}}</v-card-title>
                     <v-simple-table>
@@ -125,8 +140,10 @@
                     <v-bottom-sheet v-model="sheet">
                         <v-list two-line>
                             <v-list-item v-for="website in websites" :key="website.id">
-                                <v-list-item-avatar>
-                                    <v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg"></v-img>
+                                <v-list-item-avatar tile>
+                                    <v-img
+                                        :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${website.website_images.slice(0, 1)[0].url}`"
+                                    ></v-img>
                                 </v-list-item-avatar>
 
                                 <v-list-item-content>
@@ -135,6 +152,7 @@
                                 </v-list-item-content>
 
                                 <v-btn class="text-capitalize blue darken-2" dark 
+                                    small
                                     v-if="website"
                                     @click="shareNow(lead, website)"
                                 >
@@ -148,6 +166,53 @@
                     <!-- ******************************** 
                             End Share Website Dialog 
                     ********************************** -->
+
+                    <!-- ******************************** 
+                            Update Group Dialog 
+                    ********************************** -->
+                    <v-bottom-sheet v-model="groupDailog">
+                        <v-card class="pa-5" height="300">
+                            <div class="font-weight-bold mb-3">Add lead to group</div>
+                            <v-autocomplete
+                                v-model="group_id"
+                                :items="groups"
+                                item-text="title"
+                                item-value="id"
+                                small-chips
+                                outlined
+                                dense
+                                label="Search Group"
+                            ></v-autocomplete>
+                            <v-btn block depressed dark class="dark rounded" @click="addSingleLeadToGroup(lead.id)">
+                                <v-icon left>mdi-check</v-icon>
+                                Save
+                            </v-btn>
+                        </v-card>
+                    </v-bottom-sheet>
+
+                    <!-- ******************************** 
+                            Update Lead Status Dialog 
+                    ********************************** -->
+                    <v-bottom-sheet v-model="statusDailog">
+                        <v-card class="pa-5" height="300">
+                            <div class="font-weight-bold mb-3">Update Lead status</div>
+                            <v-autocomplete
+                                v-model="status_name"
+                                :items="leadStatus"
+                                item-text="title"
+                                item-value="title"
+                                small-chips
+                                outlined
+                                dense
+                                label="Change Lead Status"
+                            ></v-autocomplete>
+                            <v-btn block depressed dark class="dark rounded" @click="changeSingleLeadStatus(lead.id)">
+                                <v-icon left>mdi-check</v-icon>
+                                Save
+                            </v-btn>
+                        </v-card>
+                    </v-bottom-sheet>
+                   
 
                     <div class="px-6 pt-3">Activities <span v-if="lead.activities" class="ml-2">({{lead.activities.length}})</span></div>
                     <v-card-text>
@@ -308,6 +373,8 @@ export default {
         bottom: true,
         left: false,
         transition: 'slide-y-reverse-transition',
+        groupDailog: false,
+        statusDailog: false
       }
     },
     methods:{
@@ -344,8 +411,8 @@ export default {
         shareWebsiteListDialog(){
             this.sheet = true;
             Website.auth().then(response => {
-                this.websites = response.data.websites;
-                console.log(response.data);
+                this.websites = response.data.data;
+                // console.log(response.data.data);
             });
         },
         whatsappShareDialog(){
@@ -465,6 +532,19 @@ export default {
                 })
             }
         },
+        addSingleLeadToGroup(lead){
+            User.asignLeadToTeam(lead, {
+                group_id: this.group_id
+            })
+            .then(response => {
+                this.fetchData();
+                this.snackbarText = 'Lead successufully added to group'
+                this.snackbar = true;
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        },
         changeLeadStatus(){
             let selected = this.selectedLeads;
 
@@ -483,6 +563,20 @@ export default {
                     console.log(error)
                 })
             }
+        },
+        changeSingleLeadStatus(lead){
+
+            User.asignLeadToTeam(lead, {
+                status: this.status_name
+            })
+            .then(response => {
+                this.fetchData();
+                this.snackbarText = 'Lead Staus changed'
+                this.snackbar = true;
+            })
+            .catch((error) => {
+                console.log(error)
+            })
         },
         updateSingleLead(lead){
             User.asignLeadToTeam(lead, {

@@ -45,9 +45,16 @@ export default {
     return Api().get("/promoters");
   },
 
+  singlePropertyPayment(params) {
+    return Api().get("/singlePropertyPayment/" + params);
+  },
   addPropertyPayment(form) {
     return Api().post("/addPropertyPayment", form);
   },
+  updatePropertyPayment(id, data) {
+    return Api().put("/updatePropertyPayment/" + id, data);
+  },
+
   updateProperty(id, form) {
     return Api().post("/updateProperty" + id, form);
   },

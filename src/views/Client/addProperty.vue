@@ -21,7 +21,7 @@
             </v-btn>
             <div class="text-capitalize font-weight-bold">back</div>
             <v-spacer></v-spacer>
-            <v-btn dark class="gradient rounded-xl text-capitalize" @click="SaveProperty">Save Property</v-btn>
+            <v-btn dark small class="gradient rounded-xl text-capitalize" @click="SaveProperty">Save</v-btn>
         </v-toolbar>
 
         <!-- Mobile Screen -->
@@ -160,195 +160,192 @@
             </v-tab-item>
             <!-- Payments Tab  -->
             <v-tab-item>
-                <v-container>
                 <!-- BSP -->
-                    <v-card class="mt-4 ">
-                        <v-row class="px-4 pt-4">
-                            <v-col cols="4">Base Price <small>(exclude charges)</small></v-col>
-                            <v-col>
-                                <v-text-field label="Base Selling Price" dense outlined v-model="baseprice"></v-text-field>
-                            </v-col>
-                        </v-row>
-                        <div class="px-4">Extra Charges 
-                            <v-btn depressed fab small @click="addBsp(index)"><v-icon>mdi-plus</v-icon></v-btn>
-                        </div>
-                        <v-card-text v-for="(input, index) in inputs" :key="index">
-                            <v-card class="pa-4">
-                                <v-row class="mt-2">
-                                    <v-col cols="6">
-                                        <v-text-field label="Charge Title" dense outlined v-model="input.title"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-text-field outlined dense label="Amount" v-model="input.amount"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-text-field outlined dense label="Tax Percentage" v-model="input.percentage" prefix="%"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-text-field outlined dense label="Tax Amount" v-model="input.tax"></v-text-field>
-                                    </v-col>
-                                </v-row>
-                                <v-btn fab small depressed absolute bottom right @click="removeBsp(index)"><v-icon>mdi-close</v-icon></v-btn>
-                            </v-card>
-                        </v-card-text>
-                        <v-row class="px-4 mt-6">
-                            <v-col cols="4">Total Base Price <small>(include all charges)</small></v-col>
-                            <v-col>
-                                <v-text-field label="Total BSP" dense outlined v-model="property.bsp"></v-text-field>
-                            </v-col>
-                        </v-row>
-                    </v-card>
-                <!-- Deal Price -->
-                    <v-card class="mt-10">
-                        <v-row class="px-4 pt-4">
-                            <v-col cols="4">Deal Price <small>(exclude charges)</small></v-col>
-                            <v-col>
-                                <v-text-field label="Deal Price" dense outlined v-model="dealprice"></v-text-field>
-                            </v-col>
-                        </v-row>
-                        <div class="px-4">Extra Charges 
-                            <v-btn depressed fab small @click="addDealprice(index)"><v-icon>mdi-plus</v-icon></v-btn>
-                        </div>
-                        <v-card-text v-for="(input, index) in dpCharges" :key="index">
-                            <v-card class="pa-4">
-                                <v-row class="mt-2">
-                                    <v-col cols="6">
-                                        <v-text-field label="Charge Title" dense outlined v-model="input.title"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-text-field outlined dense label="Amount" v-model="input.amount"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-text-field outlined dense label="Tax Percentage" v-model="input.percentage" prefix="%"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-text-field outlined dense label="Tax Amount" v-model="input.tax"></v-text-field>
-                                    </v-col>
-                                </v-row>
-                                <v-btn fab small depressed absolute bottom right @click="removeDealprice(index)"><v-icon>mdi-close</v-icon></v-btn>
-                            </v-card>
-                        </v-card-text>
-                        <v-row class="px-4 mt-6">
-                            <v-col cols="4">Total Deal Price <small>(include all charges)</small></v-col>
-                            <v-col>
-                                <v-text-field label="Total Deal Price" dense outlined v-model="property.dealprice"></v-text-field>
-                            </v-col>
-                        </v-row>
-                    </v-card>
-                <!-- Allotment Value -->
-                    <v-card class="mt-10">
-                        <v-row class="px-4 pt-4">
-                            <v-col cols="4">Allotment Price <small>(exclude charges)</small></v-col>
-                            <v-col>
-                                <v-text-field label="Allotment Price" dense outlined v-model="allotmentprice"></v-text-field>
-                            </v-col>
-                        </v-row>
-                        <div class="px-4">Extra Charges 
-                            <v-btn depressed fab small @click="addAllotment(index)"><v-icon>mdi-plus</v-icon></v-btn>
-                        </div>
-                        <v-card-text v-for="(input, index) in allotCharges" :key="index">
-                            <v-card class="pa-4">
-                                <v-row class="mt-2">
-                                    <v-col cols="6">
-                                        <v-text-field label="Charge Title" dense outlined v-model="input.title"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-text-field outlined dense label="Amount" v-model="input.amount"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-text-field outlined dense label="Tax Percentage" v-model="input.percentage" prefix="%"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-text-field outlined dense label="Tax Amount" v-model="input.tax"></v-text-field>
-                                    </v-col>
-                                </v-row>
-                                <v-btn fab small depressed absolute bottom right @click="removeAllotment(index)"><v-icon>mdi-close</v-icon></v-btn>
-                            </v-card>
-                        </v-card-text>
-                        <v-row class="px-4 mt-6">
-                            <v-col cols="4">Total Allotment Price <small>(include all charges)</small></v-col>
-                            <v-col>
-                                <v-text-field label="Total Allotment Price" dense outlined v-model="property.allotmentvalue"></v-text-field>
-                            </v-col>
-                        </v-row>
-                    </v-card>
-                </v-container>
+                <v-card class="mt-4 ">
+                    <v-row class="px-4 pt-4">
+                        <v-col cols="5">Base Price <small>(exclude charges)</small></v-col>
+                        <v-col>
+                            <v-text-field label="Base Selling Price" dense outlined v-model="baseprice"></v-text-field>
+                        </v-col>
+                    </v-row>
+                    <div class="px-4">Extra Charges 
+                        <v-btn depressed fab small @click="addBsp(index)"><v-icon>mdi-plus</v-icon></v-btn>
+                    </div>
+                    <v-card-text v-for="(input, index) in inputs" :key="index">
+                        <v-card class="pa-4">
+                            <v-row class="mt-1">
+                                <v-col cols="6">
+                                    <v-text-field label="Charge Title" dense outlined v-model="input.title"></v-text-field>
+                                </v-col>
+                                <v-col cols="6">
+                                    <v-text-field outlined dense label="Amount" v-model="input.amount"></v-text-field>
+                                </v-col>
+                                <v-col cols="6">
+                                    <v-text-field outlined dense label="GST" v-model="input.percentage" prefix="%"></v-text-field>
+                                </v-col>
+                                <v-col cols="6">
+                                    <v-text-field outlined dense label="GST Amount" v-model="input.tax"></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-btn fab small depressed absolute bottom right @click="removeBsp(index)"><v-icon>mdi-close</v-icon></v-btn>
+                        </v-card>
+                    </v-card-text>
+                    <v-row class="px-4 mt-6">
+                        <v-col cols="5">Total Base Price <small>(include all charges)</small></v-col>
+                        <v-col>
+                            <v-text-field label="Total BSP" dense outlined v-model="property.bsp"></v-text-field>
+                        </v-col>
+                    </v-row>
+                </v-card>
+            <!-- Deal Price -->
+                <v-card class="mt-10">
+                    <v-row class="px-4 pt-4">
+                        <v-col cols="5">Deal Price <small>(exclude charges)</small></v-col>
+                        <v-col>
+                            <v-text-field label="Deal Price" dense outlined v-model="dealprice"></v-text-field>
+                        </v-col>
+                    </v-row>
+                    <div class="px-4">Extra Charges 
+                        <v-btn depressed fab small @click="addDealprice(index)"><v-icon>mdi-plus</v-icon></v-btn>
+                    </div>
+                    <v-card-text v-for="(input, index) in dpCharges" :key="index">
+                        <v-card class="pa-4">
+                            <v-row class="mt-2">
+                                <v-col cols="6">
+                                    <v-text-field label="Charge Title" dense outlined v-model="input.title"></v-text-field>
+                                </v-col>
+                                <v-col cols="6">
+                                    <v-text-field outlined dense label="Amount" v-model="input.amount"></v-text-field>
+                                </v-col>
+                                <v-col cols="6">
+                                    <v-text-field outlined dense label="GST" v-model="input.percentage" prefix="%"></v-text-field>
+                                </v-col>
+                                <v-col cols="6">
+                                    <v-text-field outlined dense label="GST Amount" v-model="input.tax"></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-btn fab small depressed absolute bottom right @click="removeDealprice(index)"><v-icon>mdi-close</v-icon></v-btn>
+                        </v-card>
+                    </v-card-text>
+                    <v-row class="px-4 mt-6">
+                        <v-col cols="5">Total Deal Price <small>(include all charges)</small></v-col>
+                        <v-col>
+                            <v-text-field label="Total Deal Price" dense outlined v-model="property.dealprice"></v-text-field>
+                        </v-col>
+                    </v-row>
+                </v-card>
+            <!-- Allotment Value -->
+                <v-card class="mt-10">
+                    <v-row class="px-4 pt-4">
+                        <v-col cols="5">Allotment Price <small>(exclude charges)</small></v-col>
+                        <v-col>
+                            <v-text-field label="Allotment Price" dense outlined v-model="allotmentprice"></v-text-field>
+                        </v-col>
+                    </v-row>
+                    <div class="px-4">Extra Charges 
+                        <v-btn depressed fab small @click="addAllotment(index)"><v-icon>mdi-plus</v-icon></v-btn>
+                    </div>
+                    <v-card-text v-for="(input, index) in allotCharges" :key="index">
+                        <v-card class="pa-4">
+                            <v-row class="mt-2">
+                                <v-col cols="6">
+                                    <v-text-field label="Charge Title" dense outlined v-model="input.title"></v-text-field>
+                                </v-col>
+                                <v-col cols="6">
+                                    <v-text-field outlined dense label="Amount" v-model="input.amount"></v-text-field>
+                                </v-col>
+                                <v-col cols="6">
+                                    <v-text-field outlined dense label="GST" v-model="input.percentage" prefix="%"></v-text-field>
+                                </v-col>
+                                <v-col cols="6">
+                                    <v-text-field outlined dense label="GST Amount" v-model="input.tax"></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-btn fab small depressed absolute bottom right @click="removeAllotment(index)"><v-icon>mdi-close</v-icon></v-btn>
+                        </v-card>
+                    </v-card-text>
+                    <v-row class="px-4 mt-6">
+                        <v-col cols="5">Total Allotment Price <small>(include all charges)</small></v-col>
+                        <v-col>
+                            <v-text-field label="Total Allotment Price" dense outlined v-model="property.allotmentvalue"></v-text-field>
+                        </v-col>
+                    </v-row>
+                </v-card>
+
             </v-tab-item>
             <!-- Gallery Tab  -->
             <v-tab-item>
-                <v-container>
-                    <v-card class="rounded-lg mb-6" elevation="0" outlined min-height="160">
-                        <v-alert text dense color="grey darken-1" border="left">
-                            <v-row class="py-1" align="center">
-                                <v-col class="grow body-2 grey--text text--darken-3">Documents</v-col>
-                                <v-col class="shrink">
-                                    <v-btn outlined x-small class="grey darken-2" link dark>
-                                        <label for="docs" class="">
-                                            Upload
-                                            <input 
-                                                type="file" 
-                                                id="docs" 
-                                                hidden multiple 
-                                                ref="docs" 
-                                                @change="onFileChange"
-                                                accept="application/pdf, application/doc"
-                                            >
-                                        </label>
-                                    </v-btn>
-                                </v-col>
-                            </v-row>
-                        </v-alert>
-
-                        <v-row class="px-4">
-                            <v-col cols="12" v-for="(pdf, index) in allPdf" :key="index">
-                                <v-card class="pa-2 d-flex">
-                                    <v-icon size="30px">mdi-file-document-outline</v-icon>
-                                    <div class="ml-2">
-                                        <div class="body-2">{{pdf.name.substring(1, 28)}}..</div>
-                                        <div class="caption">{{ pdf.size ? '' +  '(' + pdf.size + ')' : '' }}</div>
-                                    </div>
-                                    <v-btn x-small fab elevation="1" class="ml-auto" @click="clearPdf(index)">
-                                        <v-icon>mdi-close</v-icon>
-                                    </v-btn>
-                                </v-card>
+                <v-card class="rounded-lg mb-6" elevation="0" outlined min-height="160">
+                    <v-alert text dense color="grey darken-1" border="left">
+                        <v-row class="py-1" align="center">
+                            <v-col class="grow body-2 grey--text text--darken-3">Documents</v-col>
+                            <v-col class="shrink">
+                                <v-btn outlined x-small class="grey darken-2" link dark>
+                                    <label for="docs" class="">
+                                        Upload
+                                        <input 
+                                            type="file" 
+                                            id="docs" 
+                                            hidden multiple 
+                                            ref="docs" 
+                                            @change="onFileChange"
+                                            accept="application/pdf, application/doc"
+                                        >
+                                    </label>
+                                </v-btn>
                             </v-col>
                         </v-row>
+                    </v-alert>
 
-                    </v-card>
+                    <v-row class="px-4">
+                        <v-col cols="12" v-for="(pdf, index) in allPdf" :key="index">
+                            <v-card class="pa-2 d-flex">
+                                <v-icon size="30px">mdi-file-document-outline</v-icon>
+                                <div class="ml-2">
+                                    <div class="body-2">{{pdf.name.substring(1, 28)}}..</div>
+                                    <div class="caption">{{ pdf.size ? '' +  '(' + pdf.size + ')' : '' }}</div>
+                                </div>
+                                <v-btn x-small fab elevation="1" class="ml-auto" @click="clearPdf(index)">
+                                    <v-icon>mdi-close</v-icon>
+                                </v-btn>
+                            </v-card>
+                        </v-col>
+                    </v-row>
 
-                    <v-card class="rounded-lg" elevation="1" min-height="160">
-                        <v-alert text dense color="grey darken-3" border="left">
-                            <v-row class="center py-1" align="center">
-                                <v-col class="grow body-2 grey--text text--darken-3">Image Gallery</v-col>
-                                <v-col class="shrink">
-                                    <v-btn outlined x-small class="grey darken-2" dark>
-                                        <label for="gallery">
-                                            Upload
-                                            <input 
-                                                type="file" 
-                                                id="gallery" 
-                                                hidden multiple 
-                                                ref="files" 
-                                                @change="updateImageList"
-                                                accept="image/png, image/jpeg, image/bmp"
-                                            >
-                                        </label>
-                                    </v-btn>
-                                </v-col>
-                            </v-row>
-                        </v-alert>
+                </v-card>
 
-                        <v-row class="px-2">
-                            <v-col md="4" sm="6" v-for="(preview, index) in previewImage" :key="index">
-                                <v-img :src="preview.src" class="align-top rounded-lg" aspect-ratio="1.4">
-                                    <v-btn class="blue-grey darken-4" dark fab x-small tile @click="clearImage(index)">
-                                        <v-icon>mdi-close</v-icon>
-                                    </v-btn>
-                                </v-img>
+                <v-card class="rounded-lg" elevation="1" min-height="160">
+                    <v-alert text dense color="grey darken-3" border="left">
+                        <v-row class="center py-1" align="center">
+                            <v-col class="grow body-2 grey--text text--darken-3">Image Gallery</v-col>
+                            <v-col class="shrink">
+                                <v-btn outlined x-small class="grey darken-2" dark>
+                                    <label for="gallery">
+                                        Upload
+                                        <input 
+                                            type="file" 
+                                            id="gallery" 
+                                            hidden multiple 
+                                            ref="files" 
+                                            @change="updateImageList"
+                                            accept="image/png, image/jpeg, image/bmp"
+                                        >
+                                    </label>
+                                </v-btn>
                             </v-col>
                         </v-row>
-                    </v-card>
-                </v-container>
+                    </v-alert>
+
+                    <v-row class="px-2">
+                        <v-col md="4" sm="6" v-for="(preview, index) in previewImage" :key="index">
+                            <v-img :src="preview.src" class="align-top rounded-lg" aspect-ratio="1.4">
+                                <v-btn class="blue-grey darken-4" dark fab x-small tile @click="clearImage(index)">
+                                    <v-icon>mdi-close</v-icon>
+                                </v-btn>
+                            </v-img>
+                        </v-col>
+                    </v-row>
+                </v-card>
             </v-tab-item>
         </v-tabs>
 
@@ -551,14 +548,14 @@ export default {
             pdf: {},
             selectedFile:{},
             property: {
-                image: 'https://realtsafe-test.s3.ap-south-1.amazonaws.com/Default/property.jpg',
-                title: 'ATS Casa',
-                date: '26 Jan 1991',
-                size: '3500 Sq ft',
-                unit: '12',
-                type: 'Commercial',
-                floor: '4',
-                location: 'Chandigarh',
+                image: '',
+                title: '',
+                date: '',
+                size: '',
+                unit: '',
+                type: '',
+                floor: '',
+                location: '',
                 builder_id: null,
                 bsp: '',
                 dealprice: '',
@@ -567,12 +564,12 @@ export default {
                 docs: []
             },
             applicants: {
-                applicant_one_name: 'Vimal',
-                applicant_one_dob: '26 Jan 1991',
-                applicant_one_pan: 'GVGH876TC6',
-                applicant_one_email: 'vimal@gmail.com',
-                applicant_one_profession: 'Founder',
-                applicant_one_aadhar: 'BHB56GVGV7',
+                applicant_one_name: '',
+                applicant_one_dob: '',
+                applicant_one_pan: '',
+                applicant_one_email: '',
+                applicant_one_profession: '',
+                applicant_one_aadhar: '',
                 applicant_two_name: '',
                 applicant_two_dob: '',
                 applicant_two_pan: '',
@@ -597,13 +594,13 @@ export default {
             dealprice: '',
             allotmentprice: '',
             inputs: [
-                { title: 'Bookin', amount: '3000', tax: '3000', percentage: '2'},
+                { title: '', amount: '', tax: '', percentage: ''},
             ],
             dpCharges:[
-                { title: 'Bookin', amount: '3000', tax: '3000', percentage: '2'},
+                { title: '', amount: '', tax: '', percentage: ''},
             ],
             allotCharges:[
-                { title: 'Bookin', amount: '3000', tax: '3000', percentage: '2'},
+                { title: '', amount: '', tax: '', percentage: ''},
             ],
             payments: [],
         }

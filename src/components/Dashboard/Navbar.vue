@@ -98,7 +98,10 @@
           <v-img :src="agent.brand_logo" max-width="35vw" class="mx-auto mt-8 mb-3"></v-img>
           <v-list-item>
             <v-list-item-content class="text-center">
-              <v-list-item-title>{{agent.name}}</v-list-item-title>
+              <v-list-item-title>
+                {{agent.name}}
+                <v-btn icon small depressed :to="{name: 'AgentAccount'}"><v-icon>mdi-square-edit-outline</v-icon></v-btn>
+              </v-list-item-title>
               <v-list-item-subtitle>{{agent.email}}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
