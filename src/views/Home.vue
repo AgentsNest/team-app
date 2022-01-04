@@ -1,7 +1,7 @@
 <template>
     <v-card class="overflow-hidden">
             
-        <v-app-bar absolute color="white" elevate-on-scroll scroll-target="#scrolling-techniques-7" class="px-16">
+        <v-app-bar absolute color="white" elevate-on-scroll scroll-target="#scrolling-techniques-7" class="px-md-16">
             <v-toolbar-title class="font-weight-bold headline">
                 agnt. 
                 <span class="caption">beta v.01</span>
@@ -13,43 +13,37 @@
             <!-- <v-btn text class="text-capitalize">Case Studies</v-btn>
             <v-btn text class="text-capitalize">Pricing</v-btn>
             <v-btn text class="text-capitalize">Integration</v-btn> -->
-            <v-btn text class="text-capitalize">Resources</v-btn>
-            <v-btn text class="text-capitalize">About Us</v-btn>
+            <v-btn text class="text-capitalize d-none d-md-flex">Resources</v-btn>
+            <v-btn text class="text-capitalize d-none d-md-flex">About Us</v-btn>
             <v-btn color="teal darken-2" dark elevation="0" class="text-capitalize" link :to="{name: 'Login'}">Login</v-btn>
-            <v-btn text elevation="0" class="text-capitalize" link :to="{name: 'Register'}">Join Now</v-btn>
+            <v-btn text elevation="0" class="text-capitalize d-none d-md-flex" link :to="{name: 'Register'}">Join Now</v-btn>
 
         </v-app-bar>
 
         <v-sheet id="scrolling-techniques-7" class="overflow-y-auto pt-12" min-height="100vh">
             <v-container>
                 <v-row class="py-16">
-                    <v-col>
-                        <div class="display-3 font-weight-bold">Grow your business faster with <span class="blue--text text--darken-3">AgentsNest</span></div>
+                    <v-col cols="12" class="px-4 px-md-0">
+                        <div class="md-display-3 display-1 font-weight-bold">Grow your business faster with <span class="blue--text text--darken-3">AgentsNest</span></div>
                         <div class="my-8">One solution for all you digital, market, and personal business needs.</div>
                         <v-row>
-                            <v-col class="font-weight-bold"><v-icon color="red" size="14" class="mr-2">mdi-circle</v-icon> Build your Brand identity</v-col>
-                            <v-col class="font-weight-bold"><v-icon color="green" size="14" class="mr-2">mdi-circle</v-icon> Generate new leads each day</v-col>
+                            <v-col cols="12" class="font-weight-bold"><v-icon color="red" size="14" class="mr-2">mdi-circle</v-icon> Build your Brand identity</v-col>
+                            <v-col cols="12" class="font-weight-bold"><v-icon color="green" size="14" class="mr-2">mdi-circle</v-icon> Generate new leads each day</v-col>
                         </v-row>
                         <v-row>
-                            <v-col class="font-weight-bold"><v-icon color="yellow" size="14" class="mr-2">mdi-circle</v-icon> Keep a track of leads</v-col>
-                            <v-col class="font-weight-bold"><v-icon color="purple" size="14" class="mr-2">mdi-circle</v-icon> Manage your team</v-col>
+                            <v-col cols="12" class="font-weight-bold"><v-icon color="yellow" size="14" class="mr-2">mdi-circle</v-icon> Keep a track of leads</v-col>
+                            <v-col cols="12"  class="font-weight-bold"><v-icon color="purple" size="14" class="mr-2">mdi-circle</v-icon> Manage your team</v-col>
                         </v-row>
                         <v-row>
-                            <v-col class="font-weight-bold"><v-icon color="orange" size="14" class="mr-2">mdi-circle</v-icon> Share properties in one click</v-col>
-                            <v-col class="font-weight-bold"><v-icon color="green" size="14" class="mr-2">mdi-circle</v-icon> Never miss opportunities</v-col>
+                            <v-col cols="12" class="font-weight-bold"><v-icon color="orange" size="14" class="mr-2">mdi-circle</v-icon> Share properties in one click</v-col>
+                            <v-col cols="12" class="font-weight-bold"><v-icon color="green" size="14" class="mr-2">mdi-circle</v-icon> Never miss opportunities</v-col>
                         </v-row>
                         <v-alert text color="info" class="mt-8 rounded-xl">
                             <div class="text-capitalize">Your Own Solution | Join the AgentsNest community today!</div>
                         </v-alert>
                     </v-col>
-                    <v-col cols="6">
-                        <v-img src="../assets/Screens/main.png" contain width="100%" @click="videoOne = !videoOne" style="cursor: pointer"></v-img>
-                        <v-dialog v-model="videoOne" width="70%" flat class="transparent">
-                            <v-card flat height="100%" class="transparent">
-                                <!-- <iframe id="ytplayer" type="text/html" src="https://player.vimeo.com/video/122282652?h=104b3eccc2" width="100%" height="400" frameborder="0"></iframe> -->
-                                <video src="../assets/img/demo.mp4" width="100%" height="100%" autoplay></video>
-                            </v-card>
-                        </v-dialog>
+                    <v-col cols="12">
+                        <v-img src="../assets/Screens/main.png" contain width="100%"></v-img>
                     </v-col>
                 </v-row>
 
@@ -75,7 +69,7 @@
                     </v-card-text>
 
                     <v-row class="my-12">
-                        <v-col cols="5">
+                        <v-col md="5" cols="12">
                             <div class="display-1 mb-4 fotn-weight-bold">SELF BRANDING</div>
                             <div class="mb-4">There’s a DESIGN for every occasion and purpose especially curated for you. Customise these unlimited templates, with a wide variety updated each day, and share with your clientele or on your social media, and never miss an opportunity.</div>
                             <ul>
@@ -84,7 +78,7 @@
                                 <li class="mb-3">Share with your clientele or on your social media.</li>
                             </ul>
                         </v-col>
-                        <v-col cols="7">
+                        <v-col md="7" cols="12">
                             <v-img src="../assets/Screens/design.jpg" width="100%"></v-img>
                         </v-col>
                     </v-row>
@@ -95,10 +89,10 @@
                 <v-container>
                     <!-- LEAD GENERATION -->
                     <v-row class="my-12">
-                        <v-col cols="7">
+                        <v-col md="7" cols="12">
                             <v-img src="../assets/Screens/existing.jpg" width="100%"></v-img>
                         </v-col>
-                        <v-col cols="5">
+                        <v-col md="5" cols="12">
                             <div class="display-1 mb-4 fotn-weight-bold">Existing Clients</div>
                             <div class="mb-4">Manage your all existing clients at one place. </div>
                             <div class="mb-4">Keep record of payments.</div>
@@ -111,7 +105,7 @@
 
                     <!-- CRM -->
                     <v-row class="my-12">
-                        <v-col cols="5">
+                        <v-col md="5" cols="12">
                             <div class="display-1 mb-4 fotn-weight-bold">CRM</div>
                             <div class="mb-4">Powered with our in-built tools, AgentsNest offers you the best ‘Customer Relationship Managemnet’ software in the market. It’s simple, yet useful in ways that it does everything at one place. </div>
                             <div class="mb-4">You can connect, share data, track payment, and keep a record of all your clients and their properties. </div>
@@ -123,17 +117,17 @@
                                 <li class="mb-3">Send out pre-available messages curated for every occasion and never miss an opportunity to stay connected with your clients, or build relationships with your leads.</li>
                             </ul>
                         </v-col>
-                        <v-col cols="7">
+                        <v-col md="7" cols="12">
                             <v-img contain src="../assets/Screens/crm.png" width="100%"></v-img>
                         </v-col>
                     </v-row>
 
                     <!-- TRACK ACTIVITY -->
                     <v-row class="my-12">
-                        <v-col cols="5">
+                        <v-col md="5" cols="12">
                             <v-img contain height="420" src="../assets/Screens/tracker.png" width="100%"></v-img>
                         </v-col>
-                        <v-col cols="7">
+                        <v-col md="7" cols="12">
                             <div class="display-1 mb-4 fotn-weight-bold">TRACK ACTIVITY</div>
                             <div class="mb-4">Now track the activity of each feature you operate. Follow up on leads, clients, and team members, open/unopnened timestamp and duration of the files shared with clients and leads so you can turn a hot lead into a potential buyer. </div>
                             <ul>
@@ -147,7 +141,7 @@
             </v-card>
 
         <!-- Builders Logo -->
-            <v-card tile class="py-6">
+            <v-card tile class="py-6 d-none d-md-block">
                 <v-container fluid>
                     <!-- <v-row>
                         <v-col cols="2">
@@ -338,8 +332,8 @@
             </v-card>
 
             <!-- Footer -->
-            <v-card class="pt-12">
-                <v-container>
+            <v-card class="pt-md-12">
+                <v-container class="d-none d-md-block">
                     <v-row>
                         <v-col cols="4">
                             <div class="title font-weight-bold">agnt.</div>
