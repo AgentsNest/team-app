@@ -119,7 +119,7 @@
                                     <div class="mr-2">{{message.text}}</div>
                                     <v-btn class="text-capitalize"
                                         v-if="message"
-                                        :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} %0a ${message.text} %0a ${agentName}`"
+                                        :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} %0a ${message.text} %0a Regards: ${agentName}`"
                                         target="_blank"
                                         @click="addActivityWhatsapp"
                                         icon
