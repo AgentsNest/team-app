@@ -8,23 +8,30 @@
             </template>
         </v-snackbar>
 
-        <v-card class="rounded-xl pa-5 shadow content-card" height="88vh" elevation="0">
+        <v-card class="rounded-xl pa-md-5 shadow content-card" height="88vh" elevation="0">
 
-            <v-toolbar flat>
+            <v-toolbar flat class="d-none d-md-flex">
                 <!-- <v-btn icon class="mr-4" @click="$router.go(-1)">
                     <v-icon size="28" color="grey darken-3">mdi-arrow-left</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer> -->
                 <div class="text-uppercase font-weight-bold">My Team</div>
-                <input type="text" placeholder="Search by Name..." class="search-input ml-6">
+                <input type="text" placeholder="Search by Name..." class="search-input d-none d-md-block">
             </v-toolbar>
 
             <v-card-text>
+              <div class="d-flex justify-space-between mb-5 align-center">
+                <div class="font-weight-bold subtitle-1">My Team ({{teams.length}})</div>
+                <v-btn x-small elevation="1" fab class="white" @click="dialog = !dialog"><v-icon>mdi-plus</v-icon></v-btn>
+              </div>
+
               <v-row>
-                <v-col md="8">
+                <v-col md="8" cols="12">
                     <v-row>
                         <v-col md="6" v-for="(team, index) in teams" :key="index">
-                            <v-list-item class="shadow rounded-lg" height="100%">
+                            <v-list-item class="shadow rounded-lg" height="100%"
+                              :to="{name: 'teamLeads', params:{id: team.id}}"
+                            >
                                 <v-list-item-avatar tile :color="randomColor(team.id)" 
                                   class="white--text rounded-lg title" size="48"
                                 >
@@ -50,7 +57,7 @@
                         </v-col>
                     </v-row>
                 </v-col>
-                <v-col md="4">
+                <v-col md="4" class="d-none d-md-block">
                     <v-card class="pa-5 rounded-lg">
                         <v-img
                             max-width="300"
@@ -76,6 +83,26 @@
             </v-row>
           </v-card-text>
 
+          <!-- new team dialog -->
+          <v-dialog v-model="dialog" width="500">
+            <v-card>
+              <div class="pa-3 grey text-center lighten-2">Add New </div>
+
+              <v-card-text class="py-4">
+                <input type="text" class="input-field" placeholder="Name" v-model="team.name">
+                <input type="text" class="input-field" placeholder="Email" v-model="team.email">
+                <input type="text" class="input-field" placeholder="Password" v-model="team.password">
+                <v-btn 
+                  rounded-md large block dark 
+                  class="text-capitalize grey darken-4" 
+                  @click="SaveTeam"
+                  :loading="loading"
+                >Create account</v-btn>
+              </v-card-text>
+
+            </v-card>
+          </v-dialog>
+
         </v-card>
     </div>
 </template>
@@ -94,13 +121,16 @@ export default {
         snackbar : false,
         teams: [],
         colorCache: {},
+        dialog: false,
+        loader: null,
+        loading: false,
     }),
     methods:{
       async fetchTeam(){
         User.agentTeam()
         .then(response => {
           this.teams = response.data;
-          console.log(response)
+          // console.log(response)
         })
       },
       SaveTeam(){
@@ -111,11 +141,15 @@ export default {
         data.append('contact', this.team.contact)
         data.append('agent_id', this.team.agent_id)
 
+        this.loading = true
+
         User.newTeamAdd(data)
         .then(() => {
           this.fetchTeam();
+          this.loading = false
           this.snackbar = true;
           this.team = ''
+          this.dialog = false;
         })
       },
       randomColor(id) {

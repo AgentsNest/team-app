@@ -9,9 +9,14 @@ import moment from "moment";
 import converter from "number-to-words";
 import InfiniteLoading from "vue-infinite-loading";
 import Vuelidate from "vuelidate";
+
+import TapAndHold from "vue-tap-and-hold";
+Vue.use(TapAndHold, {
+  holdTime: 2000, // default is 1000
+  tapTime: 200, // default is 200
+});
+
 import "./registerServiceWorker";
-
-
 
 Vue.use(VueImg);
 Vue.use(VueKonva);

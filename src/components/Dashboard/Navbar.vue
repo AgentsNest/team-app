@@ -152,6 +152,7 @@ export default {
         { title: 'Websites', icon: 'mdi-web', link: 'MyWebsite' },
         { title: 'Groups', icon: 'mdi-group', link: 'Groups' },
         { title: 'Messages', icon: 'mdi-message-outline', link: 'Message' },
+        { title: 'Team', icon: 'mdi-account-multiple', link: 'Team' },
       ],
     }
   },

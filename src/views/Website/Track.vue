@@ -100,7 +100,8 @@ export default {
             duration: null,
             tracker: null,
             agent: null,
-            lead: null
+            lead: null,
+            agent_id : ''
         }
     },
     created(){
@@ -129,12 +130,13 @@ export default {
             this.time = parseInt(this.time) + 1;
         },
         fetchAgent(){
-            let agent = this.tracker.agent_id;
-            Tracker.agentDetails(agent)
-            .then(response => {
-                this.agent = response.data;
-                // console.log('agent id:', response.data)
-            });
+            let agent = this.agent_id;
+            console.log(agent)
+            // Tracker.agentDetails(agent)
+            // .then(response => {
+            //     this.agent = response.data;
+            //     console.log('agent id:', response.data)
+            // });
         },
         fetchLead(){
             let lead = this.tracker.lead_id;
@@ -144,30 +146,34 @@ export default {
             });
         },
         fetchWebsite(){
-            let website_id = this.tracker.website_id;
+            let website_id = this.$route.params.website;
             Tracker.websiteShowById(website_id)
             .then(response => {
                 this.website = response.data.website;
-                // console.log('website data:',response.data)
+                console.log('website data:',response.data)
             });
         },
         fetchTrackerDetails(){
-            Tracker.fetchWebsiteForSharedTrackById(this.$route.params.tracker)
+            Tracker.fetchWebsiteForSharedTrackById(this.tracker_id)
             .then(response => {
-                this.tracker = response.data
+                console.log(response)
+                this.tracker = response.data.data
+                this.agent_id = response.data.data.agent_id
                 this.fetchAgent();
-                this.fetchLead();
-                this.fetchWebsite();
+                // this.fetchLead();
+                // this.fetchWebsite();
             }).catch(error => {
                 console.log(error)
             })
         }
     },
     mounted(){
-        this.tracker_id = this.$route.params.tracker;
         this.sendRespose();
         this.duration = setInterval(this.incrementTime, 1000);
         this.fetchTrackerDetails();
+    },
+    beforeMount(){
+        this.tracker_id = this.$route.params.tracker;
     }
 }
 </script>

@@ -349,8 +349,14 @@ const routes = [
         path: "/teams",
         name: "Team",
         component: () =>
+          import(/* webpackChunkName: "my-team" */ "../views/Team/Index.vue"),
+      },
+      {
+        path: "/team/:id",
+        name: "teamLeads",
+        component: () =>
           import(
-            /* webpackChunkName: "my-website" */ "../views/Team/Index.vue"
+            /* webpackChunkName: "team-leads" */ "../views/Team/Single.vue"
           ),
       },
 
@@ -397,7 +403,7 @@ const routes = [
   },
   {
     // path: "/w/:tracker/:website",
-    path: "/wt/:tracker",
+    path: "/wt/:website/:tracker",
     name: "trackWebsite",
     component: () =>
       import(

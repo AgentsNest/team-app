@@ -13,23 +13,73 @@
             <v-container>
                 <v-row class="mt-4">
                     <v-col md="4" cols="12" v-for="(website, index) in websites" :key="index">
-                      <router-link :to="{name: 'WebsiteDetails', params:{id: website.slug}}">
                         <v-card>
+                            <router-link :to="{name: 'WebsiteDetails', params:{id: website.slug}}">
                             <v-img
                                 height="180px"
                                 :src="website.website_images[0] ? `https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${website.website_images[0].url}` : 'https://realtsafe-test.s3.ap-south-1.amazonaws.com/Default/property.jpg'"
-                            ></v-img>
+                            >
+                            </v-img>
+                            </router-link>
 
                             <v-card-text class="pa-0">
                               <v-card-title>{{website.title}}</v-card-title>
                               <v-card-subtitle>Total Shared: {{website.trackers.length}}</v-card-subtitle>
+                              <v-btn block @click="dialog = !dialog">
+                                <v-icon left>mdi-pencil</v-icon>
+                                Edit
+                              </v-btn>
                             </v-card-text>
                         </v-card>
-                      </router-link>
                     </v-col>
                 </v-row>
             </v-container>
         </v-card>
+
+        <v-dialog v-model="dialog" width="500">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">Click Me</v-btn>
+          </template>
+
+          <v-card>
+            <v-toolbar dense class="" flat>
+                <v-toolbar-title>Image Gallery</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn icon>
+                    <label for="gallery" class="cursor-pointer flex items-center gap-2">
+                        <v-icon size="38">mdi-plus-circle</v-icon>
+                        <input type="file" multiple hidden ref="files" id="gallery" @change="updateImageList">
+                    </label>
+                </v-btn>
+            </v-toolbar>
+
+            <v-card-text>
+                <v-row>
+                    <v-col 
+                        v-for="(preview, index) in previewImage" :key="index" 
+                        class="d-flex child-flex" cols="4"
+                    >
+                        <v-img
+                            :src="preview.src"
+                            id="image-preview"
+                            aspect-ratio="1"
+                            class="rounded-lg align-end pa-1"
+                        >
+                            <v-btn class="dark" x-small icon @click="setFeatured(preview)"><v-icon color="yellow">mdi-star</v-icon></v-btn>
+                            <v-btn class="dark ml-2" x-small icon @click="clearImage(index)"><v-icon color="red">mdi-delete</v-icon></v-btn>
+                        </v-img>
+                    </v-col>
+                </v-row>
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn small color="grey darken-2" dark>Update</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
 
         <!-- Single Website Details Dialog -->
 
@@ -72,6 +122,9 @@ export default {
         opened: [],
         unopened: [],
         selectedLeads: [],
+        dialog: false,
+        previewImage: [],
+        images: [],
       }
     },
     watch: {
@@ -135,7 +188,30 @@ export default {
           let websiteslug= document.getElementById("websiteslug").value;
           let tracker = this.tracker_id;
 
-          var win = window.open(`https://wa.me/${num}?text=Hi ${leadname} %0a Here is the details for ${website} %0a http://agentsnest-vue.s3-website.ap-south-1.amazonaws.com/w/${tracker}/${websiteslug} `, '_blank');
+           window.open(`https://wa.me/${num}?text=Hi ${leadname} %0a Here is the details for ${website} %0a http://agentsnest-vue.s3-website.ap-south-1.amazonaws.com/w/${tracker}/${websiteslug} `, '_blank');
+      },
+      updateImageList(){
+          var selectedFiles = this.$refs.files.files;
+          // for preview
+          for (let i = 0; i < selectedFiles.length; i++) {
+              let img = {
+                  src: URL.createObjectURL(selectedFiles[i]),
+                  file: selectedFiles[i]
+              }
+              this.previewImage.push(img);
+          }
+          // for post data to server
+          for (let index = 0; index < selectedFiles.length; index++) {
+              this.images.push(selectedFiles[index]);
+          }
+      },
+      setFeatured(preview){
+          var previews = this.previewImage;
+          previews.unshift(preview);
+          previews.pop(preview);
+      },
+      clearImage(index){
+        this.previewImage.splice(index);
       },
     },
     computed:{

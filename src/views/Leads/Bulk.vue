@@ -1,5 +1,11 @@
 <template>
     <div>
+        <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
+            File Uploaded Successfully
+            <template v-slot:action="{ attrs }">
+                <v-btn small color="pink" text v-bind="attrs" @click="snackbar = false">Close</v-btn>
+            </template>
+        </v-snackbar>
         <v-card class="rounded-xl pa-md-10 shadow content-card" height="88vh" elevation="0">
             <v-toolbar flat class="mb-6 d-none d-md-block">
                 <v-btn class="white rounded-lg mr-6" elevation="1" depressed icon @click="$router.go(-1)">
@@ -58,7 +64,7 @@
                                 (Supported format <strong>.CSV</strong> file)
                             </div>
                             <br>
-                            <v-btn large class="gradient rounded-lg px-10" dark @click="uploadLead">
+                            <v-btn large class="gradient rounded-lg px-10" dark @click="uploadLead" :loading="loading">
                                 <v-icon left>mdi-tray-arrow-up</v-icon>
                                 Start Processing
                             </v-btn>
@@ -107,6 +113,7 @@ export default {
                 property_type: '',
                 agent_id: null
             },
+            loading: false
         }
     },
     methods:{
@@ -114,6 +121,7 @@ export default {
             this.mycsv = this.$refs.mycsv.files[0];
         },
         uploadLead(){
+            this.loading = true
             let formData = new FormData();
             formData.append('mycsv', this.mycsv);
 
@@ -122,6 +130,7 @@ export default {
             })
             .then(() => {
                 this.snackbar = true;
+                this.loading = false
             })
             .catch(error => {
                 this.errors = error.response.data.errors;

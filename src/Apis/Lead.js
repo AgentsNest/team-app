@@ -61,4 +61,9 @@ export default {
   getFollowups() {
     return Api().get("/getFollowups");
   },
+
+  // Team Leads API's
+  getTeamMemberLead(param) {
+    return Api().get("/allLeadsByTeamMember/" + param);
+  },
 };

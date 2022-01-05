@@ -63,7 +63,11 @@
                 </div>
             </v-card>
 
-            <v-btn block class="py-6 mt-3 rounded-lg gradient" dark @click="saveLead">Save Leads</v-btn>
+            <v-btn block class="py-6 mt-3 rounded-lg gradient" 
+                dark 
+                @click="saveLead"
+                :loading="loading"
+            >Save Leads</v-btn>
 
             <!-- <v-container>
                 <v-row>
@@ -134,13 +138,16 @@ export default {
             property_type: '',
             agent_id: null
         },
+        loading: false
       }
     },
     methods:{
         saveLead(){
+            this.loading = true
             Lead.new(this.lead)
             .then(() => {
                 this.snackbar = true;
+                this.loading = false
                 this.lead.name = "", 
                 this.lead.contact = "",
                 this.lead.address = "",
