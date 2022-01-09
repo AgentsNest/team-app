@@ -21,6 +21,10 @@ export default {
     return Api().get("/user");
   },
 
+  vcard(params) {
+    return Api().get("/me/" + params);
+  },
+
   authForUpdate() {
     return Api().get("/userForUpdate");
   },

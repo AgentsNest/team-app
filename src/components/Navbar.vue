@@ -10,7 +10,7 @@
 
           <v-btn text class="text-capitalize">Gallery</v-btn>
 
-          <v-btn outlined text class="text-capitalize mr-5" to="/login">Login</v-btn>
+          <!-- <v-btn outlined text class="text-capitalize mr-5" to="/login">Login</v-btn> -->
 
           <v-menu left bottom>
             <template v-slot:activator="{ on, attrs }">

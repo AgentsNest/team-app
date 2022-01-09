@@ -1,7 +1,7 @@
 <template>
   <div>
       <v-row>
-            <v-col md="4">
+            <v-col md="4" class="d-none d-md-flex">
                 <Sidebar />
             </v-col>
             <v-col md="8">

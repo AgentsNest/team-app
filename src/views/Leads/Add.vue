@@ -161,6 +161,7 @@ export default {
                 this.lead.status = "",
                 this.lead.property_type =  "",
                 this.lead.agent_id =  null
+                this.$router.push('/m-leads');
             })
             .catch(error => {
                 this.errors = error.response.data.errors;

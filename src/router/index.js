@@ -17,7 +17,7 @@ const routes = [
       import(/* webpackChunkName: "privacy" */ "../views/Pages/Privacy.vue"),
   },
   {
-    path: "/login",
+    path: "/agnt/auth/login",
     name: "Login",
     component: () =>
       import(/* webpackChunkName: "login" */ "../views/Auth/Login.vue"),
@@ -31,7 +31,7 @@ const routes = [
       ),
   },
   {
-    path: "/register",
+    path: "/agnt/auth/register",
     name: "Register",
     component: () => import("../views/Auth/Register.vue"),
     meta: { guestOnly: true },
@@ -305,6 +305,14 @@ const routes = [
           ),
       },
       {
+        path: "/webhook",
+        name: "payWebhook",
+        component: () =>
+          import(
+            /* webpackChunkName: "paywebhook" */ "../views/Webhook/Index.vue"
+          ),
+      },
+      {
         path: "/setting/membership",
         name: "Membership",
         component: () =>
@@ -419,6 +427,12 @@ const routes = [
       ),
   },
   {
+    path: "/wallet",
+    name: "Wallet",
+    component: () =>
+      import(/* webpackChunkName: "wallet" */ "../views/Setting/Wallet.vue"),
+  },
+  {
     path: "/feedback",
     name: "Feedback",
     component: () =>
@@ -429,6 +443,12 @@ const routes = [
     name: "About",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
+  },
+  {
+    path: "/me/:uid",
+    name: "vCard",
+    component: () =>
+      import(/* webpackChunkName: "vCard" */ "../views/Auth/vcard.vue"),
   },
 ];
 

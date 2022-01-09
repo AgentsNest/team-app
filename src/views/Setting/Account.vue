@@ -12,40 +12,52 @@
             </v-col>
             <v-col md="8" cols="12">
                 <v-card height="88vh" flat class="content-card transparent">
-                    <v-card class="mb-5 rounded-xl" flat>
-                        <v-card-actions class="px-6 py-6 d-block d-md-flex">
-                            <v-img
-                                :src="preview ? preview : agent.brand_logo"
-                                max-height="40px"
-                                aspect-ratio="2"
-                                contain
-                            ></v-img>
-                            <div class="ml-8">
-                                <span class="d-none d-md-block">Company Logo</span> <br/>
-                                <span class="caption grey--text">Allowed JPG, GIF or PNG. Max size of 800K</span>
-                            </div>
-                            <v-spacer></v-spacer>
-                            <label for="brandLogo" class="brandLogoLabel">
-                                Upload
-                                <input type="file" id="brandLogo" hidden accept="image/*" @change="previewLogo"/>
-                            </label>
-                        </v-card-actions>
-                    </v-card>
 
-                <!-- Update Button -->
-                <v-btn fab class="teal update-btn" @click="saveDetails()"><v-icon color="white">mdi-content-save</v-icon></v-btn>
+                    <!-- Update Button -->
+                    <v-btn class="teal update-btn white--text text-capitalize" @click="saveDetails()">
+                        <v-icon left color="white">mdi-content-save</v-icon>
+                        Update
+                    </v-btn>
 
+                    <div>Your Token for zapier: {{token}}</div>
 
-                <!-- Agent Avatar -->
+                    <!-- Agent Avatar -->
                     <v-card class="rounded-xl mb-5 content-card" flat>
-                        <v-toolbar flat class="mt-8 mb-10">
+                        <v-toolbar flat>
+                            <v-spacer></v-spacer>
+                            
+                            <v-menu offset-y>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn fab small depressed class="grey lighten-4"  v-bind="attrs" v-on="on">
+                                        <v-icon>mdi-share-variant-outline</v-icon>
+                                    </v-btn>
+                                </template>
+                                <v-list dense elevation="0" class="py-0">
+                                    <v-list-item link ><v-list-item-title>
+                                        Share via 
+                                        <v-icon size="16">mdi-whatsapp</v-icon>
+                                    </v-list-item-title></v-list-item>
+                                    <v-list-item link><v-list-item-title>
+                                        Share via 
+                                        <v-icon size="16">mdi-message-text-outline</v-icon>
+                                    </v-list-item-title></v-list-item>
+                                    <v-list-item link><v-list-item-title>
+                                        Share via 
+                                        <v-icon size="16">mdi-email</v-icon>
+                                    </v-list-item-title></v-list-item>
+                                </v-list>
+                                </v-menu>
+                        </v-toolbar>
+
+                        <!-- <v-toolbar flat class="d-none d-md-flex">
                             <v-img 
                                 :src="avatarPreview ? avatarPreview : agent.image"
-                                max-width="120"
-                                max-height="120"
-                                class="rounded-lg align-end text-right mt-4"
+                                max-height="160px"
+                                aspect-ratio="1"
+                                contain
+                                class="text-end mx-auto rounded-xl"
                             >
-                                <v-btn fab depressed color="grey" small>
+                                <v-btn fab depressed color="grey lighten-3" x-small>
                                     <label for="brandAvatar">
                                         <v-icon class="cursor-pointer">mdi-camera</v-icon>
                                         <input type="file" id="brandAvatar" hidden accept="image/*" @change="previewAvatar"/>
@@ -53,14 +65,27 @@
                                 </v-btn>
                             </v-img>
                             <v-spacer></v-spacer>
-                            <!-- <div class="title">Change Information here</div> -->
+                            <div class="title">Change Information here</div>
                             <v-spacer></v-spacer>
                             <v-btn 
                                 class="white--text rounded-lg d-none d-md-block" 
                                 @click="saveDetails()"
                                 :class="success == true ? 'gradient' : 'grey darken-4'"
                             >{{submitBtn}}</v-btn>
-                        </v-toolbar>
+                        </v-toolbar> -->
+                        <div class="text-center">
+                            <v-avatar size="130">
+                                <img 
+                                    :src="avatarPreview ? avatarPreview : agent.image"
+                                    :lazy-src="avatarPreview ? avatarPreview : agent.image"
+                                >
+                                    <label for="brandAvatar" class="uploadAvatarBtn">
+                                        <v-icon color="grey lighten-1">mdi-camera</v-icon>
+                                        <!-- <span class="caption">change</span> -->
+                                        <input type="file" id="brandAvatar" hidden accept="image/*" @change="previewAvatar"/>
+                                    </label>
+                            </v-avatar>
+                        </div>
 
                         <v-card-text>
                             <v-row>
@@ -82,7 +107,10 @@
                                 </v-col>
                             </v-row>
                         </v-card-text>
+                    </v-card>
                         
+                    <!-- Basic Info -->
+                    <v-card class="rounded-xl mb-5 content-card" flat>        
                         <v-card-title>Basic Info</v-card-title>
                         <v-card-text>
                             <textarea rows="6" placeholder="About You" class="search-input mb-6" v-model="agent.bio"></textarea>
@@ -101,7 +129,58 @@
                                 </v-col>
                             </v-row>
                         </v-card-text>
+                    </v-card>
 
+                    <!-- Business Details -->
+                    <v-card class="rounded-xl mb-5 content-card" flat>
+                        <v-card-title>Business Details</v-card-title>
+
+                        <div>
+                            <v-img
+                                :src="preview ? preview : agent.brand_logo"
+                                max-width="160px"
+                                aspect-ratio="2"
+                                contain
+                                class="text-end mx-auto"
+                            >
+                                <v-btn fab depressed color="grey lighten-3" x-small>
+                                    <label for="brandLogo">
+                                        <v-icon class="cursor-pointer">mdi-camera</v-icon>
+                                        <input type="file" id="brandLogo" hidden accept="image/*" @change="previewLogo"/>
+                                    </label>
+                                </v-btn>
+                            </v-img>
+                            <div class="text-center">
+                                <span class="caption font-weight-bold">Company Logo</span> <br/>
+                                <span class="caption grey--text">Allowed JPG, GIF or PNG. Max size of 800K</span>
+                            </div>
+                        </div>
+
+                        <!-- <v-card-actions class="px-6 py-6">
+                            <label for="brandLogo" class="brandLogoLabel">
+                                Upload
+                                <input type="file" id="brandLogo" hidden accept="image/*" @change="previewLogo"/>
+                            </label>
+                        </v-card-actions> -->
+                        <v-card-text>
+                            <v-row>
+                                <v-col md="6" cols="12">
+                                    <label>Company Name</label>
+                                    <input type="text" class="search-input" v-model="agent.brand_text">
+                                </v-col>
+                                <v-col md="6" cols="12">
+                                    <label>RERA
+                                        <span v-if="verified" class="red--text ml-1 font-weight-bold caption">
+                                        (not verified)</span> 
+                                    </label>
+                                    <input type="text" class="search-input" v-model="agent.rera" placeholder="RERA Number">
+                                </v-col>
+                            </v-row>
+                        </v-card-text>
+                    </v-card>
+
+                    <!-- Social Links -->
+                    <v-card class="rounded-xl mb-5 content-card" flat>
                         <v-card-title>Social Links</v-card-title>
                         <v-card-text>
                             <v-row>
@@ -123,29 +202,6 @@
                                 </v-col>
                             </v-row>
                         </v-card-text>
-
-                    </v-card>
-
-                    <!-- Business Details -->
-                    <v-card class="rounded-xl mb-5 content-card" flat>
-                        
-                        <v-card-title>Business Details</v-card-title>
-                        <v-card-text>
-                            <v-row>
-                                <v-col md="6" cols="12">
-                                    <label>Company Name</label>
-                                    <input type="text" class="search-input" v-model="agent.brand_text">
-                                </v-col>
-                                <v-col md="6" cols="12">
-                                    <label>RERA
-                                        <span v-if="verified" class="red--text ml-1 font-weight-bold caption">
-                                        (not verified)</span> 
-                                    </label>
-                                    <input type="text" class="search-input" v-model="agent.rera" placeholder="RERA Number">
-                                </v-col>
-                            </v-row>
-                        </v-card-text>
-
                     </v-card>
 
                 </v-card>
@@ -184,7 +240,8 @@ export default {
             submitBtn: "Update",
             success: false,
             verified: true,
-            avatarPreview: ''
+            avatarPreview: '',
+            token: ''
         }
     },
     methods: {
@@ -193,6 +250,7 @@ export default {
             .then((response) => {
                 this.snackbar = true
                 // console.log(response);
+                this.fetchUser();
             });
         },
         previewLogo(e) {
@@ -219,12 +277,15 @@ export default {
                 this.agent.image = e.target.result;
             };
         },
+        fetchUser(){
+            User.authForUpdate().then((response) => {
+                this.agent = response.data.data;
+            });
+        }
     },
     beforeMount(){
-        User.authForUpdate().then((response) => {
-            this.agent = response.data.data;
-            // console.log(response)
-        });
+        this.fetchUser();
+        this.token = localStorage.getItem('token');
     }
 }
 </script>
@@ -261,5 +322,14 @@ export default {
 .gradient{
   background-image: linear-gradient(to right, #0ba360, #3cba92);
   box-shadow: 0 4px 15px 0 rgba(23, 168, 108, 0.75);
+}
+.uploadAvatarBtn{
+    position: absolute;
+    bottom: 0;
+    background: rgba(0,0,0,.4);
+    color: #ededed;
+    width: 100%;
+    padding: 5px;
+    cursor: pointer;
 }
 </style>    

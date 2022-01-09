@@ -2,9 +2,9 @@
     <div>
         <v-card class="rounded-xl shadow" elevation="0">
             <v-toolbar flat>
-                <v-btn width="50%" class="rounded-l-xl text-capitalize dark" dark depressed :to="{name: 'MyWebsite'}">My Websites</v-btn>
+                <v-btn width="50%" class="rounded-l-xl text-capitalize dark" dark depressed :to="{name: 'MyWebsite'}">My Projects</v-btn>
                 <v-spacer></v-spacer>
-                <v-btn width="50%" class="rounded-r-xl text-capitalize" depressed :to="{name: 'Website'}">All Websites</v-btn>
+                <v-btn width="50%" class="rounded-r-xl text-capitalize" depressed :to="{name: 'Website'}">All Projects</v-btn>
             
             </v-toolbar>
         </v-card>

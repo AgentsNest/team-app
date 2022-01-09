@@ -1,23 +1,26 @@
 <template>
   <div>
-    <v-card class="rounded-xl pa-5 shadow content-card" height="88vh" elevation="0">
+    <v-card class="rounded-xl pa-md-5 shadow content-card" height="88vh" elevation="0">
 
       <v-toolbar flat>
-          <div class="font-weight-bold text-h6">My Ads ({{ads.length}})</div>
+          <div class="font-weight-bold md-text-h6 title">My Ads ({{ads.length}})</div>
           <v-spacer></v-spacer>
-          <v-btn large small depressed class="text-capitalize rounded-lg blue-grey darken-3" dark :to="{name: 'CreateNewAd'}">
+          <v-btn large small depressed class="d-none d-md-flex text-capitalize rounded-lg blue-grey darken-3" dark :to="{name: 'CreateNewAd'}">
             <v-icon left>mdi-plus</v-icon>
             Post New Ad
+          </v-btn>
+          <v-btn small fab class="blue-grey darken-3" dark :to="{name: 'CreateNewAd'}">
+            <v-icon>mdi-plus</v-icon>
           </v-btn>
       </v-toolbar>
 
       <v-card-text>
 
         <v-row>
-          <v-col v-for="ad in ads" :key="ad.id" cols="6"> 
+          <v-col v-for="ad in ads" :key="ad.id" cols="12" md="6"> 
             <v-card class="rounded-lg">
 
-              <v-card-title>{{ad.heading}}</v-card-title>
+              <v-card-title class="text-capitalize">{{ad.heading}}</v-card-title>
               <v-card-subtitle>Budget: 15000</v-card-subtitle>
 
               <v-card-text>

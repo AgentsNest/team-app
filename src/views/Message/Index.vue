@@ -7,36 +7,38 @@
             </template>
         </v-snackbar>
 
-        <v-card class="rounded-xl pa-2 shadow content-card" elevation="0" height="88vh">
+        <v-card class="rounded-xl shadow content-card" elevation="0" height="88vh">
+
             <!-- <v-toolbar flat>
                 <div class="font-weight-bold text-h6">Messages</div>
                 <v-spacer></v-spacer>
-                <input type="text" placeholder="Search message..." class="search-input">
+                <v-btn fab small depressed @click="addMsgBox = !addMsgBox"><v-icon>mdi-plus</v-icon></v-btn>
             </v-toolbar> -->
 
-            <v-toolbar flat>
-                <div class="font-weight-bold text-h6">Messages</div>
-                <v-spacer></v-spacer>
-                <v-btn fab small depressed @click="addMsgBox = !addMsgBox"><v-icon>mdi-plus</v-icon></v-btn>
-            </v-toolbar>
+            <v-tabs color="basil" grow>
+                <v-tab class="text-capitalize">My Msg</v-tab>
+                <v-tab class="text-capitalize">Sample Msg</v-tab>
+
+                <!-- Content -->
+                <v-tab-item>
+                    <v-card height="80vh" class="overflow-y-auto">
+                        <v-btn class="addNewMsg white" fab @click="addMsgBox = !addMsgBox"><v-icon>mdi-plus</v-icon></v-btn>
+                        <div v-if="addMsgBox">
+                            <textarea rows="3" placeholder="Add message..." class="search-input" v-model="form.text"></textarea>
+                            <v-btn block class="mt-2" large dark @click="newMessage">Create Message</v-btn>
+                        </div>
+                        <v-card v-for="text in myMsg" :key="text.id" class="rounded-lg mb-3" elevation="1">
+                            <v-card-text><strong>Hi, @clientName -</strong> <br> {{text.text}} <strong><br> Regards: <br> @yourName</strong></v-card-text>
+                        </v-card>
+                    </v-card>
+                </v-tab-item>
+                <v-tab-item>
+                    <v-card class="rounded-lg mb-3" elevation="1" v-for="message in messages" :key="message.id">
+                        <v-card-text><strong>Hi, @clientName -</strong> <br> {{message.text}} <strong><br> Regards: <br> @yourName</strong></v-card-text>
+                    </v-card>
+                </v-tab-item>
+            </v-tabs>
             
-            <v-card-text>
-                <v-row>
-                    <v-col md="4" cols="12" v-if="addMsgBox">
-                        <textarea rows="3" placeholder="Add message..." class="search-input" v-model="form.text"></textarea>
-                        <v-btn block class="mt-2" large dark @click="newMessage">Create Message</v-btn>
-                    </v-col>
-                    <v-col md="8" cols="12">
-                        <v-row>
-                            <v-col md="6" cols="12" v-for="message in messages" :key="message.id">
-                                <v-card class="align-stretch" height="100%">
-                                    <v-card-text><strong>Hi, @clientName -</strong> <br> {{message.text}} <strong><br> Regards: <br> @yourName</strong></v-card-text>
-                                </v-card>
-                            </v-col>
-                        </v-row>
-                    </v-col>
-                </v-row>
-            </v-card-text>
         </v-card>
 
         
@@ -54,6 +56,7 @@ export default {
         loading: false,
         snackbar: false,
         messages:[],
+        myMsg:[],
         form:{
             text: '',
             type: 'agent',
@@ -69,9 +72,11 @@ export default {
             });
         },
         fetchData(){
-            Other.messageSample().then(response => {
+            Other.allMessage().then(response => {
                 this.messages = response.data.data;
-                // console.log(response.data)
+            });
+            Other.myMessage().then(response => {
+                this.myMsg = response.data.data;
             });
         },
         newMessage(){
@@ -85,6 +90,7 @@ export default {
             .then((response) => {
                 this.fetchData();
                 this.snackbar = true
+                this.addMsgBox = false
             })
             .catch(error => {
                 console.log(error);
@@ -110,22 +116,9 @@ export default {
   max-width: 400px;
   box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
 }
-.folder{
-    border-radius: 3px;
-    height: 100px;
-    position: relative;
-    border-radius: 0 0 10px 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-.folder-handle{
+.addNewMsg{
     position: absolute;
-    top: -12px;
-    left: 0;
-    height: 12px;
-    width:75px;
-    border-radius: 10px 10px 0px 0px;
+    bottom: 5vh;
+    right: 15px;
 }
 </style>

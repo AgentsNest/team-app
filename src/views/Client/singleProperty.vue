@@ -1,5 +1,13 @@
 <template>
     <div>
+        <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000"
+        >
+            {{snackbarText}}
+            <template v-slot:action="{ attrs }">
+                <v-btn small color="pink" text v-bind="attrs" @click="snackbar = false">Close</v-btn>
+            </template>
+        </v-snackbar>
+
         <v-card class="rounded-xl pa-0 shadow content-card overflow-y-auto" height="88vh" elevation="0">
             <v-img
                 :src="
@@ -218,7 +226,7 @@
                                             <th class="text-left">Title</th>
                                             <th class="text-left">Amount</th>
                                             <th class="text-left">File</th>
-                                            <th class="text-left">Actions</th>
+                                            <th class="text-center">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -231,9 +239,12 @@
                                                 </v-btn>
                                                 <div v-else>no file</div>
                                             </td>
-                                            <td>
-                                                <v-btn x-small fab elevation="1" class="rounded-xl text-capitalize" @click="editPayment(payment.id)">
+                                            <td class="text-center">
+                                                <v-btn small icon class="rounded-xl text-capitalize" @click="editPayment(payment.id)">
                                                     <v-icon size="16">mdi-pencil</v-icon>
+                                                </v-btn>
+                                                <v-btn small icon class="rounded-xl text-capitalize" @click="deletePropertyPayment(payment.id)">
+                                                    <v-icon size="16">mdi-trash-can-outline</v-icon>
                                                 </v-btn>
                                             </td>
                                         </tr>
@@ -372,6 +383,8 @@ export default {
     data(){
         return {
             property: '',
+            snackbar: false,
+            snackbarText: '',
             dialog: false,
             payment:{
                 title: '',
@@ -430,6 +443,14 @@ export default {
                 this.fetchData()
             })
         },
+        deletePropertyPayment(payment){
+            Client.deletePropertyPayment(payment)
+            .then(() => {
+                this.snackbarText = 'Payment Deleted';
+                this.snackbar = true;
+                this.fetchData();
+            })
+        },
         updateProperty(){
             let form = new FormData();
             form.append('amount', this.payment.amount)
@@ -481,15 +502,11 @@ export default {
         },
         uploadPaymentFile(e){
             let file = e.target.files[0];
-
             let reader = new FileReader();
-
             reader.readAsDataURL(file);
-
             reader.onload = (e) => {
                 this.singlePayment = e.target.result;
             };
-                
         },
         updatePayment(){
             let form = new FormData();

@@ -19,11 +19,25 @@
                     v-model="search" label="Search" single-line hide-details v-if="searchInput"
                 ></v-text-field>
             </div>
+
+            <!-- checkbox actions -->
+            <v-toolbar v-if="multipleActionToolbar">
+                <div class="d-flex align-center">
+                    <!-- <v-checkbox v-model="selectAll" class="mr-2"></v-checkbox> -->
+                    <input type="checkbox" v-model="selectAll" class="mr-2">Select all
+                    <div v-if="selectedLeads.length" class="caption">Selected ({{selectedLeads.length}})</div>
+                </div>
+                <v-spacer></v-spacer>
+                <v-btn text class="text-capitalize" small depressed @click="deleteMultipleLead">
+                    <v-icon small>mdi-trash-can-outline</v-icon>
+                    delete
+                </v-btn>
+            </v-toolbar>
             
 
             <v-card height="80vh" class="overflow-y-auto pb-8" flat>
-                <v-card v-for="lead in filterLead" :key="lead.id" v-hold="onTap" tile outlined>
-                    <v-card-actions>
+                <v-card v-for="lead in filterLead" :key="lead.id" v-hold="onTap" tile class="mt-1 rounded-lg" elevation="2">
+                    <v-card-actions class="pa-3">
                         <v-checkbox class="" refs="checkItem" :value="lead.id" v-model="selectedLeads" v-if="actionBtn"></v-checkbox>
                         <div>
                             <span class="font-weight-bold">{{ lead.name }}</span> <br>
@@ -34,8 +48,9 @@
                                 </div>
                             </div>
                             <div>
-                                <v-chip x-small class="mr-1 red lighten-4">Wason</v-chip>
-                                <v-chip x-small class="mr-1 teal lighten-4">Sushma</v-chip>
+                                <v-chip x-small class="mr-1 red lighten-4">{{lead.status}}</v-chip>
+                                <v-chip x-small class="mr-1 teal lighten-4" v-if="lead.group_id">{{lead.group_id}}</v-chip>
+                                <v-chip x-small class="mr-1 purple lighten-4" v-if="lead.team_id">{{lead.team_id}}</v-chip>
                             </div>
                         </div>
                         <v-spacer></v-spacer>
@@ -83,7 +98,7 @@
                 transition="dialog-bottom-transition"
             >
                 <v-card tile>
-                    <v-toolbar flat>
+                    <v-toolbar elevation="1">
                         <v-btn icon @click="drawer = false"><v-icon>mdi-close</v-icon></v-btn>
                         <v-spacer></v-spacer>
 
@@ -91,9 +106,9 @@
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn class="text-capitalize" text v-bind="attrs" v-on="on">Options</v-btn>
                             </template>
-                            <v-list dense flat elevation="0">
+                            <v-list dense flat elevation="0" class="py-0">
                                 <v-list-item @click="groupDailog = !groupDailog">
-                                    <v-list-item-title>Update Group</v-list-item-title>
+                                    <v-list-item-title>Add To Group</v-list-item-title>
                                 </v-list-item>
                                 <v-list-item @click="statusDailog = !statusDailog">
                                     <v-list-item-title>Lead Status</v-list-item-title>
@@ -101,29 +116,46 @@
                                 <v-list-item @click="teamDailog = !teamDailog">
                                     <v-list-item-title>Assign Team</v-list-item-title>
                                 </v-list-item>
+                                <v-btn text small class="text-capitalize red lighten-4" block tile @click="deleteLead(lead.id)">
+                                    Delete
+                                </v-btn>
                             </v-list>
                         </v-menu>
 
                     </v-toolbar>
-                    <v-card-title>{{lead.name}}</v-card-title>
+
+                    
                     <v-simple-table>
                         <tbody>
+                            <tr><td>Name</td><td><strong>{{lead.name}}</strong></td></tr>
                             <tr><td>Email</td><td>{{lead.email}}</td></tr>
                             <tr><td>Contact</td><td>{{lead.contact}}</td></tr>
                             <tr><td>City</td><td>{{lead.city}}</td></tr>
-                            <tr>
-                                <td>Lead Status</td>
-                                <td>
-                                    <v-chip class="ma-2" color="pink" label text-color="white">
-                                        {{lead.status}}
-                                    </v-chip>
-                                </td>
-                            </tr>
-                            <tr><td>Assign To</td><td>{{lead.team_id}}</td></tr>
                         </tbody>
                     </v-simple-table>
 
-                    <v-bottom-navigation color="teal" grow flat class="mb-3">
+                    <v-row no-gutters>
+                        <v-col cols="4">
+                            <v-card tile class=" text-center" elevation="1" height="80">
+                                <div class="grey darken-1 white--text caption pa-1">Group</div>
+                                <v-card-subtitle>{{lead.group_id}}</v-card-subtitle>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="4">
+                            <v-card tile class="text-center" elevation="1" height="80">
+                                <div class="grey darken-1 white--text caption pa-1">Status</div>
+                                <v-card-subtitle>{{lead.status}}</v-card-subtitle>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="4">
+                            <v-card tile class="text-center" elevation="1" height="80">
+                                <div class="grey darken-1 white--text caption pa-1">Team</div>
+                                <v-card-subtitle>{{lead.team_id}}</v-card-subtitle>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+
+                    <v-bottom-navigation color="teal" grow flat class="my-3">
                         <v-btn @click="callNow" :href="`tel:${lead.contact}`">
                             <span>Call</span>
                             <v-icon>mdi-phone</v-icon>
@@ -147,17 +179,34 @@
                 ********************************** -->
                     <v-bottom-sheet v-model="whatsappShare">
                         <v-card flat tile height="450" class="overflow-y-auto">
-                            <v-card v-for="message in messages" :key="message.id" class="mb-3">
-                                <v-card-text class="d-flex align-center">
-                                    <div class="mr-2">{{message.text}}</div>
-                                    <v-btn class="text-capitalize"
-                                        icon
-                                        @click="showSelectedMessage(message.text)"
-                                    >
-                                        <v-icon color="grey">mdi-chevron-right</v-icon>
-                                    </v-btn>
-                                </v-card-text>
-                            </v-card>
+                            <v-tabs color="basil" grow>
+                                <v-tab class="text-capitalize">My Msg</v-tab>
+                                <v-tab class="text-capitalize">Sample Msg</v-tab>
+
+                                <!-- Content -->
+                                <v-tab-item>
+                                    <v-card tile elevation="1" class="pa-2" v-for="text in myMsg" :key="text.id">
+                                        <v-card-actions>
+                                            <div class="caption">{{text.text}}</div>
+                                            <v-spacer></v-spacer>
+                                            <v-btn class="text-capitalize" icon @click="showSelectedMessage(text.text)">
+                                                <v-icon color="grey">mdi-chevron-right</v-icon>
+                                            </v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-tab-item>
+                                <v-tab-item>
+                                    <v-card class="rounded-lg mb-1 pa-2" elevation="1" v-for="message in messages" :key="message.id">
+                                        <v-card-actions>
+                                            <div class="caption">{{message.text}}</div>
+                                            <v-spacer></v-spacer>
+                                            <v-btn class="text-capitalize" icon @click="showSelectedMessage(message.text)">
+                                                <v-icon color="grey">mdi-chevron-right</v-icon>
+                                            </v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-tab-item>
+                            </v-tabs>
                         </v-card>
                     </v-bottom-sheet>
                     <v-dialog v-model="editMessageWindow" width="500">
@@ -183,6 +232,12 @@
                                     target="_blank"
                                     @click="addActivityMessage"
                                 ><v-icon>mdi-message-text-outline</v-icon></v-btn>
+                                <v-btn 
+                                    fab x-small elevation="1" class="red lighten-1" dark
+                                    :href="`mailto:${lead.email}?body=${selectedMsg} %0a Regards, %0a ${agentName}`"
+                                    target="_blank"
+                                    @click="addActivityEmail"
+                                ><v-icon>mdi-email</v-icon></v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-dialog>
@@ -206,39 +261,43 @@
                                 </v-list-item-content>
 
                                 <v-btn class="text-capitalize blue darken-2" dark small
-                                    @click="shareNow(lead, website)"
+                                    @click="showSelectedWebsiteMessage(lead, website)"
                                 >
+                                    <!-- @click="shareNow(lead, website)" -->
                                     Select
                                 </v-btn>
                                 <!-- :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} %0a Here is the details for ${website.title} %0a http://localhost:3000/wt/${tracker_id}`"
                                     target="_blank" -->
+
+                                <v-dialog v-model="editWebsiteWindow" width="500">
+                                    <v-card class="pt-5 px-2 rounded-lg">
+                                        <!-- <div class="text-h6 pa-3 grey lighten-2">Send Message</div> -->
+                                        <v-textarea outlined v-model="selectedWebsiteMsg" class="px-2"></v-textarea>
+                                        <v-divider></v-divider>
+                                        <v-card-actions>
+                                            <span class="grey--text text--darken-2">Share Via:</span>
+                                            <v-spacer></v-spacer>
+                                            <v-btn @click="shareNow(lead, website)">Share</v-btn>
+                                            <!-- <v-btn 
+                                                fab x-small elevation="1" class="green" dark
+                                                :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} %0a ${selectedWebsiteMsg} %0a Regards: ${agentName}`"
+                                                target="_blank"
+                                                @click="addActivityWhatsapp"
+                                            ><v-icon>mdi-whatsapp</v-icon></v-btn>
+                                            <v-btn 
+                                                fab x-small elevation="1" class="blue lighten-1" dark
+                                                :href="`sms:${lead.contact}&body=Hi ${lead.name} %0a ${selectedWebsiteMsg} %0a Regards, %0a ${agentName}`"
+                                                target="_blank"
+                                                @click="addActivityMessage"
+                                            ><v-icon>mdi-message-text-outline</v-icon></v-btn> -->
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-dialog>
+                                
                             </v-list-item>
                         </v-list>
                     </v-bottom-sheet>
-                    <v-dialog v-model="editWebsiteWindow" width="500">
-                        <v-card class="pt-5 px-2 rounded-lg">
-                            <!-- <div class="text-h6 pa-3 grey lighten-2">Send Message</div> -->
-                            <v-textarea outlined v-model="selectedWebsiteMsg" class="px-2"></v-textarea>
-                            <v-divider></v-divider>
-                            <v-card-actions>
-                                <span class="grey--text text--darken-2">Share Via:</span>
-                                <v-spacer></v-spacer>
-                                <v-btn @click="shareNow(lead, website)">Share</v-btn>
-                                <v-btn 
-                                    fab x-small elevation="1" class="green" dark
-                                    :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} %0a ${selectedWebsiteMsg} %0a Regards: ${agentName}`"
-                                    target="_blank"
-                                    @click="addActivityWhatsapp"
-                                ><v-icon>mdi-whatsapp</v-icon></v-btn>
-                                <v-btn 
-                                    fab x-small elevation="1" class="blue lighten-1" dark
-                                    :href="`sms:${lead.contact}&body=Hi ${lead.name} %0a ${selectedWebsiteMsg} %0a Regards, %0a ${agentName}`"
-                                    target="_blank"
-                                    @click="addActivityMessage"
-                                ><v-icon>mdi-message-text-outline</v-icon></v-btn>
-                            </v-card-actions>
-                        </v-card>
-                    </v-dialog>
+                    
 
                 <!-- ******************************** 
                         Update Group Dialog 
@@ -384,7 +443,6 @@
 
 <script>
 import Lead from '../../Apis/Lead'
-import Group from '../../Apis/Other'
 import User from '../../Apis/User'
 import Website from '../../Apis/Website'
 import Tracker from '../../Apis/Tracker'
@@ -451,7 +509,8 @@ export default {
         opened: [],
         unopened: [],
         websiteShareConfirmation: false,
-        messages: [],
+        messages:[],
+        myMsg:[],
         whatsappShare: false,
         websiteName: '',
         leadStatus:[
@@ -480,22 +539,24 @@ export default {
         editWebsiteWindow: false,
         actionBtn: false,
         searchInput: false,
-        selectedWebsiteMsg: 'he ghghjghj hghjghjghgghj',
+        selectedWebsiteMsg: '',
+        multipleActionToolbar: false
       }
     },
     methods:{
         onTap(){
             this.actionBtn = !this.actionBtn
+            this.multipleActionToolbar = !this.multipleActionToolbar
         },
         async fetchData(){
             Lead.auth().then(response => {
                 this.leads = response.data.data;
-                this.total_leads = response.data.total;
-                // console.log(response.data)
+                this.total_leads = response.data.data.length;
+                // console.log(response.data.data.length)
             });
         },
         async fetchGroups(){
-            Group.userGroup().then(response => {
+            Other.userGroup().then(response => {
                 this.groups = response.data;
             });
         },
@@ -526,15 +587,43 @@ export default {
         },
         whatsappShareDialog(){
             this.whatsappShare = true;
-            Group.messageSample().then(response => {
+            Other.allMessage().then(response => {
                 this.messages = response.data.data;
+            });
+            Other.myMessage().then(response => {
+                this.myMsg = response.data.data;
             });
         },
         detailsSidebar(lead){
             this.drawer = true
             Lead.details(lead).then(response => {
                 this.lead = response.data.data;
+                // console.log(response.data)
             });
+        },
+        deleteLead(lead){
+            Lead.delete(lead)
+            .then((res)=> {
+                this.fetchData();
+                this.drawer = false
+            })
+        },
+        deleteMultipleLead(){
+            let selected = this.selectedLeads;
+
+            for (var key in selected) {
+                // console.log(selected[key]);
+                Lead.delete(selected[key])
+                .then(response => {
+                    this.fetchData();
+                    this.snackbarText = 'Lead deleted'
+                    this.snackbar = true;
+                    this.selectedLeads = []
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+            }
         },
         onChangeTeamMember(event){
             this.team_id = event.target.value
@@ -669,6 +758,7 @@ export default {
                 group_id: this.group_id
             })
             .then(response => {
+                // console.log(response.data);
                 this.fetchData();
                 this.snackbarText = 'Lead successufully added to group'
                 this.snackbar = true;
@@ -796,8 +886,8 @@ export default {
                 console.log(error);
             })
         },
-        showSelectedWebsiteMessage(message){
-            this.selectedWebsiteMsg = message;
+        showSelectedWebsiteMessage(lead, website){
+            this.selectedWebsiteMsg = 'Hi' + '' + lead.name + '' + 'Here is the details for' + website.title;
             this.editWebsiteWindow = true;
         },
         sendWhatsapp(){
@@ -808,7 +898,7 @@ export default {
 
             // console.log(this.lead.contact, this.lead.name, this.tracker_id, this.websiteName.title);
 
-            window.open(`https://wa.me/${this.lead.contact}?text=Hi ${this.lead.name} %0a Here is the details for ${this.websiteName.title} %0a https://agentsnest.com/wt/${this.tracker_id}`, '_blank');
+            window.open(`https://wa.me/${this.lead.contact}?text=Hi ${this.lead.name} ${this.selectedWebsiteMsg} ${this.websiteName.title} %0a https://agentsnest.com/wt/${this.tracker_id}`, '_blank');
         },
         showSelectedMessage(message){
             this.selectedMsg = message;

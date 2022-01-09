@@ -317,7 +317,7 @@
                 <v-card class="rounded-lg" elevation="1" min-height="160">
                     <v-alert text dense color="grey darken-3" border="left">
                         <v-row class="center py-1" align="center">
-                            <v-col class="grow body-2 grey--text text--darken-3">Image Gallery</v-col>
+                            <v-col class="grow body-2 grey--text text--darken-3">Image Gallery ({{previewImage.length}})</v-col>
                             <v-col class="shrink">
                                 <v-btn outlined x-small class="grey darken-2" dark>
                                     <label for="gallery">
@@ -329,6 +329,7 @@
                                             ref="files" 
                                             @change="updateImageList"
                                             accept="image/png, image/jpeg, image/bmp"
+                                            :maxlength="maxLength"
                                         >
                                     </label>
                                 </v-btn>
@@ -536,6 +537,7 @@ import { required, minLength } from 'vuelidate/lib/validators'
 export default {
     data () {
         return {
+            maxLength: 2,
             showPassword: false,
             rules: [
                 value => !value || value.size < 2000000 || 'File size should be less than 2 MB!',
@@ -608,7 +610,8 @@ export default {
     mounted(){
         this.fetchBuilder();
     },
-    computed:{},
+    computed:{
+    },
     methods:{
         updateImageList(){
             var selectedFiles = this.$refs.files.files;
@@ -629,8 +632,8 @@ export default {
             })
         },
         clearImage(index){
-        this.previewImage.splice(index);
-        this.property.images.splice(index);
+            this.previewImage.splice(index);
+            this.property.images.splice(index);
         },
         onFileChange(){
             var fileData = this.$refs.docs.files;

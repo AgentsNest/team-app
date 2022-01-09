@@ -22,10 +22,15 @@
                   <v-list-item-content>
                       <v-list-item-title v-html="item.name" class="font-weight-bold"></v-list-item-title>
                       <v-list-item-subtitle>
-                        <span class="text--primary">Property:</span> 
-                        <span v-if="item.properties">{{item.properties.length}}</span>
+                        <span class="text--primary mr-2">Property:</span> 
+                        <span v-if="item.properties" class="">
+                          {{item.properties.length}}
+                        </span>
                       </v-list-item-subtitle>
-                      <v-list-item-subtitle><span class="text--primary">Added:</span> 23 June 2021</v-list-item-subtitle>
+                      <v-list-item-subtitle>
+                        <span class="text--primary mr-2">Added:</span>
+                        <span class="">{{item.created_at | formatDate}}</span>
+                      </v-list-item-subtitle>
                   </v-list-item-content>
 
                   <v-btn icon route :to="`clients/client-profile/${item.id}`">

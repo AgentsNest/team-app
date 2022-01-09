@@ -1,14 +1,25 @@
 <template>
-    <v-card flat height="88vh" class="overflow-y-auto">
+    <v-card flat height="100%" class="overflow-y-auto transparent">
         <v-row>
             <v-col md="3" cols="12">
+                <v-card class="rounded-lg pa-2 pa-md-3 teal" dark>
+                    <v-card-actions>
+                        <div class="title text-right">Total Leads</div>
+                        <v-spacer></v-spacer>
+                        <div class="font-weight-bold display-1">
+                          <span>{{totalLead}}</span>
+                        </div>
+                    </v-card-actions>
+                </v-card>
+            </v-col>
+            <v-col md="3" cols="6">
                 <v-card class="rounded-lg pa-2 pa-md-3">
                     <v-card-actions class="">
-                      <v-icon size="38" color="red">mdi-fire-circle</v-icon>
+                      <v-icon size="42" color="red">mdi-fire-circle</v-icon>
                       <v-spacer></v-spacer>
                       <div>
-                        <div class="">Hot Lead</div>
-                        <div class="font-weight-bold display-1">
+                        <div class="text-right">Hot Lead</div>
+                        <div class="font-weight-bold headline md-display-1">
                           <span v-if="totalLead > 0">{{hotLeadPercentage}}%</span>
                           <span v-else>0</span>
                         </div>
@@ -19,14 +30,14 @@
                     </v-card-actions>
                 </v-card>
             </v-col>
-            <v-col md="3" cols="12">
+            <v-col md="3" cols="6">
                 <v-card class="rounded-lg pa-2 pa-md-3">
                     <v-card-actions class="">
-                      <v-icon size="38" color="orange">mdi-account-group-outline</v-icon>
+                      <v-icon size="42" color="orange">mdi-account-group-outline</v-icon>
                       <v-spacer></v-spacer>
                       <div>
-                        <div class="">Warm Lead</div>
-                        <div class="font-weight-bold display-1">
+                        <div class="text-right">Warm Lead</div>
+                        <div class="font-weight-bold headline md-display-1">
                           <span v-if="totalLead > 0">{{warmLeadPercentage}}%</span>
                           <span v-else>0</span>
                         </div>
@@ -37,14 +48,14 @@
                     </v-card-actions>
                 </v-card>
             </v-col>
-            <v-col md="3" cols="12">
+            <v-col md="3" cols="6">
                 <v-card class="rounded-lg pa-2 pa-md-3">
                     <v-card-actions class="">
-                      <v-icon size="38" color="blue">mdi-snowflake-alert</v-icon>
+                      <v-icon size="42" color="blue">mdi-snowflake-alert</v-icon>
                       <v-spacer></v-spacer>
                       <div>
-                        <div class="">Cold Lead</div>
-                        <div class="font-weight-bold display-1">
+                        <div class="text-right">Cold Lead</div>
+                        <div class="font-weight-bold headline md-display-1">
                           <span v-if="totalLead > 0">{{coldLeadPercentage}}%</span>
                           <span v-else>0</span>
                         </div>
@@ -55,14 +66,14 @@
                     </v-card-actions>
                 </v-card>
             </v-col>
-            <v-col md="3" cols="12">
+            <v-col md="3" cols="6">
                 <v-card class="rounded-lg pa-2 pa-md-3">
                     <v-card-actions class="">
-                      <v-icon size="38" color="grey">mdi-emoticon-sad-outline</v-icon>
+                      <v-icon size="42" color="grey">mdi-emoticon-sad-outline</v-icon>
                       <v-spacer></v-spacer>
                       <div>
-                        <div class="">Dead Lead</div>
-                        <div class="font-weight-bold display-1">
+                        <div class="text-right">Dead Lead</div>
+                        <div class="font-weight-bold headline md-display-1">
                           <span v-if="totalLead > 0">{{deadLeadPercentage}}%</span>
                           <span v-else>0</span>
                         </div>
@@ -75,7 +86,36 @@
             </v-col>
         </v-row>
 
-        <v-row class="d-none">
+        <!--=========== Existing Clients ============-->          
+        <v-card class="mt-4 "> 
+            <v-card-title>Existing Clients</v-card-title>
+            <v-row class="px-4">
+              <v-col>
+                <v-card class="rounded-lg pa-2">
+                  <v-card-actions>
+                    <v-btn fab depressed color="teal lighten-5"><v-icon color="teal">mdi-shield-account</v-icon></v-btn>
+                    <v-spacer></v-spacer>
+                    <div class="title">Total Clients</div>
+                    <v-spacer></v-spacer>
+                    <div class="title">{{clients.length}}</div>
+                  </v-card-actions>
+                </v-card>
+              </v-col>
+              <v-col>
+                <v-card class="rounded-lg pa-2">
+                  <v-card-actions>
+                    <v-btn fab depressed color="purple lighten-5"><v-icon color="purple">mdi-home-circle</v-icon></v-btn>
+                    <v-spacer></v-spacer>
+                    <div class="title">Client's Property</div>
+                    <v-spacer></v-spacer>
+                    <div class="title">34</div>
+                  </v-card-actions>
+                </v-card>
+              </v-col>
+            </v-row>
+        </v-card>
+
+        <v-row class="d-none d-md-block">
           <v-col md="8" cols="12">
             <v-card class="overflow-y-auto rounded-lg pa-2" flat>
 
@@ -96,39 +136,6 @@
                   {{ item.date_string | fromNow() }}
                 </template>
               </v-data-table>
-
-
-
-<!-- 
-  =========== Existing Clients ============
- -->          
-              <v-card class="mt-4 d-none d-md-block "> 
-                  <v-card-title>Existing Clients</v-card-title>
-                  <v-row class="px-4">
-                    <v-col>
-                      <v-card class="rounded-lg pa-2">
-                        <v-card-actions>
-                          <v-btn fab depressed color="teal lighten-5"><v-icon color="teal">mdi-shield-account</v-icon></v-btn>
-                          <v-spacer></v-spacer>
-                          <div class="title">Total Clients</div>
-                          <v-spacer></v-spacer>
-                          <div class="title">{{clients.length}}</div>
-                        </v-card-actions>
-                      </v-card>
-                    </v-col>
-                    <v-col>
-                      <v-card class="rounded-lg pa-2">
-                        <v-card-actions>
-                          <v-btn fab depressed color="purple lighten-5"><v-icon color="purple">mdi-home-circle</v-icon></v-btn>
-                          <v-spacer></v-spacer>
-                          <div class="title">Client's Property</div>
-                          <v-spacer></v-spacer>
-                          <div class="title">34</div>
-                        </v-card-actions>
-                      </v-card>
-                    </v-col>
-                  </v-row>
-              </v-card>
 
             </v-card>
           </v-col>

@@ -23,10 +23,20 @@ export default {
   },
 
   // Message
-  messageSample() {
+  allMessage() {
     return Api().get("/messages");
+  },
+  myMessage() {
+    return Api().get("/messages/by/user");
   },
   new(form) {
     return Api().post("/messages/", form);
+  },
+  deleteMsg(params) {
+    return Api().post("/messages/", params);
+  },
+
+  getWebhook() {
+    return Api().get("/webhook");
   },
 };

@@ -15,8 +15,8 @@
             <v-btn text class="text-capitalize">Integration</v-btn> -->
             <v-btn text class="text-capitalize d-none d-md-flex">Resources</v-btn>
             <v-btn text class="text-capitalize d-none d-md-flex">About Us</v-btn>
-            <v-btn color="teal darken-2" dark elevation="0" class="text-capitalize" link :to="{name: 'Login'}">Login</v-btn>
-            <v-btn text elevation="0" class="text-capitalize d-none d-md-flex" link :to="{name: 'Register'}">Join Now</v-btn>
+            <v-btn color="teal darken-2" dark elevation="0" class="text-capitalize">Login</v-btn>
+            <v-btn text elevation="0" class="text-capitalize d-none d-md-flex">Join Now</v-btn>
 
         </v-app-bar>
 

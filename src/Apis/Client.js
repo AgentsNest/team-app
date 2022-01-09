@@ -45,6 +45,7 @@ export default {
     return Api().get("/promoters");
   },
 
+  // Property Payment added
   singlePropertyPayment(params) {
     return Api().get("/singlePropertyPayment/" + params);
   },
@@ -54,9 +55,11 @@ export default {
   updatePropertyPayment(id, data) {
     return Api().put("/updatePropertyPayment/" + id, data);
   },
-
   updateProperty(id, form) {
     return Api().post("/updateProperty" + id, form);
+  },
+  deletePropertyPayment(params) {
+    return Api().delete("/deletePropertyPayment/" + params);
   },
 
   // Client View Apis

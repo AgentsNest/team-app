@@ -28,9 +28,9 @@
                 ></v-autocomplete> -->
 
 
-                <v-btn width="50%" class="rounded-l-xl text-capitalize" depressed :to="{name: 'MyWebsite'}">My Websites</v-btn>
+                <v-btn width="50%" class="rounded-l-xl text-capitalize" depressed :to="{name: 'MyWebsite'}">My Projects</v-btn>
                 <v-spacer></v-spacer>
-                <v-btn width="50%" class="rounded-r-xl text-capitalize dark" dark depressed :to="{name: 'Website'}">All Websites</v-btn>
+                <v-btn width="50%" class="rounded-r-xl text-capitalize dark" dark depressed :to="{name: 'Website'}">All Projects</v-btn>
             
             </v-toolbar>
         </v-card>
@@ -59,7 +59,7 @@
                           <v-spacer></v-spacer>
                           <v-btn color="grey darken-3" width="50%" class="text-capitalize" dark small @click="cloneWebsite(website.id)">
                             <v-icon left>mdi-content-copy</v-icon>
-                            Clone
+                            Copy to my projects
                           </v-btn>
                       </v-card-actions>
                   </v-card>

@@ -7,8 +7,8 @@
                 <v-icon size="28" color="grey darken-3">mdi-arrow-left</v-icon>
             </v-btn>
             <v-list-item two-line>
-                <v-list-item-avatar size="50" class="mr-4 white--text" color="teal"> 
-                    {{client.name[0]}}
+                <v-list-item-avatar size="50" class="mr-4 white--text" color="teal" v-if="client.name"> 
+                    {{client.name.slice(0,1)}}
                 </v-list-item-avatar>
 
                 <v-list-item-content>
