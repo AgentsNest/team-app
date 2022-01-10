@@ -163,11 +163,11 @@
                                 <v-btn icon small @click="deleteLeadDialogBox(lead.id)"><v-icon>mdi-trash-can-outline</v-icon></v-btn>
                             </td>
                         </tr>
-                        <infinite-loading @infinite="loadMoreDesktop">
+                        <!-- <infinite-loading @infinite="loadMoreDesktop">
                             <div slot="spinner">Loading...</div>
                             <div slot="no-more">No more leads</div>
                             <div slot="no-results" class="text-center grey--text">&nbsp;</div>
-                        </infinite-loading>
+                        </infinite-loading> -->
                     </tbody>
                     </template>
                 </v-simple-table>
