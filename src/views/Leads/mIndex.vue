@@ -21,7 +21,8 @@
             </div>
 
             <!-- checkbox actions -->
-            <v-toolbar v-if="multipleActionToolbar">
+            <v-toolbar>
+            <!-- <v-toolbar v-if="multipleActionToolbar"> -->
                 <div class="d-flex align-center">
                     <!-- <v-checkbox v-model="selectAll" class="mr-2"></v-checkbox> -->
                     <input type="checkbox" v-model="selectAll" class="mr-2">Select all
@@ -32,6 +33,26 @@
                     <v-icon small>mdi-trash-can-outline</v-icon>
                     delete
                 </v-btn>
+                <v-menu offset-y>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn class="text-capitalize" text v-bind="attrs" v-on="on">Actions</v-btn>
+                    </template>
+                    <v-list dense flat elevation="0" class="py-0">
+                        <v-list-item @click="groupDailog = !groupDailog">
+                            <v-list-item-title>Add To Group</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item @click="statusDailog = !statusDailog">
+                            <v-list-item-title>Lead Status</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item @click="teamDailog = !teamDailog">
+                            <v-list-item-title>Assign Team</v-list-item-title>
+                        </v-list-item>
+                        <v-btn text small class="text-capitalize red lighten-4" block tile @click="deleteLead(lead.id)">
+                            Delete
+                        </v-btn>
+                    </v-list>
+                </v-menu>
+                
             </v-toolbar>
             
 
@@ -270,9 +291,18 @@
                                     target="_blank" -->
 
                                 <v-dialog v-model="editWebsiteWindow" width="500">
-                                    <v-card class="pt-5 px-2 rounded-lg">
-                                        <!-- <div class="text-h6 pa-3 grey lighten-2">Send Message</div> -->
-                                        <v-textarea outlined v-model="selectedWebsiteMsg" class="px-2"></v-textarea>
+                                    <v-card class="pt-5 rounded-lg">
+
+                                        <v-card-text>
+                                            <span class="caption grey--text">Hi, {clientName}</span> <br>
+                                            <div>{{selectedWebsiteMsg}}</div>
+                                            <span class="caption grey--text">{websiteName}</span> <br>
+                                            <span class="caption grey--text">Regards,</span> <br/>
+                                            <span class="caption grey--text">{yourName}</span>
+                                        </v-card-text>
+
+                                        <v-textarea outlined label="Default Message" v-model="selectedWebsiteMsg" height="100" class="mt-6"></v-textarea>
+
                                         <v-divider></v-divider>
                                         <v-card-actions>
                                             <span class="grey--text text--darken-2">Share Via:</span>
@@ -409,8 +439,6 @@
                 </v-card>
 
             </v-dialog>
-
-
             
             <v-speed-dial
                     v-model="fab"
@@ -887,7 +915,7 @@ export default {
             })
         },
         showSelectedWebsiteMessage(lead, website){
-            this.selectedWebsiteMsg = 'Hi' + '' + lead.name + '' + 'Here is the details for' + website.title;
+            this.selectedWebsiteMsg = 'Here is the details for';
             this.editWebsiteWindow = true;
         },
         sendWhatsapp(){
@@ -898,7 +926,7 @@ export default {
 
             // console.log(this.lead.contact, this.lead.name, this.tracker_id, this.websiteName.title);
 
-            window.open(`https://wa.me/${this.lead.contact}?text=Hi ${this.lead.name} ${this.selectedWebsiteMsg} ${this.websiteName.title} %0a https://agentsnest.com/wt/${this.tracker_id}`, '_blank');
+            window.open(`https://wa.me/${this.lead.contact}?text=Hi ${this.lead.name} ${this.selectedWebsiteMsg} ${this.websiteName.title} %0a https://agentsnest.com/wt/${this.websiteName.id}/${this.tracker_id}`, '_blank');
         },
         showSelectedMessage(message){
             this.selectedMsg = message;

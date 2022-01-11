@@ -61,7 +61,7 @@
                         <!-- All Charges and Taxes -->
                         <div class="title mt-6 mb-3">Charges and Taxes</div>
                         <v-row>
-                            <v-col>
+                            <!-- <v-col>
                                 <v-card>
                                     <v-toolbar color="indigo" dark dense>
                                         <div>Base Selling Price : </div>
@@ -118,7 +118,7 @@
                                         </template>
                                     </v-simple-table>
                                 </v-card>
-                            </v-col>
+                            </v-col> -->
                             <v-col>
                                 <v-card>
                                     <v-toolbar color="indigo" dark dense>

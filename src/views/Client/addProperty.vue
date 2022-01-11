@@ -17,11 +17,11 @@
 
         <v-toolbar color="" elevation="0">
              <v-btn icon class="" @click="$router.go(-1)">
-                <v-icon size="25" left color="grey darken-3">mdi-arrow-left</v-icon>
+                <v-icon size="25" color="grey darken-3">mdi-arrow-left</v-icon>
             </v-btn>
             <div class="text-capitalize font-weight-bold">back</div>
             <v-spacer></v-spacer>
-            <v-btn dark small class="gradient rounded-xl text-capitalize" @click="SaveProperty">Save</v-btn>
+            <v-btn dark small class=" rounded-xl text-capitalize" @click="SaveProperty">Save</v-btn>
         </v-toolbar>
 
         <!-- Mobile Screen -->
@@ -161,7 +161,7 @@
             <!-- Payments Tab  -->
             <v-tab-item>
                 <!-- BSP -->
-                <v-card class="mt-4 ">
+                <!-- <v-card class="mt-4 ">
                     <v-row class="px-4 pt-4">
                         <v-col cols="5">Base Price <small>(exclude charges)</small></v-col>
                         <v-col>
@@ -196,9 +196,9 @@
                             <v-text-field label="Total BSP" dense outlined v-model="property.bsp"></v-text-field>
                         </v-col>
                     </v-row>
-                </v-card>
+                </v-card> -->
             <!-- Deal Price -->
-                <v-card class="mt-10">
+                <!-- <v-card class="mt-10">
                     <v-row class="px-4 pt-4">
                         <v-col cols="5">Deal Price <small>(exclude charges)</small></v-col>
                         <v-col>
@@ -233,7 +233,7 @@
                             <v-text-field label="Total Deal Price" dense outlined v-model="property.dealprice"></v-text-field>
                         </v-col>
                     </v-row>
-                </v-card>
+                </v-card> -->
             <!-- Allotment Value -->
                 <v-card class="mt-10">
                     <v-row class="px-4 pt-4">

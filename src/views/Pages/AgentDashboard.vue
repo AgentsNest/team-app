@@ -101,17 +101,6 @@
                   </v-card-actions>
                 </v-card>
               </v-col>
-              <v-col>
-                <v-card class="rounded-lg pa-2">
-                  <v-card-actions>
-                    <v-btn fab depressed color="purple lighten-5"><v-icon color="purple">mdi-home-circle</v-icon></v-btn>
-                    <v-spacer></v-spacer>
-                    <div class="title">Client's Property</div>
-                    <v-spacer></v-spacer>
-                    <div class="title">34</div>
-                  </v-card-actions>
-                </v-card>
-              </v-col>
             </v-row>
         </v-card>
 

@@ -19,8 +19,6 @@
                         Update
                     </v-btn>
 
-                    <div>Your Token for zapier: {{token}}</div>
-
                     <!-- Agent Avatar -->
                     <v-card class="rounded-xl mb-5 content-card" flat>
                         <v-toolbar flat>

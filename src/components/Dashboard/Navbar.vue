@@ -86,12 +86,15 @@
 
       </v-toolbar>
 
+      <!-- Mobile Navbar -->
+
       <v-toolbar class="rounded-xl d-md-none" flat>
         <v-btn icon @click.stop="mSidebar = !mSidebar"><v-icon>mdi-menu</v-icon></v-btn>
           <v-spacer></v-spacer>
         <v-btn text class="text-lowercase font-weight-bold title">agnt.</v-btn>
           <v-spacer></v-spacer>
         <!-- <v-avatar color="red">{{agent.name[0]}}</v-avatar> -->
+        <Notification />
       </v-toolbar>
       
       <v-navigation-drawer v-model="mSidebar" absolute>
