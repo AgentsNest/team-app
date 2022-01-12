@@ -1,8 +1,8 @@
 <template>
-    <v-card flat height="100%" class="overflow-y-auto transparent">
+    <v-card flat height="100vh" class="overflow-y-auto transparent">
         <v-row>
             <v-col md="3" cols="12">
-                <v-card class="rounded-lg pa-2 pa-md-3 teal" dark>
+                <v-card class="rounded-lg pa-2 pa-md-3" elevation="0">
                     <v-card-actions>
                         <div class="title text-right">Total Leads</div>
                         <v-spacer></v-spacer>
@@ -13,7 +13,7 @@
                 </v-card>
             </v-col>
             <v-col md="3" cols="6">
-                <v-card class="rounded-lg pa-2 pa-md-3">
+                <v-card class="rounded-lg pa-2 pa-md-3" flat>
                     <v-card-actions class="">
                       <v-icon size="42" color="red">mdi-fire-circle</v-icon>
                       <v-spacer></v-spacer>
@@ -31,7 +31,7 @@
                 </v-card>
             </v-col>
             <v-col md="3" cols="6">
-                <v-card class="rounded-lg pa-2 pa-md-3">
+                <v-card class="rounded-lg pa-2 pa-md-3" flat>
                     <v-card-actions class="">
                       <v-icon size="42" color="orange">mdi-account-group-outline</v-icon>
                       <v-spacer></v-spacer>
@@ -49,7 +49,7 @@
                 </v-card>
             </v-col>
             <v-col md="3" cols="6">
-                <v-card class="rounded-lg pa-2 pa-md-3">
+                <v-card class="rounded-lg pa-2 pa-md-3" flat>
                     <v-card-actions class="">
                       <v-icon size="42" color="blue">mdi-snowflake-alert</v-icon>
                       <v-spacer></v-spacer>
@@ -67,7 +67,7 @@
                 </v-card>
             </v-col>
             <v-col md="3" cols="6">
-                <v-card class="rounded-lg pa-2 pa-md-3">
+                <v-card class="rounded-lg pa-2 pa-md-3" flat>
                     <v-card-actions class="">
                       <v-icon size="42" color="grey">mdi-emoticon-sad-outline</v-icon>
                       <v-spacer></v-spacer>
@@ -87,21 +87,14 @@
         </v-row>
 
         <!--=========== Existing Clients ============-->          
-        <v-card class="mt-4 "> 
-            <v-card-title>Existing Clients</v-card-title>
-            <v-row class="px-4">
-              <v-col>
-                <v-card class="rounded-lg pa-2">
-                  <v-card-actions>
-                    <v-btn fab depressed color="teal lighten-5"><v-icon color="teal">mdi-shield-account</v-icon></v-btn>
-                    <v-spacer></v-spacer>
-                    <div class="title">Total Clients</div>
-                    <v-spacer></v-spacer>
-                    <div class="title">{{clients.length}}</div>
-                  </v-card-actions>
-                </v-card>
-              </v-col>
-            </v-row>
+        <v-card class="rounded-lg pa-2 mt-5" flat>
+          <v-card-actions>
+            <v-btn fab depressed color="teal lighten-5"><v-icon color="teal">mdi-shield-account</v-icon></v-btn>
+            <v-spacer></v-spacer>
+            <div class="title">Existing Clients</div>
+            <v-spacer></v-spacer>
+            <div class="title">{{clients.length}}</div>
+          </v-card-actions>
         </v-card>
 
         <v-row class="d-none d-md-block">

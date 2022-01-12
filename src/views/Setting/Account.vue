@@ -23,7 +23,7 @@
                         <v-card-actions>
                             <div class="caption grey--text font-weight-bold">https://agentsnest.com/me/<span class="teal--text">{{agent.uid}}</span> </div>
                             <v-spacer></v-spacer>
-                            <v-btn x-small fab elevation="1" class="mr-3 white" :to="{name: 'vCard', params:{uid: agent.uid}}">
+                            <v-btn x-small fab elevation="1" class="mr-3 white" link :to="{name: 'vCard', params:{uid: agent.uid}}" target="_blank">
                                 <v-icon>mdi-eye</v-icon>
                             </v-btn>
                             <v-menu offset-y>
@@ -84,7 +84,7 @@
                             >{{submitBtn}}</v-btn>
                         </v-toolbar> -->
                         <div class="text-center mt-5">
-                            <v-avatar size="130">
+                            <v-avatar tile size="130" class="rounded-lg">
                                 <img 
                                     :src="avatarPreview ? avatarPreview : agent.image"
                                     :lazy-src="avatarPreview ? avatarPreview : agent.image"
@@ -228,23 +228,23 @@ export default {
     components:{ Sidebar },
     data(){
         return{
-            agent:{
-                email: '',
-                contact: '',
-                website: '',
-                brand_logo: '',
-                bio: '',
-                city: '',
-                state: '',
-                country: '',
-                facebook: '',
-                linkedin: '',
-                instagram: '',
-                twitter: '',
-                rera: '',
-                brand_text: ''
+            // agent:{
+            //     email: '',
+            //     contact: '',
+            //     website: '',
+            //     brand_logo: '',
+            //     bio: '',
+            //     city: '',
+            //     state: '',
+            //     country: '',
+            //     facebook: '',
+            //     linkedin: '',
+            //     instagram: '',
+            //     twitter: '',
+            //     rera: '',
+            //     brand_text: ''
 
-            },
+            // },
             snackbar: false,
             preview: '',
             submitBtn: "Update",
@@ -259,8 +259,7 @@ export default {
             User.update(this.agent.id, this.agent)
             .then((response) => {
                 this.snackbar = true
-                // console.log(response);
-                this.fetchUser();
+                this.$store.dispatch('getAuth');
             });
         },
         previewLogo(e) {
@@ -288,13 +287,15 @@ export default {
             };
         },
         fetchUser(){
-            User.authForUpdate().then((response) => {
-                this.agent = response.data.data;
-            });
+            // User.authForUpdate().then((response) => {
+            //     this.agent = response.data.data;
+            // });
         }
     },
-    beforeMount(){
-        this.fetchUser();
+    computed:{
+        agent(){ return this.$store.state.auth; },
+    },
+    mounted(){
         this.token = localStorage.getItem('token');
     }
 }

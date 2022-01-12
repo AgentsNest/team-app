@@ -1,125 +1,161 @@
 <template>
+
     <div>
-        <v-card class="d-flex align-center mx-auto transparent overflow-hidden" height="75vh" ref="canvasCard" flat>
-            <v-card ref="container" id="capture" class="transparent" flat>
-                <v-img
-                    :src="image"
-                    :lazy-src="image"
-                    contain
-                    ref="container" 
-                    id="capture"
-                    class="mainCanvas"
-                    width="100vw"
-                >
-                    <div class="layouts">
-                        <!-- Frame One -->
-                        <div class="layout-one" v-if="frameOne">
-                            <div class="brand-contents">
-                                <!-- <v-img :src="agent.brand_logo" height="20px" contain class="logo"></v-img> -->
-                                <img :src="agent.brand_logo" class="logo">
-                                <div class="brand-text">{{agent.brand_text}}</div>
-                                <div class="rera-text">{{agent.rera}}</div>
-                            </div>
-                            <div class="details-box">
-                                <div>
-                                    <v-icon size="10" color="white" class="mr-1">mdi-phone</v-icon>
-                                    {{agent.contact}}
-                                </div>
-                                <div>
-                                    <v-icon size="10" color="white" class="mr-1">mdi-web</v-icon>
-                                    {{agent.website}}
-                                </div>
-                                <div>
-                                    <v-icon size="10" color="white" class="mr-1">mdi-email</v-icon>
-                                    {{agent.email}}
-                                </div>
-                            </div>  
-                        </div>
+        <div class="d-flex">
+            <v-spacer></v-spacer>
+            <v-btn @click="download"><v-icon>mdi-tray-arrow-down</v-icon></v-btn>
+        </div>
+        <v-card class="d-flex align-center mx-auto transparent" height="75vh" width="100vw" ref="canvasCard" flat>
+            <v-card ref="container" id="capture" class="mainCanvas">
+                <v-stage ref="stage" :config="stageSize" id="theCanvas"> 
+                    <v-layer ref="layer">
+                        <v-image
+                            :config="{
+                                image: image,
+                                width: bgWidth,
+                                height: bgHeight
+                            }"
+                            @click="hideAllControls"
+                        />
 
-                        <!-- Frame Two -->
-                        <div class="layout-two" v-if="frameTwo">
-                            <div class="brand-contents">
-                                <!-- <v-img :src="agent.brand_logo" height="30px" contain class="logo"></v-img> -->
-                                <img :src="agent.brand_logo" class="logo">
-                                <div class="brand-text">{{agent.brand_text}}</div>
-                                <div class="rera-text">{{agent.rera}}</div>
-                            </div>
-                            <div class="frame-border"></div>
-                            <div class="details-box">
-                                <div>
-                                    <v-icon size="10" color="black" class="mr-1">mdi-phone</v-icon>
-                                    {{agent.contact}}
-                                </div>
-                                <div>
-                                    <v-icon size="10" color="black" class="mr-1">mdi-web</v-icon>
-                                    {{agent.website}}
-                                </div>
-                                <div>
-                                    <v-icon size="10" color="black" class="mr-1">mdi-email</v-icon>
-                                    {{agent.email}}
-                                </div>
-                            </div>  
-                        </div>
+                        <v-image
+                            @dragstart="handleDragStart"
+                            @dragend="handleDragEnd"
+                            :config="{
+                                image: logo,
+                                draggable: true,
+                                width: logoWidth,
+                                height: logoHeight
+                            }"
+                            @click="showLogoControls"
+                        />
 
-                        <!-- Frame Three -->
-                        <div class="layout-three" v-if="frameThree">
-                            <div class="brand-contents">
-                                <!-- <v-img :src="agent.brand_logo" height="30px" contain class="logo"></v-img> -->
-                                <img :src="agent.brand_logo" class="logo">
-                                <div class="brand-text">{{agent.brand_text}}</div>
-                                <div class="rera-text">{{agent.rera}}</div>
-                            </div>
-                            <div class="frame-border"></div>
-                            <div class="details-box">
-                                <div>
-                                    <v-icon size="10" color="white" class="mr-1">mdi-phone</v-icon>
-                                    {{agent.contact}}
-                                </div>
-                                <div>
-                                    <v-icon size="10" color="white" class="mr-1">mdi-web</v-icon>
-                                    {{agent.website}}
-                                </div>
-                                <div>
-                                    <v-icon size="10" color="white" class="mr-1">mdi-email</v-icon>
-                                    {{agent.email}}
-                                </div>
-                            </div>  
-                        </div>
+                        <v-text
+                            @dragstart="handleDragStart"
+                            @dragend="handleDragEnd"
+                            ref="text"
+                            :config="{
+                                x: 120,
+                                y: 20,
+                                fontFamily: 'Calibri',
+                                fontSize: brandFontSize,
+                                text: brandText,
+                                fill: brandTextColor,
+                                draggable: true,
+                                fill: isDragging ? 'black' : brandTextColor
+                            }"
+                            @click="showBrandTextControls"
+                        />
+                        <v-text
+                            @dragstart="handleDragStart"
+                            @dragend="handleDragEnd"
+                            ref="text"
+                            :config="{
+                                x: 300,
+                                y: 10,
+                                fontFamily: 'Calibri',
+                                fontSize: reraFontSize,
+                                text: reraText,
+                                fill: reraTextColor,
+                                draggable: true,
+                                fill: isDragging ? 'black' : reraTextColor
+                            }"
+                            @click="showReraControls"
+                        />
+                    </v-layer>
+                </v-stage>
 
-                        <!-- Frame Four -->
-                        <div class="layout-four" v-if="frameFour">
-                            <div class="brand-contents">
-                                <img :src="agent.brand_logo" class="logo">
-                                <div class="brand-text">{{agent.brand_text}}</div>
-                                <div class="rera-text">{{agent.rera}}</div>
-                            </div>
-                            <div class="details-box">
-                                <div class="flexbox">
-                                    <!-- <v-btn icon width="16px" height="16px" class="grey darken-4 mr-1" dark>
-                                        <v-icon size="10px">mdi-phone</v-icon>
-                                    </v-btn> -->
-                                    <v-icon color="grey darken-4" size="12px">mdi-phone-in-talk</v-icon>
-                                    <span class="ml-1">{{agent.contact}}</span>
-                                </div>
-                                <div class="flexbox">
-                                    <!-- <v-btn icon width="16px" height="16px" class="grey darken-4 mr-1" dark>
-                                        <v-icon size="10px">mdi-email-outline</v-icon>
-                                    </v-btn> -->
-                                    <v-icon color="grey darken-4" size="12px">mdi-email</v-icon>
-                                    <span class="ml-1">{{agent.website}}</span>
-                                </div>
-                                <div class="flexbox">
-                                    <!-- <v-btn icon width="16px" height="16px" class="grey darken-4 mr-1" dark>
-                                        <v-icon size="10px">mdi-web</v-icon>
-                                    </v-btn> -->
-                                    <v-icon color="grey darken-4" size="12px">mdi-web-box</v-icon>
-                                    <span class="ml-1">{{agent.email}}</span>
-                                </div>
-                            </div>  
-                        </div>
+                <div class="details-box">
+                    <div class="flexbox">
+                        <v-img src="../../assets/img/phone.png" width="15" class="mr-1"></v-img>
+                        {{contact}}
                     </div>
-                </v-img>     
+                    <div class="flexbox">
+                        <v-img src="../../assets/img/web.png" width="15" class="mr-1"></v-img>
+                        {{website}}
+                    </div>
+                    <div class="flexbox">
+                        <v-img src="../../assets/img/email.png" width="15" class="mr-1"></v-img>
+                        {{email}}
+                    </div>
+                </div>            
             </v-card>
+
+            
+            <!-- RERA Controls -->
+            <v-expand-transition>
+                <div class="rera-controls" v-if="reraControls">
+                    <v-card class="d-flex align-center px-4 py-2">
+                        <div>
+                            <v-btn x-small fab tile elevation="1" class="white rounded-lg mr-2" @click="reraFontSize -= 2">
+                                <v-icon>mdi-minus</v-icon>
+                            </v-btn>
+                            <span class="body-2 mr-2">Size</span>
+                            <v-btn x-small fab tile elevation="1" class="white rounded-lg" @click="reraFontSize += 2">
+                                <v-icon>mdi-plus</v-icon>
+                            </v-btn>
+                        </div>
+                        <v-color-picker
+                            dot-size="25"
+                            hide-canvas
+                            hide-inputs
+                            hide-mode-switch
+                            hide-sliders
+                            show-swatches
+                            mode="hexa"
+                            swatches-max-height="80"
+                            width="50%"
+                            v-model="reraTextColor"
+                            class="ml-auto"
+                        ></v-color-picker>
+                    </v-card>
+                </div>
+            </v-expand-transition>
+
+            <!-- Logo Controls -->
+            <v-expand-transition>
+                <div class="logo-controls" v-if="logoControls">
+                    <v-card class="pa-2 text-center">
+                        <v-btn x-small fab tile elevation="1" class="white rounded-lg mr-4" @click="logoWidth -= 50">
+                                <v-icon>mdi-minus</v-icon>
+                        </v-btn>
+                        <span class="body-2 mr-4">Logo Size</span>
+                        <v-btn x-small fab tile elevation="1" class="white rounded-lg" @click="logoWidth += 50">
+                            <v-icon>mdi-plus</v-icon>
+                        </v-btn>
+                    </v-card>
+                </div>
+            </v-expand-transition>
+
+            <!-- BrandText Controls -->
+            <v-expand-transition>
+                <div class="brandText-controls" v-if="brandTextControls">
+                    <v-card class="d-flex align-center px-4 py-2">
+                        <v-btn x-small fab elevation="1" class="white mr-2 rounded-lg" @click="brandFontSize -= 2">
+                            <v-icon>mdi-minus</v-icon>
+                        </v-btn>
+                        <span class="body-2 mr-2">Text</span>
+                        <v-btn x-small fab elevation="1" class="white mr-4 rounded-lg" @click="brandFontSize += 2">
+                            <v-icon>mdi-plus</v-icon>
+                        </v-btn>
+                        
+                        <v-color-picker
+                            dot-size="25"
+                            hide-canvas
+                            hide-inputs
+                            hide-mode-switch
+                            hide-sliders
+                            show-swatches
+                            mode="hexa"
+                            swatches-max-height="75"
+                            width="70%"
+                            v-model="brandTextColor"
+                            class="ml-auto"
+                        ></v-color-picker>
+
+                    </v-card>
+                </div>
+            </v-expand-transition>
 
             <!-- Main Bg Image controls -->
             <v-expand-transition>
@@ -159,34 +195,8 @@
 
         </v-card>
 
-        <div class="mx-auto">
-            <v-btn class="mx-auto" @click="frameLayouts = !frameLayouts"><v-icon>mdi-chevron-up</v-icon></v-btn>
-            <v-btn class="mx-auto" @click="download"><v-icon>mdi-download</v-icon></v-btn>
-        </div>
-
-        <v-bottom-sheet v-model="frameLayouts">
-            <v-sheet class="text-center" height="400px">
-                <v-btn class="mt-6" text color="red" @click="frameLayouts = !frameLayouts">close</v-btn>
-                <v-container fluid>
-                    <v-row>
-                        <v-col cols="6">
-                            <v-img src="../../assets/frames/1.jpg" @click="selectFrameOne"></v-img>
-                        </v-col>
-                        <v-col cols="6">
-                            <v-img src="../../assets/frames/2.jpg" @click="selectFrameTwo"></v-img>
-                        </v-col>
-                        <v-col cols="6">
-                            <v-img src="../../assets/frames/3.jpg" @click="selectFrameThree"></v-img>
-                        </v-col>
-                        <v-col cols="6">
-                            <v-img src="../../assets/frames/4.jpg" @click="selectFrameFour"></v-img>
-                        </v-col>
-                    </v-row>
-                </v-container>
-            </v-sheet>
-        </v-bottom-sheet>
-
     </div>
+
 </template>
 
 <script>
@@ -194,23 +204,48 @@ import Graphic from "../../Apis/Graphic";
 import User from "../../Apis/User";
 import html2canvas from "html2canvas";
 
+// const width = window.innerWidth;
+// const height = window.innerHeight;
+
+// var canvas = document.getElementById("theCanvas");
+// var parent = document.getElementById("parent");
+
+const width = 400;
+const height = 800;
+
+
+
 export default {
     data() {
         return {
+            stageSize: {
+                width,
+                height,
+            },
+            isDragging: false,
+            bgWidth: '',
+            bgHeight: '',
             image: null,
+            logo: null,
+            logoWidth: 80,
+            logoHeight: 40,
+            brandText: "",
+            brandTextColor: "#ffffff",
+            brandFontSize: 20,
+            reraControls: false,
+            reraText: 'PBRERA-PTK60-REA0514',
+            reraTextColor: "#ffffff",
+            reraFontSize: 9,
+            brandTextControls: false,
+            logoControls: false,
+            email: "",
+            website: "",
+            contact: "",
             loading: false,
             bgMainImageControl: false,
             downloadProgress: false,
             showControls: false,
-            savedDialog: false,
-            agent:'',
-            frameLayouts: false,
-            frameOne: false,
-            frameTwo: false,
-            frameThree: false,
-            frameFour: false,
-            frameFive: false,
-            frameSix: false,
+            savedDialog: false
         };
     },
     created() {},
@@ -218,30 +253,52 @@ export default {
         async fetchData() {
             var design = this.$route.params.id;
             await Graphic.details(design).then((response) => {
-                this.image = response.data.image;
-                // const image = new window.Image();
-                // image.src = response.data.image;
-                // image.onload = () => {
-                //     this.image = image;
-                // };
+                const image = new window.Image();
+                image.src = response.data.image;
+                image.onload = () => {
+                    this.image = image;
+                    // calculation
+                    var ratio = image.height / image.width;
+                    this.stageSize.height = this.stageSize.width * ratio;
+
+                    this.bgWidth = this.stageSize.width;
+                    this.bgHeight = this.stageSize.height;
+                };
+                // console.log(this.stageSize.height)
             });
         },
         async fetchUser() {
             await User.auth().then((response) => {
-                this.agent = response.data.data;
+                this.brandText = response.data.data.brand_text;
+                this.email = response.data.data.email;
+                this.website = response.data.data.website;
+                this.contact = response.data.data.contact;
+
+                const image = new window.Image();
+                image.src = response.data.data.brand_logo;
+                image.onload = () => {
+                    this.logo = image;
+                };
                 // console.log(response.data.data)
             });
         },
+        writeMessage(message) {
+            this.text = message;
+        },
+        handleDragStart() {
+            this.isDragging = true;
+        },
+        handleDragEnd() {
+            this.isDragging = false;
+        },
         download(){
-            html2canvas(document.getElementById("capture"),{
-                allowTaint: true,
-                useCORS: true,
-                // scale: 2
-            })
+            html2canvas(document.getElementById("capture"))
             .then(function (canvas) {
+                var image = canvas.toDataURL("image/jpeg");
+
                 let a = document.createElement("a");
-                a.href = canvas.toDataURL("image/jpeg");
-                a.download = "graphic.jpg";
+                a.href = canvas.toDataURL("image/png", 1.0);
+                a.download = "graphic.png";
                 a.click();
                 a.remove();
             });
@@ -259,7 +316,7 @@ export default {
                 let date = new Date(),
                 time = date.getTime(),
                 fileName = time + ".jpeg";
-                // console.log(image, fileName)
+                console.log(image, fileName)
 
             });
             this.downloadProgress = false;
@@ -279,65 +336,50 @@ export default {
             // reader.readAsDataURL(file);   
 
         },
-        selectFrameOne(){
-            this.frameOne = true
-            this.frameTwo = false
-            this.frameThree = false
-            this.frameFour = false
-            this.frameFive = false
-            this.frameSix = false
+        showReraControls(){
+            this.reraControls = true
+            this.brandTextControls = false
+            this.logoControls = false
         },
-        selectFrameTwo(){
-            this.frameOne = false
-            this.frameTwo = true
-            this.frameThree = false
-            this.frameFour = false
-            this.frameFive = false
-            this.frameSix = false
+        showBrandTextControls(){
+            this.brandTextControls = true
+            this.reraControls = false
+            this.logoControls = false
         },
-        selectFrameThree(){
-            this.frameOne = false
-            this.frameTwo = false
-            this.frameThree = true
-            this.frameFour = false
-            this.frameFive = false
-            this.frameSix = false
+        showLogoControls(){
+            this.logoControls = true
+            this.brandTextControls = false
+            this.reraControls = false
         },
-        selectFrameFour(){
-            this.frameOne = false
-            this.frameTwo = false
-            this.frameThree = false
-            this.frameFour = true
-            this.frameFive = false
-            this.frameSix = false
-        },
-        selectFrameFive(){
-            this.frameOne = false
-            this.frameTwo = false
-            this.frameThree = false
-            this.frameFour = false
-            this.frameFive = true
-            this.frameSix = false
-        },
-        selectFrameSiz(){
-            this.frameOne = false
-            this.frameTwo = false
-            this.frameThree = false
-            this.frameFour = false
-            this.frameFive = false
-            this.frameSix = true
-        },
+        hideAllControls(){
+            this.logoControls = false
+            this.brandTextControls = false
+            this.reraControls = false
+        }
     },
     mounted() {
         this.fetchData();
         this.fetchUser();
+    },
+    watch:{
+        logoWidth:function(val){
+            // console.log(val * (40 / 80) );
+            this.logoHeight = val * (40 / 80);
+            // this.logoHeight = val * ratio
+        }
     }
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .mainCanvas{
     position: relative;
+}
+.saveBtn{
+    position: fixed;
+    bottom: 0;
+    width: 60%;
+    margin: 0 auto;
 }
 .details-box{
     position: absolute;
@@ -368,150 +410,38 @@ export default {
     right: 0;
     left: 0;
 }
-.layout-one{
-    .brand-text{
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        font-size: 0.9em;
-        font-weight: bold;
-    }
-    .logo{
-        position: absolute;
-        right: 10px;
-        top: 25px;
-        width: 50px;
-    }
-    .rera-text{
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        font-size: 0.5rem;
-        font-weight: bold;
-    }
-    .details-box{
-      background: #222;
-      color: #fff;
-      position: absolute;
-      bottom: 10px;
-      width: 94%;
-      left: 3%;
-      border-radius: 5px;
-      display: flex;
-      font-size: 0.4rem;
-      justify-content: space-between;
-      padding: 5px 8px;
-    }
-}
-.layout-two{
-  .brand-text{
-      position: absolute;
-      top: 15px;
-      left: 20px;
-      font-size: 0.9em;
-      font-weight: bold;
-  }
-  .frame-border{
-    border: 2px solid #fff;
-    position: absolute;
-    top: 10px;
-    left: 13px;
-    bottom: 10px;
-    right: 13px;
-  }
-  .logo{
-      position: absolute;
-      right: 20px;
-      top: 25px;
-      width: 50px;
-  }
-  .rera-text{
-      position: absolute;
-      right: 20px;
-      top: 13px;
-      font-size: 0.5rem;
-      font-weight: bold;
-  }
-  .details-box{
-    background: #fff;
-    color: #333;
-    position: absolute;
-    bottom: 10px;
-    width: 94%;
-    left: 3%;
-    display: flex;
-    font-size: 0.4rem;
-    justify-content: space-between;
-    padding: 5px 8px;
-  }
-}
-.layout-three{
-    .brand-text{
-      position: absolute;
-      top: 15px;
-      left: 20px;
-      font-size: 0.9em;
-      font-weight: bold;
-  }
-  .frame-border{
-    border: 2px solid #333;
-    position: absolute;
-    top: 10px;
-    left: 13px;
-    bottom: 10px;
-    right: 13px;
-  }
-  .logo{
-      position: absolute;
-      right: 20px;
-      top: 25px;
-      width: 50px;
-  }
-  .rera-text{
-      position: absolute;
-      right: 20px;
-      top: 13px;
-      font-size: 0.5rem;
-      font-weight: bold;
-  }
-  .details-box{
-    background: #333;
-    color: #fff;
-    position: absolute;
-    bottom: 10px;
-    width: 94%;
-    left: 3%;
-    display: flex;
-    font-size: 0.4rem;
-    justify-content: space-between;
-    padding: 5px 8px;
-  }
-}
-
-.layout-four{
-  .details-box{
-    position: absolute;
+.rera-controls{
+    position: fixed;
     bottom: 0;
-    text-align: center;
-    width: 100%;
-    font-size: 0.7em;
-  }
-  .brand-text{
-    margin-left: 10px;
-    margin-top: 10px;
-  }
-  .rera-text  {
-    margin-left: 10px;
-    font-size: 0.5em;
-    font-weight: bold;
-  }
-  .logo{
-    position: absolute;
-    right: 10px;
-    width: 70px;
-  }
+    right: 0;
+    left: 0;
 }
-
+.logo-controls{
+    position: fixed;
+    bottom: 0;
+    right: 0; 
+    left: 0;
+}
+.brandText-controls{
+    position: fixed;
+    bottom: 0;
+    right: 0; 
+    left: 0;
+}
+.bgImage-controls{
+    position: fixed;
+    bottom: 0;
+    right: 0; 
+    left: 0;
+}
+.border-frame{
+    border: 2px solid #ffffff;
+    position: absolute;
+    top: 3%;
+    left: 3%;
+    width: 94%;
+    height: 94%;
+}
 /*Loader*/
 .loaderScreen{
     background: #111827;

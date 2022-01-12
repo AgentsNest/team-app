@@ -5,4 +5,5 @@ export default {
   auth: "",
   groups: [],
   teams: [],
+  unreadnotifications: [],
 };

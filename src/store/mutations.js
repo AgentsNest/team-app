@@ -18,3 +18,6 @@ export const SET_GROUPS = (state, groups) => {
 export const SET_TEAMS = (state, teams) => {
   state.teams = teams;
 };
+export const SET_UNREADNOTIFICATION = (state, unreadnotifications) => {
+  state.unreadnotifications = unreadnotifications;
+};

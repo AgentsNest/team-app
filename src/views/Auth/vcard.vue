@@ -48,16 +48,16 @@
 
 
                 <v-card-actions class="justify-center my-4">
-                    <v-btn fab v-if="user.facebook" :href="user.facebook">
+                    <v-btn fab v-if="user.facebook" :href="user.facebook" target="_blank">
                         <v-icon>mdi-facebook</v-icon>
                     </v-btn>
-                    <v-btn fab v-if="user.youtube" :href="user.youtube">
-                        <v-icon>mdi-youtube</v-icon>
+                    <v-btn fab v-if="user.instagram" :href="user.instagram" target="_blank">
+                        <v-icon>mdi-instagram</v-icon>
                     </v-btn>
-                    <v-btn fab v-if="user.twitter" :href="user.twitter">
+                    <v-btn fab v-if="user.twitter" :href="user.twitter" target="_blank">
                         <v-icon>mdi-twitter</v-icon>
                     </v-btn>
-                    <v-btn fab v-if="user.linkedin" :href="user.linkedin">
+                    <v-btn fab v-if="user.linkedin" :href="user.linkedin" target="_blank">
                         <v-icon>mdi-linkedin</v-icon>
                     </v-btn>
                 </v-card-actions>

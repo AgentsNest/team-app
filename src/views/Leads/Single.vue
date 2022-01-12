@@ -1,5 +1,11 @@
 <template>
     <div class="single-lead">
+        <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
+            {{ snackbarText }}
+            <template v-slot:action="{ attrs }">
+                <v-btn small color="pink" text v-bind="attrs" @click="snackbar = false">Close</v-btn>
+            </template>
+        </v-snackbar>
         <v-card class="rounded-xl">
             <v-toolbar elevation="0">
                 <v-btn icon :to="{name: 'mLeads'}"><v-icon>mdi-arrow-left</v-icon></v-btn>
@@ -12,13 +18,13 @@
                         </v-btn>
                     </template>
                     <v-list dense flat elevation="0" class="py-0">
-                        <v-list-item @click="groupDailog = !groupDailog">
+                        <v-list-item @click="showGroupDailog">
                             <v-list-item-title>Add To Group</v-list-item-title>
                         </v-list-item>
                         <v-list-item @click="statusDailog = !statusDailog">
                             <v-list-item-title>Lead Status</v-list-item-title>
                         </v-list-item>
-                        <v-list-item @click="teamDailog = !teamDailog">
+                        <v-list-item @click="showTeamDailog">
                             <v-list-item-title>Assign Team</v-list-item-title>
                         </v-list-item>
                         <v-btn text small class="text-capitalize red lighten-4" block tile @click="deleteLead(lead.id)">
@@ -33,7 +39,7 @@
                     <tr><td>Name</td><td><strong>{{lead.name}}</strong></td></tr>
                     <tr><td>Email</td><td>{{lead.email}}</td></tr>
                     <tr><td>Contact</td><td>{{lead.contact}}</td></tr>
-                    <tr><td>City</td><td>{{lead.city}}</td></tr>
+                    <tr><td>Lead Source</td><td>{{lead.lead_source}}</td></tr>
                 </tbody>
             </v-simple-table>
 
@@ -285,7 +291,8 @@
                     Agent Activites
         ********************************** -->
             <div class="px-6 pt-3">Activities <span v-if="lead.activities" class="ml-2">({{lead.activities.length}})</span></div>
-            <v-card-text>
+
+            <v-card flat class="pr-4 overflow-y-auto" height="200">
                 <v-timeline dense clipped>
                     <v-timeline-item fill-dot class="white--text mb-3" color="grey lighten-3" >
                         <template v-slot:icon><v-icon>mdi-plus</v-icon></template>
@@ -302,11 +309,12 @@
                             </template>
                         </v-text-field>
                     </v-timeline-item>
+                    <!-- All Activites -->
                     <v-timeline-item
                         v-for="activity in lead.activities" :key="activity.id"
                         class="mb-4" color="pink" small
                     >
-                        <v-row justify="space-between">
+                        <v-row justify="space-between" class="body-2">
                             <v-col cols="7" v-if="activity.action" v-text="activity.action"></v-col>
                             <v-col cols="7" v-if="activity.notes" v-text="activity.notes"></v-col>
                             <v-col cols="7" v-if="activity.call" v-text="activity.call"></v-col>
@@ -316,7 +324,7 @@
                         </v-row>
                     </v-timeline-item>
                 </v-timeline>
-            </v-card-text>
+            </v-card>
 
         </v-card>
     </div>
@@ -353,6 +361,8 @@ export default {
             status_name: '',
             team_id: null,
             input: '',
+            snackbar: false,
+            snackbarText: ''
 
         }
     },
@@ -363,8 +373,6 @@ export default {
     },
     mounted(){
         this.$store.dispatch('singleLead', this.$route.params.id);
-        this.$store.dispatch('getGroup');
-        this.$store.dispatch('getTeams');
     },
     methods:{
         addActivityNotes(){
@@ -434,6 +442,10 @@ export default {
                 console.log(error)
             })
         },
+        showGroupDailog(){
+            this.$store.dispatch('getGroup');
+            this.groupDailog = true
+        },
         addSingleLeadToGroup(lead){
             User.asignLeadToTeam(lead, {
                 group_id: this.group_id
@@ -443,9 +455,16 @@ export default {
                 this.snackbarText = 'Lead successufully added to group'
                 this.snackbar = true;
             })
+            .then(() =>{
+                this.groupDailog = false;
+            })
             .catch((error) => {
                 console.log(error)
             })
+        },
+        showTeamDailog(){
+            this.$store.dispatch('getTeams');
+            this.teamDailog = true
         },
         assignSingleLeadToTeam(lead){
             User.asignLeadToTeam(lead, {
@@ -453,8 +472,11 @@ export default {
             })
             .then(response => {
                 this.$store.dispatch('singleLead', this.$route.params.id);
-                this.snackbarText = 'Lead successufully assigned to team member!'
+                this.snackbarText = 'Lead assigned to team member!'
                 this.snackbar = true;
+            })
+            .then(() =>{
+                this.teamDailog = false;
             })
             .catch((error) => {
                 console.log(error)

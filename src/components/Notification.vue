@@ -52,28 +52,22 @@
 import Notification from '../Apis/Notification'
 
 export default {
-    mounted(){
-        this.getNotifications();
-    },
     data(){
         return {
-            unreadnotifications: {},
             notificationList: false,
             snackbar: false
         }
     },
+    computed:{
+        unreadnotifications(){
+            return this.$store.state.unreadnotifications
+        }
+    },
+    mounted(){ this.$store.dispatch('unReadNotification'); },
     methods:{
-        getNotifications(){
-            Notification.unRead().then(response => {
-                this.unreadnotifications = response.data;
-                // console.log(response.data)
-            });
-        },
-        
         markAsRead(){   
             Notification.markAsRead().then(response => {
                 this.notificationList = false;
-                this.getNotifications();
                 this.snackbar = true
             })
         }

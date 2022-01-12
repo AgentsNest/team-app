@@ -242,6 +242,9 @@
                             <v-text-field label="Allotment Price" dense outlined v-model="allotmentprice"></v-text-field>
                         </v-col>
                     </v-row>
+                    <v-row>
+                        <v-col><v-text-field label="Allotment Price" dense outlined v-model="allotmentprice"></v-text-field></v-col>
+                    </v-row>
                     <div class="px-4">Extra Charges 
                         <v-btn depressed fab small @click="addAllotment(index)"><v-icon>mdi-plus</v-icon></v-btn>
                     </div>

@@ -16,7 +16,7 @@
             </v-col>
           </v-row>
           <v-row v-else>
-            <v-col cols="6" v-for="(graphic, index) in filterGraphic" :key="index">
+            <v-col cols="6" v-for="(graphic, index) in graphics" :key="index">
                 <router-link :to="{name: 'previewGraphic', params: {id: graphic.id} }">
                     <v-img
                         :src="graphic.thumb"
@@ -130,14 +130,14 @@ export default {
   },
   mounted(){
     this.fetchData();
-    this.fetchUser();
+    // this.fetchUser();
   },
   computed:{
-    filterGraphic: function(){
-        return this.graphics.filter((graphic) => {
-            return graphic.title.toLowerCase().match(this.search.toLowerCase());
-        })
-    },
+    // filterGraphic: function(){
+    //     return this.graphics.filter((graphic) => {
+    //         return graphic.title.toLowerCase().match(this.search.toLowerCase());
+    //     })
+    // },
   },
 }
 </script>

@@ -10,6 +10,7 @@
 
         <v-card class="rounded-xl pa-0 shadow content-card overflow-y-auto" height="88vh" elevation="0">
             <v-img
+                v-if="property.images"
                 :src="
                     property.images.length == 0 ? 
                     `https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${property.image}` :
@@ -21,7 +22,7 @@
                     `https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${property.images[0].image}` 
                 "
                 max-height="35vh"
-                class="pa-2"
+                class="pa-1"
             >
                 <template v-slot:placeholder>
                     <v-row class="fill-height ma-0" align="center" justify="center">
@@ -30,8 +31,9 @@
                 </template>
 
                 <v-toolbar flat class="transparent">
-                    <v-btn class="white rounded-lg" elevation="1" depressed icon @click="$router.go(-1)"><v-icon>mdi-arrow-left</v-icon></v-btn>
-                    <v-spacer></v-spacer>
+                    <v-btn small class="rounded-lg" elevation="1" depressed fab @click="$router.go(-1)">
+                        <v-icon>mdi-arrow-left</v-icon>
+                    </v-btn>
                 </v-toolbar>
             </v-img>
 

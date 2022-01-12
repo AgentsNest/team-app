@@ -21,6 +21,9 @@ export default {
   addNewClient(form) {
     return Api().post("/addNewClient/", form);
   },
+  deleteClientProfile(params) {
+    return Api().delete("/deleteClientProfile/" + params);
+  },
 
   connectWithClient(form) {
     return Api().post("/connectWithClient/", form);
@@ -37,6 +40,10 @@ export default {
   addNewProperty(form) {
     return Api().post("/addClientProperty/", form);
   },
+  deleteClientProperty(params) {
+    return Api().delete("/deleteClientProperty/" + params);
+  },
+
   singleClientProperty(params) {
     return Api().get("/singleClientProperty/" + params);
   },

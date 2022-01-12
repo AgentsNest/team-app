@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <v-card class="rounded-xl pa-5 shadow content-card" height="88vh" elevation="0">
+        <v-card class="shadow content-card" height="88vh" elevation="0" >
             
             <v-toolbar flat>
                 <div class="font-weight-bold text-h6">My Followups</div>

@@ -16,7 +16,7 @@
 
         <v-row>
           <v-col md="4" cols="12" v-for="(item, index) in filterLead" :key="index">
-              <v-list-item class="shadow rounded-lg">
+              <v-list-item class="shadow rounded-lg pr-0">
                   <v-list-item-avatar tile :color="randomColor(item.id)" class="white--text rounded-lg" size="48">{{item.name[0]}}</v-list-item-avatar>
 
                   <v-list-item-content>
