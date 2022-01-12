@@ -19,34 +19,46 @@
                         Update
                     </v-btn>
 
-                    <!-- Agent Avatar -->
-                    <v-card class="rounded-xl mb-5 content-card" flat>
-                        <v-toolbar flat>
+                    <v-card class="rounded-xl mb-5 pa-2" flat>
+                        <v-card-actions>
+                            <div class="caption grey--text font-weight-bold">https://agentsnest.com/me/<span class="teal--text">{{agent.uid}}</span> </div>
                             <v-spacer></v-spacer>
-                            
+                            <v-btn x-small fab elevation="1" class="mr-3 white" :to="{name: 'vCard', params:{uid: agent.uid}}">
+                                <v-icon>mdi-eye</v-icon>
+                            </v-btn>
                             <v-menu offset-y>
                                 <template v-slot:activator="{ on, attrs }">
-                                    <v-btn fab small depressed class="grey lighten-4"  v-bind="attrs" v-on="on">
+                                    <v-btn fab elevation="1" class="white" x-small v-bind="attrs" v-on="on">
                                         <v-icon>mdi-share-variant-outline</v-icon>
                                     </v-btn>
                                 </template>
                                 <v-list dense elevation="0" class="py-0">
-                                    <v-list-item link ><v-list-item-title>
-                                        Share via 
-                                        <v-icon size="16">mdi-whatsapp</v-icon>
-                                    </v-list-item-title></v-list-item>
-                                    <v-list-item link><v-list-item-title>
-                                        Share via 
-                                        <v-icon size="16">mdi-message-text-outline</v-icon>
-                                    </v-list-item-title></v-list-item>
-                                    <v-list-item link><v-list-item-title>
-                                        Share via 
-                                        <v-icon size="16">mdi-email</v-icon>
-                                    </v-list-item-title></v-list-item>
+                                    <v-list-item link :href="`https://wa.me/?text=https://www.agentsnest.com/me/${agent.uid}`">
+                                        <v-list-item-title>
+                                            <v-icon left size="16">mdi-whatsapp</v-icon>
+                                            Whatsapp
+                                        </v-list-item-title>
+                                    </v-list-item>
+                                    <v-list-item link :href="`sms:&body=https://www.agentsnest.com/me/${agent.uid}`">
+                                        <v-list-item-title>
+                                            <v-icon left size="16">mdi-message-text-outline</v-icon>
+                                            Message
+                                        </v-list-item-title>
+                                    </v-list-item>
+                                    <v-list-item link target="_blank" :href="`mailto:&body=${agent.uid}`">
+                                        <v-list-item-title>
+                                            <v-icon left size="16">mdi-email</v-icon>
+                                            Email 
+                                        </v-list-item-title>
+                                    </v-list-item>
                                 </v-list>
-                                </v-menu>
-                        </v-toolbar>
+                            </v-menu>
+                        </v-card-actions>
+                    </v-card>
 
+                    <!-- Agent Avatar -->
+                    <v-card class="rounded-xl mb-5 content-card" flat>
+                    
                         <!-- <v-toolbar flat class="d-none d-md-flex">
                             <v-img 
                                 :src="avatarPreview ? avatarPreview : agent.image"
@@ -71,7 +83,7 @@
                                 :class="success == true ? 'gradient' : 'grey darken-4'"
                             >{{submitBtn}}</v-btn>
                         </v-toolbar> -->
-                        <div class="text-center">
+                        <div class="text-center mt-5">
                             <v-avatar size="130">
                                 <img 
                                     :src="avatarPreview ? avatarPreview : agent.image"

@@ -1,54 +1,96 @@
 <template>
     <v-card flat>
-        <v-img
-            :aspect-ratio="16/9"
-            height="12vh"
-            src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
-        ></v-img>
-        <v-img
-            :src="user.image"
-            :lazy-src="user.image"
-            class="rounded-xl mx-auto mt-n12"
-            max-width="30vw"
-            aspect-ratio="1"
-            center
-        ></v-img>
+        <v-row>
+            <v-col cols="12" md="6" offset-md="3">
 
-        <v-card-text>
-            <v-card-title>{{user.name}}</v-card-title>
-            <v-card-subtitle>{{user.email}}</v-card-subtitle>
-            <div>{{user.contact}}</div>
-            <div>{{user.bio}}</div>
-        </v-card-text>
+            
+                <v-row class="pa-3">
+                    <v-col cols="4">
+                        <v-img
+                            :src="user.image"
+                            :lazy-src="user.image"
+                            class="rounded"
+                            aspect-ratio="1"
+                            cover
+                        ></v-img>
+                    </v-col>
+                    <v-col>
+                        <div class="title">{{user.name}}</div>
+                        <div>RERA: {{user.rera}}</div>
+                        <div>{{user.brand_text}}</div>
+                        
+                        <div class="blue--text text--darken-3 font-weight-bold mt-3 mb-2">
+                            <a :href="`mailto:${user.email}`">
+                                <v-icon color="blue darken-3" class="mr-2">mdi-email</v-icon>{{user.email}}
+                            </a>
+                        </div>
+                        <div class="blue--text text--darken-3 font-weight-bold mb-4">
+                            <a :href="`tel:+${user.contact}`">
+                                <v-icon color="blue darken-3" class="mr-2">mdi-phone</v-icon>{{user.contact}}
+                            </a>
+                        </div>
+                        
+                        <div class="mt-4"><strong class="mr-2">Address:</strong>{{user.address}}</div>
+                        <div>
+                            <span v-if="user.city">{{user.city}}</span>
+                            <span v-if="user.state">, {{user.state}}</span>
+                            <span v-if="user.country">, {{user.country}}</span>
+                        </div>
+                        
+                    </v-col>
+                </v-row>
 
-        <v-card-actions class="justify-center mb-4">
-            <v-btn fab><v-icon>mdi-facebook</v-icon></v-btn>
-            <v-btn fab><v-icon>mdi-youtube</v-icon></v-btn>
-            <v-btn fab><v-icon>mdi-twitter</v-icon></v-btn>
-            <v-btn fab><v-icon>mdi-linkedin</v-icon></v-btn>
-        </v-card-actions>
+                <v-divider></v-divider>
 
-        <v-divider></v-divider>
+                <v-card-text>
+                    {{user.bio}}
+                </v-card-text>
 
-        <div class="text-center py-3">
-            <v-icon color="yellow darken-3">mdi-lightning-bolt</v-icon> Powered By <strong>agnt.</strong>
-        </div>
+
+                <v-card-actions class="justify-center my-4">
+                    <v-btn fab v-if="user.facebook" :href="user.facebook">
+                        <v-icon>mdi-facebook</v-icon>
+                    </v-btn>
+                    <v-btn fab v-if="user.youtube" :href="user.youtube">
+                        <v-icon>mdi-youtube</v-icon>
+                    </v-btn>
+                    <v-btn fab v-if="user.twitter" :href="user.twitter">
+                        <v-icon>mdi-twitter</v-icon>
+                    </v-btn>
+                    <v-btn fab v-if="user.linkedin" :href="user.linkedin">
+                        <v-icon>mdi-linkedin</v-icon>
+                    </v-btn>
+                </v-card-actions>
+
+            </v-col>
+        </v-row>
+
+        <v-footer fixed class="white px-0">
+            <v-card flat class="transparent" width="100%">
+                <v-divider></v-divider>
+                <v-card-text class="text-center">
+                    <v-icon color="yellow darken-3">mdi-lightning-bolt</v-icon> Powered By <strong>agnt.</strong>        
+                </v-card-text>
+            </v-card>
+        </v-footer>
+
     </v-card>
 </template>
 
 <script>
-import User from '../../Apis/User'
+
 export default {
     data(){
         return{
-            user: ''
+        }
+    },
+    computed:{
+        user(){
+            return this.$store.state.auth
         }
     },
     mounted(){
-        User.vcard(this.$route.params.uid)
-        .then((res) => {
-            this.user = res.data
-        })
+        this.$store.dispatch('getAuth');
     }
 }
 </script>
