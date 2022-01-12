@@ -75,9 +75,16 @@
                             </div>
                         </div>
                         <v-spacer></v-spacer>
-                        <v-btn :to="{name: 'singleLead', params: {id:lead.id}}" icon>
+                        <!-- <v-btn :to="{name: 'singleLead', params: {id:lead.id}}" icon>
                             <v-icon color="grey lighten-1">mdi-chevron-right</v-icon>
-                        </v-btn>
+                        </v-btn> -->
+                        <router-link
+                            :to="{name: 'singleLead', params: {id:lead.id}}"
+                        >
+                            <v-btn icon>
+                                <v-icon color="grey lighten-1">mdi-chevron-right</v-icon>
+                            </v-btn>
+                        </router-link>
                     </v-card-actions>
                 </v-card>               
                 <div v-if="leads.length" v-observe-visibility="handleToScrollPagination"></div>
