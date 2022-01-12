@@ -3,4 +3,6 @@ export default {
   totalLeads: "",
   lead: null,
   auth: "",
+  groups: [],
+  teams: [],
 };

@@ -11,3 +11,10 @@ export const TOTAL_LEADS = (state, total) => {
 export const SINGLE_LEAD = (state, lead) => {
   state.lead = lead;
 };
+
+export const SET_GROUPS = (state, groups) => {
+  state.groups = groups;
+};
+export const SET_TEAMS = (state, teams) => {
+  state.teams = teams;
+};

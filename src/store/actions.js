@@ -1,5 +1,6 @@
 import Lead from "../Apis/Lead";
 import User from "../Apis/User";
+import Other from "../Apis/Other";
 
 export const getAuth = ({ commit }) => {
   User.auth().then((response) => {
@@ -16,5 +17,16 @@ export const getLeads = ({ commit }) => {
 export const singleLead = ({ commit }, leadId) => {
   Lead.details(leadId).then((response) => {
     commit("SINGLE_LEAD", response.data.data);
+  });
+};
+
+export const getGroup = ({ commit }) => {
+  Other.userGroup().then((response) => {
+    commit("SET_GROUPS", response.data);
+  });
+};
+export const getTeams = ({ commit }) => {
+  User.agentTeam().then((response) => {
+    commit("SET_TEAMS", response.data);
   });
 };

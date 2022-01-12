@@ -323,6 +323,9 @@
 </template>
 
 <script>
+import Lead from '../../Apis/Lead';
+import User from '../../Apis/User'
+
 export default {
     data(){
         return {
@@ -335,31 +338,135 @@ export default {
             editMessageWindow: false,
             sheet: false,
             myMsg:[],
+            messages:[],
+            selectedMsg: '',
+            agentName: '',
+            websites: [],
+            group_id: null,
+            leadStatus:[
+                {id: 1, title: 'New'},
+                {id: 2, title: 'Cold'},
+                {id: 3, title: 'Hot'},
+                {id: 4, title: 'Warm'},
+                {id: 5, title: 'Dead'}
+            ],
+            status_name: '',
+            team_id: null,
+            input: '',
 
         }
     },
     computed:{
-        lead(){
-            return this.$store.state.lead;
-        }
+        lead(){ return this.$store.state.lead},
+        groups(){ return this.$store.state.groups},
+        teams(){ return this.$store.state.teams}
     },
     mounted(){
-        // this.$store.dispatch('singleLead', this.$route.params.id);
+        this.$store.dispatch('singleLead', this.$route.params.id);
+        this.$store.dispatch('getGroup');
+        this.$store.dispatch('getTeams');
     },
     methods:{
+        addActivityNotes(){
+            let data = new FormData();
+            data.append('notes', this.input)
+            data.append('lead_id', this.lead.id)
+
+            Lead.addActivityNotes(data)
+            .then(() => {
+                this.input = ''
+                this.$store.dispatch('singleLead', this.lead.id);
+                this.snackbar = true
+                this.snackbarText = 'Activity Note Added'
+            })
+        },
         callNow(){
             let data = new FormData();
             data.append('lead_id', this.lead.id)
             data.append('call', 'Phone Call')
 
-            // Lead.addActivityCall(data)
-            // .then((res) => {
-            //     this.$store.dispatch('singleLead', this.$route.params.id);
-            // })
+            Lead.addActivityCall(data)
+            .then((res) => {
+                // this.fetchData();
+                console.log(res)
+            })
         },
-        addActivityNotes(){
+        addActivityEmail(){
+            let data = new FormData();
+            data.append('lead_id', this.lead.id)
+            data.append('action', 'Send Email')
 
-        }
+            Lead.addActivityMessage(data)
+            .then(() => {
+                // this.fetchData();
+            })
+        },
+        addActivityMessage(){
+            let data = new FormData();
+            data.append('lead_id', this.lead.id)
+            data.append('message', 'Send Text Message')
+
+            Lead.addActivityMessage(data)
+            .then(() => {
+                // this.fetchData();
+            })
+        },
+        addActivityWhatsapp(){
+            let data = new FormData();
+            data.append('lead_id', this.lead.id)
+            data.append('whatsapp', 'Whatsapp Message')
+
+            Lead.addActivityWhatsapp(data)
+            .then(() => {
+                // this.fetchData();
+            })
+        },
+        changeSingleLeadStatus(lead){
+            User.asignLeadToTeam(lead, {
+                status: this.status_name
+            })
+            .then(response => {
+                this.$store.dispatch('singleLead', this.$route.params.id);
+                this.snackbarText = 'Lead Staus changed'
+                this.snackbar = true;
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        },
+        addSingleLeadToGroup(lead){
+            User.asignLeadToTeam(lead, {
+                group_id: this.group_id
+            })
+            .then(response => {
+                this.$store.dispatch('singleLead', this.$route.params.id);
+                this.snackbarText = 'Lead successufully added to group'
+                this.snackbar = true;
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        },
+        assignSingleLeadToTeam(lead){
+            User.asignLeadToTeam(lead, {
+                team_id: this.team_id
+            })
+            .then(response => {
+                this.$store.dispatch('singleLead', this.$route.params.id);
+                this.snackbarText = 'Lead successufully assigned to team member!'
+                this.snackbar = true;
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        },
+        deleteLead(lead){
+            Lead.delete(lead)
+            .then((res)=> {
+                this.$router.push({name: 'mLeads'});
+            })
+        },
+        
     }
 }
 </script>
