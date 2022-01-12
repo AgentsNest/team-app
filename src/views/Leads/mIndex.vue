@@ -81,9 +81,7 @@
                         <router-link
                             :to="{name: 'singleLead', params: {id:lead.id}}"
                         >
-                            <v-btn icon>
-                                <v-icon color="grey lighten-1">mdi-chevron-right</v-icon>
-                            </v-btn>
+                            <v-icon color="grey ">mdi-chevron-double-right</v-icon>
                         </router-link>
                     </v-card-actions>
                 </v-card>               
