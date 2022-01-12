@@ -46,7 +46,7 @@
                             <button class="gradient" @click="login">Login</button>
                         </v-card-actions>
                         <div class="mt-3">
-                            I'm new user. <router-link to="/register">Sign Up</router-link>
+                            I'm new user. <router-link :to="{name: 'Register'}">Sign Up</router-link>
                         </div>
                     </v-card>
                 </v-col>

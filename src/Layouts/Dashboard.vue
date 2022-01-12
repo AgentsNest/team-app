@@ -24,6 +24,12 @@ export default {
     Navbar,
     Sidelink
   },
+  computed:{
+    agent(){ return this.$store.state.auth; },
+  },
+  mounted(){
+    this.$store.dispatch('getAuth');
+  }
 };
 </script>
 

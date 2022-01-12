@@ -9,6 +9,7 @@ import moment from "moment";
 import converter from "number-to-words";
 import InfiniteLoading from "vue-infinite-loading";
 import Vuelidate from "vuelidate";
+import VueObserveVisibility from "vue-observe-visibility";
 
 import TapAndHold from "vue-tap-and-hold";
 Vue.use(TapAndHold, {
@@ -22,6 +23,7 @@ Vue.use(VueImg);
 Vue.use(VueKonva);
 Vue.use(InfiniteLoading);
 Vue.use(Vuelidate);
+Vue.use(VueObserveVisibility);
 
 Vue.config.productionTip = false;
 

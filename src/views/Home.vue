@@ -13,9 +13,9 @@
             <!-- <v-btn text class="text-capitalize">Case Studies</v-btn>
             <v-btn text class="text-capitalize">Pricing</v-btn>
             <v-btn text class="text-capitalize">Integration</v-btn> -->
-            <v-btn text class="text-capitalize d-none d-md-flex">Resources</v-btn>
-            <v-btn text class="text-capitalize d-none d-md-flex">About Us</v-btn>
-            <v-btn color="teal darken-2" dark elevation="0" class="text-capitalize">Login</v-btn>
+            <v-btn text class="text-capitalize d-none d-md-flex d-md-none">Resources</v-btn>
+            <v-btn text class="text-capitalize d-none d-md-flex d-md-none">About Us</v-btn>
+            <v-btn color="teal darken-2" dark elevation="0" class="text-capitalize d-md-none" :to="{name: 'Login'}">Login</v-btn>
             <v-btn text elevation="0" class="text-capitalize d-none d-md-flex">Join Now</v-btn>
 
         </v-app-bar>

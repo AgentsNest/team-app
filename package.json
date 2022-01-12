@@ -26,6 +26,7 @@
     "vue-infinite-loading": "^2.4.5",
     "vue-konva": "^2.1.7",
     "vue-lazytube": "^1.0.2",
+    "vue-observe-visibility": "^1.0.0",
     "vue-pdf-embed": "^1.0.4",
     "vue-router": "^3.2.0",
     "vue-stripe-elements-plus": "^1.0.2",

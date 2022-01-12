@@ -118,6 +118,7 @@
               link
               class="py-1"
               :to="{name: item.link}"
+              :disabled="whateverActivatesThisLink" 
             >
               <v-list-item-icon><v-icon>{{ item.icon }}</v-icon></v-list-item-icon>
               <v-list-item-content>
@@ -135,14 +136,12 @@
 </template>
 
 <script>
-import User from '../../Apis/User'
 import Notification from '../Notification.vue'
 
 export default {
   components:{ Notification },
   data () {
     return {
-      agent: {},
       isLoggedIn: false,
       menu: false,
       mSidebar: false,
@@ -157,21 +156,20 @@ export default {
         { title: 'Messages', icon: 'mdi-message-outline', link: 'Message' },
         { title: 'Team', icon: 'mdi-account-multiple', link: 'Team' },
       ],
+      whateverActivatesThisLink: false,
     }
   },
-  created(){
-    User.auth().then((response) => {
-      this.agent = response.data.data
-    })
+  computed:{
+    agent(){ return this.$store.state.auth; },
   },
   methods:{
     logout(){
       localStorage.removeItem("token");
-      User.logout().then(() => {
-        localStorage.removeItem("token");
-        this.isLoggedIn = false;
-        this.$router.push({name: 'Login'});
-      })
+      // User.logout().then(() => {
+      //   localStorage.removeItem("token");
+      //   this.isLoggedIn = false;
+      //   this.$router.push({name: 'Login'});
+      // })
     }
   }
 }

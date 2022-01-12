@@ -10,7 +10,7 @@
         <v-card class="shadow content-card" width="100%" flat>
 
             <v-toolbar>
-                <div class="font-weight-bold">Total Leads ({{total_leads}})</div>
+                <div class="font-weight-bold">Total Leads ({{totalLeads}})</div>
                 <v-spacer></v-spacer>
                 <v-btn icon @click="searchInput = !searchInput"><v-icon>mdi-magnify</v-icon></v-btn>
             </v-toolbar>
@@ -79,7 +79,8 @@
                             <v-icon color="grey lighten-1">mdi-chevron-right</v-icon>
                         </v-btn>
                     </v-card-actions>
-                </v-card>
+                </v-card>               
+                <div v-if="leads.length" v-observe-visibility="handleToScrollPagination"></div>
                 <!-- <v-list three-line>
                     
                     <v-list-item v-for="lead in filterLead" :key="lead.id" class="">
@@ -118,7 +119,7 @@
                 persistent
                 transition="dialog-bottom-transition"
             >
-                <v-card tile>
+                <v-card tile v-if="lead">
                     <v-toolbar elevation="1">
                         <v-btn icon @click="drawer = false"><v-icon>mdi-close</v-icon></v-btn>
                         <v-spacer></v-spacer>
@@ -491,12 +492,8 @@ export default {
           { text: 'Last Remark', value: 'activites' },
         ],
         status_name: '',
-        leads:[],
-        lead:{},
-        total_leads : '',
         page: 1,
         last_page : null,
-        agent: null,
         agentName: '',
         drawer: false,
         input: '',
@@ -548,7 +545,6 @@ export default {
             {id: 4, title: 'Warm'},
             {id: 5, title: 'Dead'}
         ],
-        whateverActivatesThisLink: true,
         direction: 'top',
         fab: false,
         fling: false,
@@ -594,18 +590,13 @@ export default {
                 this.teams = response.data;
             })
         },
-        async fetchAgent(){
-            User.auth()
-            .then(response => {
-                this.agent = response.data.data.id;
-                this.agentName = response.data.data.name;
-                if (response.data.data.subscribed === 'YES') {
-                    this.whateverActivatesThisLink = true
-                } else {
-                    this.whateverActivatesThisLink = false
-                }
-            })
-        },
+        // async fetchAgent(){
+        //     User.auth()
+        //     .then(response => {
+        //         this.agent = response.data.data.id;
+        //         this.agentName = response.data.data.name;
+        //     })
+        // },
         shareWebsiteListDialog(){
             this.sheet = true;
             Website.auth().then(response => {
@@ -624,10 +615,7 @@ export default {
         },
         detailsSidebar(lead){
             this.drawer = true
-            Lead.details(lead).then(response => {
-                this.lead = response.data.data;
-                // console.log(response.data)
-            });
+            this.$store.dispatch('singleLead', lead);
         },
         deleteLead(lead){
             Lead.delete(lead)
@@ -669,7 +657,8 @@ export default {
 
             Lead.addActivityNotes(data)
             .then(() => {
-                this.fetchData();
+                this.input = ''
+                this.$store.dispatch('singleLead', this.lead.id);
                 this.snackbar = true
                 this.snackbarText = 'Activity Note Added'
             })
@@ -868,6 +857,9 @@ export default {
                 });
             }
         },
+        handleToScrollPagination(){
+            console.log('abc')
+        },
         loadMoreDesktop($state){
             if (this.page == this.last_page) {
                 $state.complete();
@@ -934,6 +926,10 @@ export default {
         }
     },
     computed:{
+        leads(){  return this.$store.state.leads; },
+        totalLeads(){ return this.$store.state.totalLeads },
+        lead(){ return this.$store.state.lead; },
+
         filterLead: function(){
             return this.leads.filter((lead) => {
                 return lead.name.toLowerCase().match(this.search.toLowerCase());
@@ -957,13 +953,14 @@ export default {
         },
     },
     mounted(){
-      this.fetchData();
-      this.fetchGroups();
-      this.fetchTeams();
-      this.fetchAgent();
+        // this.fetchData();
+        // this.fetchGroups();
+        // this.fetchTeams();
+        // this.fetchAgent();
         User.auth().then(response => {
             this.shareData.agent_id = response.data.data.id;
         });
+        this.$store.dispatch('getLeads');
     }
 }
 </script>
@@ -992,7 +989,7 @@ select{
 }
 .speed-dail{
     position: absolute;
-    bottom: 3em;
+    bottom: 6em;
     right: 15px;
 }
 </style>

@@ -35,7 +35,7 @@
 
                         <v-card-actions class="px-0 mt-4">
                             <v-spacer></v-spacer>
-                            <router-link to="/login" class="grey--text text--darken-2">
+                            <router-link :to="{name: 'Login'}" class="grey--text text--darken-2">
                                 already have a account?
                                 <v-btn text outlined class="text-capitalize">Login</v-btn>
                             </router-link>
