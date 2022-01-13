@@ -57,7 +57,7 @@
             
 
             <v-card height="80vh" class="overflow-y-auto pb-8" flat>
-                <v-card v-for="lead in filterLead" :key="lead.id" v-hold="onTap" tile class="mt-1 rounded-lg" elevation="2">
+                <v-card v-for="lead in filterLead" :key="lead.id" tile class="mt-1 rounded-lg" elevation="2">
                     <v-card-actions class="pa-3">
                         <v-checkbox class="" refs="checkItem" :value="lead.id" v-model="selectedLeads" v-if="actionBtn"></v-checkbox>
                         <div>
