@@ -9,9 +9,9 @@
 
         <v-card class="rounded-xl shadow" elevation="0">
             <v-toolbar flat>
-                <!-- <div class="font-weight-bold text-h6">Websites</div> -->
+                <!-- <div class="font-weight-bold text-h6">Websites</div>
 
-                <!-- <input type="text" placeholder="Search by Project name..." class="search-input"> -->
+                <input type="text" placeholder="Search by Project name..." class="search-input"> -->
 
                 <!-- <v-autocomplete
                     v-model="select"
@@ -34,34 +34,29 @@
             
             </v-toolbar>
         </v-card>
+        <input type="text" v-model="search" placeholder="Search Projects..." class="search-input mt-3">
 
         <v-card class="transparent content-card" elevation="0" height="75vh"> 
-          <v-row class="mt-4 content-card">
-              <v-col md="3" v-for="(website, index) in websites" :key="index">
+          <v-row class="mt-1 content-card">
+              <v-col md="3" v-for="(website, index) in filterWebsite" :key="index">
                   <v-card>
-                      <v-carousel v-model="projectGallery" height="200" hide-delimiters>
-                          <v-carousel-item v-for="(image, i) in website.website_images" :key="i">
-                              <v-img
-                                  :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
-                                  :lazy-src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
-                                  cover
-                                  center
-                              ></v-img>
-                          </v-carousel-item>
-                      </v-carousel>
+                    <v-img
+                        max-height="180px"
+                        :src="website.website_images[0] ? `https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${website.website_images[0].url}` : 'https://realtsafe-test.s3.ap-south-1.amazonaws.com/Default/property.jpg'"
+                        class="rounded-t"
+                    ></v-img>
+                    <v-card-title>{{website.title}}</v-card-title>
 
-                      <v-card-title>{{website.title}}</v-card-title>
-
-                      <v-card-actions>
-                          <v-btn @click="previeWebsite(website.id)" text link width="50%" class="text-capitalize" outlined small>
-                            View
-                          </v-btn>
-                          <v-spacer></v-spacer>
-                          <v-btn color="grey darken-3" width="50%" class="text-capitalize" dark small @click="cloneWebsite(website.id)">
-                            <v-icon left>mdi-content-copy</v-icon>
-                            Copy to my projects
-                          </v-btn>
-                      </v-card-actions>
+                    <div class="d-flex">
+                        <v-btn @click="previeWebsite(website.id)" text link width="50%" class="text-capitalize" outlined small>
+                          View
+                        </v-btn>
+                        <v-spacer></v-spacer>
+                        <v-btn color="grey darken-3" width="50%" class="text-capitalize" dark small @click="cloneWebsite(website.id)">
+                          <v-icon left>mdi-content-copy</v-icon>
+                          Copy to my projects
+                        </v-btn>
+                    </div>
                   </v-card>
               </v-col>
           </v-row>
@@ -89,6 +84,7 @@
                                         :lazy-src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
                                         aspect-ratio="1"
                                         class="grey lighten-2 rounded-lg"
+                                        max-height="200px"
                                     >
                                         <template v-slot:placeholder>
                                             <v-row class="fill-height ma-0" align="center" justify="center">
@@ -163,7 +159,7 @@ export default {
       return {
         loading: false,
         items: [],
-        search: null,
+        search: '',
         select: null,
         states: [
           'Alabama',
@@ -180,8 +176,15 @@ export default {
       }
     },
     watch: {
-      search (val) {
-        val && val !== this.select && this.querySelections(val)
+      // search (val) {
+      //   val && val !== this.select && this.querySelections(val)
+      // },
+    },
+    computed:{
+      filterWebsite: function(){
+          return this.websites.filter((website) => {
+              return website.title.toLowerCase().match(this.search.toLowerCase());
+          })
       },
     },
     methods: {

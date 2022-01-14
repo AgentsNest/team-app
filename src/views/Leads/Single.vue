@@ -342,9 +342,6 @@ export default {
             groupDailog: false,
             statusDailog: false,
             teamDailog: false,
-            whatsappShare: false,
-            editMessageWindow: false,
-            sheet: false,
             myMsg:[],
             messages:[],
             selectedMsg: '',
@@ -363,8 +360,11 @@ export default {
             input: '',
             snackbar: false,
             snackbarText: '',
+            sheet: false,
+            editMessageWindow: false,
             selectedWebsiteMsg: '',
             editWebsiteWindow: false,
+            whatsappShare: false,
 
         }
     },
@@ -490,7 +490,7 @@ export default {
                 this.$router.push({name: 'mLeads'});
             })
         },
-    // Share Website
+        // Share Website
         shareWebsiteListDialog(){
             this.sheet = true;
             Website.auth().then(response => {

@@ -602,22 +602,7 @@ export default {
         //         this.agentName = response.data.data.name;
         //     })
         // },
-        shareWebsiteListDialog(){
-            this.sheet = true;
-            Website.auth().then(response => {
-                this.websites = response.data.data;
-                // console.log(response.data.data);
-            });
-        },
-        whatsappShareDialog(){
-            this.whatsappShare = true;
-            Other.allMessage().then(response => {
-                this.messages = response.data.data;
-            });
-            Other.myMessage().then(response => {
-                this.myMsg = response.data.data;
-            });
-        },
+        
         detailsSidebar(lead){
             this.drawer = true
             this.$store.dispatch('singleLead', lead);
@@ -679,6 +664,24 @@ export default {
                 console.log(res)
             })
         },
+
+        // Website Share functions
+        shareWebsiteListDialog(){
+            this.sheet = true;
+            Website.auth().then(response => {
+                this.websites = response.data.data;
+                // console.log(response.data.data);
+            });
+        },
+        whatsappShareDialog(){
+            this.whatsappShare = true;
+            Other.allMessage().then(response => {
+                this.messages = response.data.data;
+            });
+            Other.myMessage().then(response => {
+                this.myMsg = response.data.data;
+            });
+        },
         addActivityEmail(){
             let data = new FormData();
             data.append('lead_id', this.lead.id)
@@ -709,6 +712,58 @@ export default {
                 // this.fetchData();
             })
         },
+        shareNow(lead, website){
+            this.websiteName = website;
+
+            let form = new FormData();
+            form.append('website_id', website.id)
+            form.append('lead_id', lead.id)
+            form.append('agent_id', this.shareData.agent_id)
+            form.append('opened', false)
+            form.append('total_views', 0)
+
+            // for (var pair of form.entries()){
+            //     console.log(pair[0]+ ', '+ pair[1]); 
+            // }
+
+            Tracker.new(form)
+            .then(response => {
+                this.tracker_id = response.data.url
+                // console.log(response.data)
+                if (response.data == 'Already Sent') {
+                    this.snackbarText = 'Already Sent!'
+                    this.snackbar = true
+                } else {
+                    this.sendWhatsapp();
+                }
+                // this.websiteShareConfirmation = true
+            })
+            // .then(() => {
+            //     this.sendWhatsapp();
+            // })
+            .catch(error => {
+                console.log(error);
+            })
+        },
+        showSelectedWebsiteMessage(lead, website){
+            this.selectedWebsiteMsg = 'Here is the details for';
+            this.editWebsiteWindow = true;
+        },
+        sendWhatsapp(){
+            // let num=document.getElementById("number").value;
+            // let leadname= document.getElementById("leadname").value;
+            // let website= document.getElementById("website").value;
+            // let websiteslug= document.getElementById("websiteslug").value;
+
+            // console.log(this.lead.contact, this.lead.name, this.tracker_id, this.websiteName.title);
+
+            window.open(`https://wa.me/${this.lead.contact}?text=Hi ${this.lead.name} ${this.selectedWebsiteMsg} ${this.websiteName.title} %0a https://agentsnest.com/wt/${this.websiteName.id}/${this.tracker_id}`, '_blank');
+        },
+        showSelectedMessage(message){
+            this.selectedMsg = message;
+            this.editMessageWindow = true
+        },
+        // Followups Function
         addFollowup(){
             let data = new FormData();
             data.append('lead_id', this.lead.id)
@@ -878,57 +933,7 @@ export default {
                 });
             }
         },
-        shareNow(lead, website){
-            this.websiteName = website;
-
-            let form = new FormData();
-            form.append('website_id', website.id)
-            form.append('lead_id', lead.id)
-            form.append('agent_id', this.shareData.agent_id)
-            form.append('opened', false)
-            form.append('total_views', 0)
-
-            // for (var pair of form.entries()){
-            //     console.log(pair[0]+ ', '+ pair[1]); 
-            // }
-
-            Tracker.new(form)
-            .then(response => {
-                this.tracker_id = response.data.url
-                // console.log(response.data)
-                if (response.data == 'Already Sent') {
-                    this.snackbarText = 'Already Sent!'
-                    this.snackbar = true
-                } else {
-                    this.sendWhatsapp();
-                }
-                // this.websiteShareConfirmation = true
-            })
-            // .then(() => {
-            //     this.sendWhatsapp();
-            // })
-            .catch(error => {
-                console.log(error);
-            })
-        },
-        showSelectedWebsiteMessage(lead, website){
-            this.selectedWebsiteMsg = 'Here is the details for';
-            this.editWebsiteWindow = true;
-        },
-        sendWhatsapp(){
-            // let num=document.getElementById("number").value;
-            // let leadname= document.getElementById("leadname").value;
-            // let website= document.getElementById("website").value;
-            // let websiteslug= document.getElementById("websiteslug").value;
-
-            // console.log(this.lead.contact, this.lead.name, this.tracker_id, this.websiteName.title);
-
-            window.open(`https://wa.me/${this.lead.contact}?text=Hi ${this.lead.name} ${this.selectedWebsiteMsg} ${this.websiteName.title} %0a https://agentsnest.com/wt/${this.websiteName.id}/${this.tracker_id}`, '_blank');
-        },
-        showSelectedMessage(message){
-            this.selectedMsg = message;
-            this.editMessageWindow = true
-        }
+        
     },
     computed:{
         leads(){  return this.$store.state.leads; },
