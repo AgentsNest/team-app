@@ -127,11 +127,14 @@
                             </v-row>
 
                             <div class="d-flex">
-                                <v-btn class="red lighten-1" width="20%" dark depressed @click.stop="deleteDialog = true">
+                                <v-btn class="red lighten-1" width="15%" dark depressed @click.stop="deleteDialog = true">
                                     <v-icon>mdi-trash-can</v-icon>
                                 </v-btn>
+                                <v-btn class="blue lighten-1" width="15%" dark depressed link :to="{name: 'editProperty', params:{id: property.id}}">
+                                    <v-icon>mdi-pencil</v-icon>
+                                </v-btn>
                                 <v-spacer></v-spacer>
-                                <v-btn depressed width="80%" class="text-capitalize" :to="{name: 'singleProperty', params:{id: property.id}}">View Property</v-btn>
+                                <v-btn depressed width="70%" link class="text-capitalize" :to="{name: 'singleProperty', params:{id: property.id}}">View Property</v-btn>
                             </div>
                         </v-card>
                         <!-- Delete Dialog -->

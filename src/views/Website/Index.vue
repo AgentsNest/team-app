@@ -53,7 +53,7 @@
                       <v-card-title>{{website.title}}</v-card-title>
 
                       <v-card-actions>
-                          <v-btn :to="{name: 'SingleWebsite', params:{id: website.id}}" text target="_blank" link width="50%" class="text-capitalize" outlined small>
+                          <v-btn @click="previeWebsite(website.id)" text link width="50%" class="text-capitalize" outlined small>
                             View
                           </v-btn>
                           <v-spacer></v-spacer>
@@ -67,13 +67,98 @@
           </v-row>
         </v-card>
 
+        <!-- Website Preview -->
+        <v-dialog v-model="preview" fullscreen hide-overlay transition="dialog-bottom-transition">
+            <v-card tile>
+                <v-toolbar dark color="primary">
+                    <v-toolbar-title v-if="website">{{website.title}}</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-btn icon dark @click="preview = false"><v-icon>mdi-close</v-icon></v-btn>
+                </v-toolbar>
+
+                <v-row class="">
+                    <v-col md="8" offset-md="2">
+                        <v-card class="mx-auto" tile>
+                            <v-card-title>{{website.title}}</v-card-title>
+                            <v-card-subtitle>{{website.about}}</v-card-subtitle>
+
+                            <v-row class="px-4" v-if="website.website_images">
+                                <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex" cols="12">
+                                    <v-img
+                                        :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
+                                        :lazy-src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
+                                        aspect-ratio="1"
+                                        class="grey lighten-2 rounded-lg"
+                                    >
+                                        <template v-slot:placeholder>
+                                            <v-row class="fill-height ma-0" align="center" justify="center">
+                                                <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                                            </v-row>
+                                        </template>
+                                    </v-img>
+                                </v-col>
+                            </v-row>
+
+                            <v-card class="d-flex align-center pa-4 mt-5 justify-space-around">
+                                <div class="font-weight-bold">PREPARED BY:</div>
+                                <v-spacer></v-spacer>
+                                <div>
+                                    <div>@AGENTNAME</div>
+                                    <div>@AGENTCONTACT</div>
+                                </div>
+                            </v-card>
+
+                            <v-card-text>
+                                <div class="text-h6">Map</div>
+                                <iframe :src="website.map" style="width: 100%; height: 350px; border:0" allowfullscreen="" loading="lazy"></iframe>
+                            </v-card-text>
+                            <v-card-text class="text-center">
+                                <div class="text-h6">Walkthrough</div>
+                                <LazyYoutube :src="website.walkthrough" />
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                </v-row>
+
+                <v-card>
+                    <v-card-text class="text-center">
+                        <h5>SHARED BY</h5>
+                        <h3>@COMPANYNAME</h3>
+                        <h4>@AGENTNAME</h4>
+                        <div class="caption">@AGENTCONTACT</div>
+                    </v-card-text>
+                    <v-card-actions class="justify-center">
+                        <v-btn outlined class="text-capitalize" color="blue darken-3">
+                            <v-icon left>mdi-phone</v-icon>
+                            <span>Call</span>
+                        </v-btn>
+                        <v-btn outlined class="text-capitalize" color="grey darken-1">
+                            <v-icon left>mdi-message-processing-outline</v-icon>
+                            <span>SMS</span>
+                        </v-btn>
+                        <v-btn outlined class="text-capitalize" color="teal darken-3">
+                            <v-icon left>mdi-whatsapp</v-icon>
+                            <span>Whatsapp</span>
+                        </v-btn>
+                    </v-card-actions>
+                    <v-card-text class="text-center">
+                        <v-icon color="orange">mdi-lightning-bolt</v-icon>
+                        Powered By AgentsNest
+                    </v-card-text>
+                </v-card>
+
+            </v-card>
+        </v-dialog>
+
     </div>
 </template>
 
 <script>
 import Website from '../../Apis/Website'
+import { LazyYoutube } from "vue-lazytube";
 
 export default {
+    components: { LazyYoutube },
     data () {
       return {
         loading: false,
@@ -90,7 +175,8 @@ export default {
         snackbar: false,
         snackbarText: '',
         website: '',
-        projectGallery: 0
+        projectGallery: 0,
+        preview: false,
       }
     },
     watch: {
@@ -112,13 +198,6 @@ export default {
       fetchData(){
         Website.all().then(response => {
             this.websites = response.data.data;
-            // console.log(response)
-        });
-      },
-      shareNow(website){
-        this.drawer = true
-        Website.details(website).then(response => {
-            this.website = response.data.data;
         });
       },
       cloneWebsite(website){
@@ -135,7 +214,13 @@ export default {
           }
         })
         .catch();
-      }
+      },
+      previeWebsite(website) {
+        this.preview = true;
+        Website.websiteById(website).then((response) => {
+            this.website = response.data.website
+        });
+      },
     },
     mounted(){
       this.fetchData();

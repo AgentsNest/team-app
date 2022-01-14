@@ -43,6 +43,9 @@ export default {
   deleteClientProperty(params) {
     return Api().delete("/deleteClientProperty/" + params);
   },
+  updateProperty(id, form) {
+    return Api().post("/updateProperty" + id, form);
+  },
 
   singleClientProperty(params) {
     return Api().get("/singleClientProperty/" + params);
@@ -62,9 +65,7 @@ export default {
   updatePropertyPayment(id, data) {
     return Api().put("/updatePropertyPayment/" + id, data);
   },
-  updateProperty(id, form) {
-    return Api().post("/updateProperty" + id, form);
-  },
+
   deletePropertyPayment(params) {
     return Api().delete("/deletePropertyPayment/" + params);
   },

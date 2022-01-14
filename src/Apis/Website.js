@@ -28,6 +28,9 @@ export default {
   SlugDetails(params) {
     return Api().get("/w/" + params);
   },
+  websiteById(params) {
+    return Api().get("/w_by_id/" + params);
+  },
 
   builders() {
     return Api().get("/allPromotors");

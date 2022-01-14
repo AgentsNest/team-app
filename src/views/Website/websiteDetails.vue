@@ -108,13 +108,13 @@
                             <v-card-title>{{website.title}}</v-card-title>
                             <v-card-subtitle>{{website.about}}</v-card-subtitle>
 
-                            <v-row>
-                                <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex" cols="4">
+                            <v-row class="px-4">
+                                <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex" cols="12">
                                     <v-img
                                         :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
                                         :lazy-src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
                                         aspect-ratio="1"
-                                        class="grey lighten-2"
+                                        class="grey lighten-2 rounded-lg"
                                     >
                                         <template v-slot:placeholder>
                                             <v-row class="fill-height ma-0" align="center" justify="center">
@@ -141,7 +141,7 @@
                             </v-card-text>
                             <v-card-text class="text-center">
                                 <div class="text-h6">Walkthrough</div>
-                                <LazyYoutube src="https://www.youtube.com/watch?v=TcMBFSGVi1c" />
+                                <LazyYoutube :src="website.walkthrough" />
                             </v-card-text>
                         </v-card>
                     </v-col>

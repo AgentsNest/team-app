@@ -333,6 +333,8 @@
 <script>
 import Lead from '../../Apis/Lead';
 import User from '../../Apis/User'
+import Other from '../../Apis/Other'
+import Website from '../../Apis/Website'
 
 export default {
     data(){
@@ -340,8 +342,6 @@ export default {
             groupDailog: false,
             statusDailog: false,
             teamDailog: false,
-            whatsappShareDialog: false,
-            shareWebsiteListDialog: false,
             whatsappShare: false,
             editMessageWindow: false,
             sheet: false,
@@ -362,7 +362,9 @@ export default {
             team_id: null,
             input: '',
             snackbar: false,
-            snackbarText: ''
+            snackbarText: '',
+            selectedWebsiteMsg: '',
+            editWebsiteWindow: false,
 
         }
     },
@@ -488,6 +490,31 @@ export default {
                 this.$router.push({name: 'mLeads'});
             })
         },
+    // Share Website
+        shareWebsiteListDialog(){
+            this.sheet = true;
+            Website.auth().then(response => {
+                this.websites = response.data.data;
+            });
+        },
+        showSelectedWebsiteMessage(lead, website){
+            this.selectedWebsiteMsg = 'Here is the details for';
+            this.editWebsiteWindow = true;
+        },
+        // Whatsapp/Message share
+        whatsappShareDialog(){
+            this.whatsappShare = true;
+            Other.allMessage().then(response => {
+                this.messages = response.data.data;
+            });
+            Other.myMessage().then(response => {
+                this.myMsg = response.data.data;
+            });
+        },
+        showSelectedMessage(message){
+            this.selectedMsg = message;
+            this.editMessageWindow = true
+        }
         
     }
 }

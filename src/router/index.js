@@ -123,11 +123,19 @@ const routes = [
           ),
       },
       {
-        path: "/clients/add-property/:id",
+        path: "/clients/add-property/",
         name: "AddProperty",
         component: () =>
           import(
             /* webpackChunkName: "addProperty" */ "../views/Client/addProperty.vue"
+          ),
+      },
+      {
+        path: "/clients/edit-property/:id",
+        name: "editProperty",
+        component: () =>
+          import(
+            /* webpackChunkName: "editProperty" */ "../views/Client/editProperty.vue"
           ),
       },
       {
