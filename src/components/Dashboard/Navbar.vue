@@ -155,7 +155,7 @@ export default {
         { title: 'Projects', icon: 'mdi-office-building-marker', link: 'MyWebsite' },
         { title: 'Groups', icon: 'mdi-group', link: 'Groups' },
         { title: 'Messages', icon: 'mdi-message-outline', link: 'Message' },
-        { title: 'Team', icon: 'mdi-account-multiple', link: 'Team' },
+        { title: 'Sub-Channel', icon: 'mdi-account-multiple', link: 'Team' },
       ],
       whateverActivatesThisLink: false,
     }
