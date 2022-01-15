@@ -64,11 +64,12 @@ export default {
   },
   methods:{
     fetchData(){
-      Client.myClient(this.page).then((response) => {
+      Client.myClient(this.page)
+      .then((response) => {
         this.clients = response.data.data;
         this.clientsCount = response.data.data.length;
-        // console.log(response.data);
-        this.last_page = response.data.last_page
+        // console.log(response);
+        this.last_page = response.data.data.last_page
       })
     },
     dateTime(value){

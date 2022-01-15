@@ -184,10 +184,7 @@ export default {
     }),
 
     mounted(){
-        Client.clientProfile(this.$route.params.id).then(response => {
-            this.client = response.data
-            this.properties = response.data.properties
-        })
+        this.fetchProperty();
     },
     computed:{
         filterLead: function(){
@@ -197,10 +194,18 @@ export default {
         }
     },
     methods:{
+        fetchProperty(){
+            Client.clientProfile(this.$route.params.id).then(response => {
+                this.client = response.data
+                this.properties = response.data.properties
+            })
+        },
         deleteClientProperty(property){
             Client.deleteClientProperty(property)
             .then(() => {
                 this.snackbar = true
+                this.deleteDialog = false
+                this.fetchProperty()
             })
         },
         deleteClientProfile(client){

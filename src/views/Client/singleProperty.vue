@@ -9,33 +9,16 @@
         </v-snackbar>
 
         <v-card class="rounded-xl pa-0 shadow content-card overflow-y-auto" height="88vh" elevation="0">
-            <v-img
-                v-if="property.images"
-                :src="
-                    property.images.length == 0 ? 
-                    `https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${property.image}` :
-                    `https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${property.images[0].image}` 
-                "
-                :lazy-src="
-                    property.images.length == 0 ? 
-                    `https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${property.image}` :
-                    `https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${property.images[0].image}` 
-                "
-                max-height="35vh"
-                class="pa-1"
-            >
-                <template v-slot:placeholder>
-                    <v-row class="fill-height ma-0" align="center" justify="center">
-                        <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                    </v-row>
-                </template>
 
-                <v-toolbar flat class="transparent">
-                    <v-btn small class="rounded-lg" elevation="1" depressed fab @click="$router.go(-1)">
-                        <v-icon>mdi-arrow-left</v-icon>
-                    </v-btn>
-                </v-toolbar>
-            </v-img>
+            <v-toolbar flat class="indigo px-2">
+                <v-btn small dark icon @click="$router.
+                go(-1)">
+                    <v-icon>mdi-arrow-left</v-icon>
+                </v-btn>
+                <v-spacer></v-spacer>
+                <div class="white--text">{{property.title}}</div>
+                <v-spacer></v-spacer>
+            </v-toolbar>
 
             <div class="pb-6">
                 
@@ -51,6 +34,7 @@
                                         <tr><td><strong>Location:</strong></td><td>{{property.location}}</td></tr>
                                         <tr><td><strong>Balance:</strong></td><td>{{property.balance}}</td></tr>
                                         <tr><td><strong>Payment Received:</strong></td><td>{{property.paymentreceived}}</td></tr>
+                                        <tr><td><strong>Allotment Price:</strong></td><td>{{property.allotmentvalue}}</td></tr>
                                     </tbody>
                                 </template>
                             </v-simple-table>
@@ -123,10 +107,10 @@
                             </v-col> -->
                             <v-col>
                                 <v-card>
-                                    <v-toolbar color="indigo" dark dense>
+                                    <v-toolbar flat>
                                         <div>Allotment Price :</div>
                                         <v-spacer></v-spacer>
-                                        ₹ {{property.allotmentvalue}}
+                                        <v-btn icon @click="allotmentDialog = true"><v-icon>mdi-plus</v-icon></v-btn>
                                     </v-toolbar>
                                     <v-simple-table>
                                         <template v-slot:default>
@@ -136,6 +120,7 @@
                                                 <th class="text-left">Amount</th>
                                                 <th class="text-left">GST</th>
                                                 <th class="text-left">Tax</th>
+                                                <th class="text-left">Act</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -144,12 +129,39 @@
                                                 <td>{{ allotment.amount }}</td>
                                                 <td>{{ allotment.percentage }}%</td>
                                                 <td>{{ allotment.tax }}</td>
+                                                <td>
+                                                    <v-btn small icon class="rounded-xl text-capitalize" @click="deleteAllotmentCharge(allotment.id)">
+                                                        <v-icon size="16">mdi-trash-can-outline</v-icon>
+                                                    </v-btn>
+                                                </td>
                                             </tr>
                                         </tbody>
                                         </template>
                                     </v-simple-table>
                                 </v-card>
                             </v-col>
+
+                            <!-- Add new Charge allotment -->
+                            <v-dialog v-model="allotmentDialog" width="500">
+                                <v-card>
+                                    <div class="grey lighten-2 px-6 py-4">Add Charges</div>
+
+                                    <v-card-text class="pt-6">
+                                        <v-text-field solo class="rounded-lg" label="Title" v-model="allotment.title"></v-text-field>
+                                        <v-text-field solo class="rounded-lg" label="Amount" v-model="allotment.amount"></v-text-field>
+                                        <v-text-field solo class="rounded-lg" label="GST" v-model="allotment.percentage"></v-text-field>
+                                        <v-text-field solo class="rounded-lg" label="Tax" v-model="allotment.tax"></v-text-field>
+                                    </v-card-text>
+
+                                    <v-divider></v-divider>
+
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn class="grey darken-3" dark block @click="addCharge">Save</v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+
                         </v-row>
                     </v-col>
 
@@ -407,6 +419,13 @@ export default {
             applicantOneDetails: null,
             applicantTwoDetails: null,
             applicantThreeDetails: null,
+            allotmentDialog: false,
+            allotment: {
+                title: '',
+                amount: '',
+                percentage: '',
+                tax: ''
+            }
         }
     },
     mounted(){
@@ -443,6 +462,14 @@ export default {
                 this.payment = ''
                 this.paymentDialog = false
                 this.fetchData()
+            })
+        },
+        deleteAllotmentCharge(allotment){
+            Client.deleteAllotmentCharge(allotment)
+            .then(() => {
+                this.snackbarText = 'Charge Deleted';
+                this.snackbar = true;
+                this.fetchData();
             })
         },
         deletePropertyPayment(payment){
@@ -512,11 +539,36 @@ export default {
         },
         updatePayment(){
             let form = new FormData();
-            form.append('amount', this.payment.amount)
+            form.append('title', this.singlePayment.title)
+            form.append('amount', this.singlePayment.amount)
 
-            Client.updateProperty(form)
-            .then(()=> {
+            // console.log(this.singlePayment.title, this.singlePayment.amount)
 
+            Client.updatePropertyPayment(this.singlePayment.id, form)
+            .then((res)=> {
+                this.snackbarText = "Payment Updated"
+                this.snackbar = true
+            }).catch((err) => {
+                console.log(err);
+            })
+        },
+        addCharge(){
+            let data = new FormData();
+            data.append('title', this.allotment.title)
+            data.append('amount', this.allotment.amount)
+            data.append('percentage', this.allotment.percentage)
+            data.append('tax', this.allotment.tax)
+            data.append('property_id', this.property.id)
+            
+            // for (var pair of data.entries()){
+            //     console.log(pair[0]+ ', '+ pair[1]); 
+            // }
+
+            Client.addAllotmentCharges(data)
+            .then(() =>{
+                this.allotment = ''
+                this.allotmentDialog = false
+                this.fetchData()
             })
         }
     }

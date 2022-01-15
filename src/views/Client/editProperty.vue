@@ -9,12 +9,22 @@
         </v-snackbar>
 
         <!-- Update Button -->
-        <v-btn class="teal update-btn white--text text-capitalize" @click="saveDetails()">
+        <v-btn class="teal update-btn white--text text-capitalize" @click="updateProperty()">
             <v-icon left color="white">mdi-content-save</v-icon>
             Update
         </v-btn>
 
         <v-card class="rounded-xl pa-0 shadow content-card overflow-y-auto" height="88vh" elevation="0">
+
+            <v-toolbar flat class="indigo px-2">
+                <v-btn small dark icon @click="$router.
+                go(-1)">
+                    <v-icon>mdi-arrow-left</v-icon>
+                </v-btn>
+                <v-spacer></v-spacer>
+                <div class="white--text">Update Property</div>
+                <v-spacer></v-spacer>
+            </v-toolbar>
 
             <div class="pb-6">
                 
@@ -28,16 +38,13 @@
                                 <v-text-field label="Unit" v-model="property.unit"></v-text-field>
                                 <v-text-field label="Floor" v-model="property.floor"></v-text-field>
                                 <v-text-field label="Location" v-model="property.location"></v-text-field>
-                                <v-text-field label="Balance" v-model="property.balance"></v-text-field>
-                                <v-text-field label="Payment Received" v-model="property.paymentreceived"></v-text-field>
-                                <v-text-field label="Total Deal Price" v-model="property.allotmentvalue"></v-text-field>
                             </v-card-text>
                         </v-card>
                     </v-col>
                 </v-row>
 
                 <v-row>
-                    <v-col cols="12">
+                    <!-- <v-col cols="12">
                         <v-card class="" flat>
                             <v-toolbar color="indigo" dark dense>
                                 <div>Charges and Taxes</div>
@@ -53,16 +60,18 @@
                                         <v-text-field label="Tax" dense class="px-3 caption" v-model="allotment.tax"></v-text-field>
                                         <div class="d-flex">
                                             <v-btn width="50%" class="red lighten-2" dark small depressed><v-icon size="16">mdi-trash-can</v-icon></v-btn>
-                                            <v-btn width="50%" class="green lighten-1" depressed dark small><v-icon size="16">mdi-content-save-outline</v-icon></v-btn>
+                                            <v-btn width="50%" class="green lighten-1" depressed dark small @click="updateTaxCharges(allotment)">
+                                                <v-icon size="16">mdi-content-save-outline</v-icon>
+                                            </v-btn>
                                         </div>
                                     </v-card>
                                 </v-col>
                             </v-row>
                         </v-card>
-                    </v-col>
+                    </v-col> -->
 
                     <!-- All Applicant List -->
-                    <v-col cols="12" v-if="applicantOneDetails.length">
+                    <!-- <v-col cols="12" v-if="applicantOneDetails.length">
                         <v-card class="mt-4 rounded-lg">
                             <v-toolbar flat>
                                 <v-toolbar-title>Applicants</v-toolbar-title>
@@ -117,12 +126,12 @@
                                 </v-row>
                             </v-card-text>
                         </v-card>
-                    </v-col>
+                    </v-col> -->
 
                     <!-- Payment List and Add new -->
                     <v-col cols="12">
                         <v-card class="mt-2 rounded-lg">
-                            <v-toolbar flat>
+                            <!-- <v-toolbar flat>
                                 <v-toolbar-title>Payments</v-toolbar-title>
                                 <v-spacer></v-spacer>
                                 <v-btn fab small class="white" elevation="2" @click="paymentDialog = !paymentDialog">
@@ -160,13 +169,13 @@
                                         </tr>
                                     </tbody>
                                 </template>
-                            </v-simple-table>
+                            </v-simple-table> -->
 
                         <!-- 
                             ==================
                                 Edit Payment 
                         ======================= -->
-                            <v-dialog v-model="editPaymentDialog" width="500">
+                            <!-- <v-dialog v-model="editPaymentDialog" width="500">
                                 <v-card>
                                     <div class="px-6 py-4 grey lighten-2">Edit Payment</div>
 
@@ -196,12 +205,12 @@
                                         <v-btn color="dark" block @click="updatePayment">Update</v-btn>
                                     </v-card-actions>
                                 </v-card>
-                            </v-dialog>
+                            </v-dialog> -->
 
                         </v-card>
 
                         <!-- Add new payment -->
-                        <v-dialog v-model="paymentDialog" width="500">
+                        <!-- <v-dialog v-model="paymentDialog" width="500">
                             <v-card>
                                 <div class="grey lighten-2 px-6 py-4">Add Payment</div>
 
@@ -220,12 +229,12 @@
                                     <v-btn class="grey darken-3" dark block @click="addPayment">Save</v-btn>
                                 </v-card-actions>
                             </v-card>
-                        </v-dialog>
+                        </v-dialog> -->
                     </v-col>
                 </v-row>
 
             <!-- Document List -->
-                <v-card class="rounded-lg mt-4">
+                <!-- <v-card class="rounded-lg mt-4">
                     <v-toolbar flat>
                         <span>Documents</span>
                         <v-spacer></v-spacer>
@@ -253,10 +262,10 @@
                             </v-col>
                         </v-row>
                     </v-card-text>
-                </v-card>
+                </v-card> -->
 
             <!-- Image gallery -->
-                <v-card class="rounded-lg mt-4">
+                <!-- <v-card class="rounded-lg mt-4">
                     <v-card-subtitle class="py-2 font-weight-bold">Image Gallery</v-card-subtitle>
 
                     <v-card-text class="px-2 myGallery">
@@ -264,7 +273,7 @@
                             <img v-img:group :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${gallery.image}`" class="singleImage">
                         </div>
                     </v-card-text>
-                </v-card>
+                </v-card> -->
             </div>
     
         </v-card>
@@ -308,11 +317,8 @@ export default {
     },
     methods:{
         fetchData(){
-            Client.singleClientProperty(this.$route.params.id).then(response => {
+            Client.singleClientPropertyForEdit(this.$route.params.id).then(response => {
                 this.property = response.data
-                this.applicantOneDetails = JSON.parse(response.data.applicant_one)
-                this.applicantTwoDetails = JSON.parse(response.data.applicant_two)
-                this.applicantThreeDetails = JSON.parse(response.data.applicant_three)
             })
         },
         onChange(e) {
@@ -369,11 +375,17 @@ export default {
         },
         updateProperty(){
             let form = new FormData();
-            form.append('amount', this.payment.amount)
+            form.append('title', this.property.title)
+            form.append('size', this.property.size)
+            form.append('unit', this.property.unit)
+            form.append('floor', this.property.floor)
+            form.append('location', this.property.location)
 
-            Client.updateProperty(form)
-            .then(()=> {
-
+            Client.updateProperty(this.property.id, form)
+            .then((res)=> {
+                // console.log(res)
+                this.snackbarText = 'Property Updated'
+                this.snackbar = true
             })
         },
         uploadInvoice(){
@@ -431,6 +443,22 @@ export default {
             Client.updateProperty(form)
             .then(()=> {
 
+            })
+        },
+        updateTaxCharges(allotment){
+            let data = new FormData();
+            data.append('title', allotment.title)
+            data.append('amount', allotment.amount)
+            data.append('percentage', allotment.percentage)
+            data.append('tax', allotment.tax)
+
+            // for (var pair of data.entries()){
+            //     console.log(pair[0]+ ', '+ pair[1]); 
+            // }
+
+            Client.updateTaxCharges(allotment.id, data)
+            .then((res) => {
+                this.fetchData();
             })
         }
     }

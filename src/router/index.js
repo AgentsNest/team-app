@@ -123,7 +123,7 @@ const routes = [
           ),
       },
       {
-        path: "/clients/add-property/",
+        path: "/clients/add-property/:id",
         name: "AddProperty",
         component: () =>
           import(

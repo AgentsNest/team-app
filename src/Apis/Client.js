@@ -44,11 +44,14 @@ export default {
     return Api().delete("/deleteClientProperty/" + params);
   },
   updateProperty(id, form) {
-    return Api().post("/updateProperty" + id, form);
+    return Api().post("/updateProperty/" + id, form);
   },
 
   singleClientProperty(params) {
     return Api().get("/singleClientProperty/" + params);
+  },
+  singleClientPropertyForEdit(params) {
+    return Api().get("/singleClientPropertyForEdit/" + params);
   },
 
   allBuilder() {
@@ -62,8 +65,19 @@ export default {
   addPropertyPayment(form) {
     return Api().post("/addPropertyPayment", form);
   },
-  updatePropertyPayment(id, data) {
-    return Api().put("/updatePropertyPayment/" + id, data);
+  updatePropertyPayment(id, form) {
+    return Api().patch("/updatePropertyPayment/" + id, form);
+  },
+
+  // Charges and taxes
+  updateTaxCharges(id, data){
+    return Api().put("/updateTaxCharges/" + id, data);
+  },
+  deleteAllotmentCharge(params) {
+    return Api().delete("/deleteAllotmentCharge/" + params);
+  },
+  addAllotmentCharges(form) {
+    return Api().post("/addAllotmentCharges", form);
   },
 
   deletePropertyPayment(params) {

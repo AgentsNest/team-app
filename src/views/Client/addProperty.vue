@@ -236,16 +236,14 @@
                 </v-card> -->
             <!-- Allotment Value -->
                 <v-card class="mt-10">
-                    <v-row class="px-4 pt-4">
+                    <!-- <v-row class="px-4 pt-4">
                         <v-col cols="5">Allotment Price <small>(exclude charges)</small></v-col>
                         <v-col>
                             <v-text-field label="Allotment Price" dense outlined v-model="allotmentprice"></v-text-field>
                         </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col><v-text-field label="Allotment Price" dense outlined v-model="allotmentprice"></v-text-field></v-col>
-                    </v-row>
-                    <div class="px-4">Extra Charges 
+                    </v-row> -->
+                
+                    <div class="pa-4">Extra Charges 
                         <v-btn depressed fab small @click="addAllotment(index)"><v-icon>mdi-plus</v-icon></v-btn>
                     </div>
                     <v-card-text v-for="(input, index) in allotCharges" :key="index">
@@ -738,7 +736,7 @@ export default {
                 this.property.allotmentvalue = '',
                 this.property.images = [],
                 this.property.docs = []
-                console.log(response)
+                this.$route.push({name: 'clientProfile'})
             })
             .catch(error => {
                 console.log(error)
