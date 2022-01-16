@@ -13,6 +13,10 @@ export default {
     return Api().get("/websites");
   },
 
+  search(params) {
+    return Api().get("/website/search?q=" + params);
+  },
+
   auth() {
     return Api().get("/websites/by/user");
   },

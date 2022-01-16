@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="rounded-xl pa-md-5 pa-1 shadow content-card" height="88vh" elevation="0">
+    <v-card class="rounded-xl pa-md-5 shadow content-card" height="88vh" elevation="0">
 
       <v-toolbar flat>
           <div class="font-weight-bold text-md-h6">My Existing Clients <span v-if="clientsCount">({{clientsCount}})</span></div>
@@ -16,7 +16,7 @@
 
         <v-row>
           <v-col md="4" cols="12" v-for="(item, index) in filterLead" :key="index">
-              <v-list-item class="shadow rounded-lg pr-0">
+              <v-list-item class="shadow rounded-lg">
                   <v-list-item-avatar tile :color="randomColor(item.id)" class="white--text rounded-lg" size="48">{{item.name[0]}}</v-list-item-avatar>
 
                   <v-list-item-content>

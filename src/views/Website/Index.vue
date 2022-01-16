@@ -34,15 +34,52 @@
             
             </v-toolbar>
         </v-card>
-        <input type="text" v-model="search" placeholder="Search Projects..." class="search-input mt-3">
 
-        <v-card class="transparent content-card" elevation="0" height="75vh"> 
-          <v-row class="mt-1 content-card">
-              <v-col md="3" v-for="(website, index) in filterWebsite" :key="index">
+        <div class="d-flex align-center mt-3">
+          <v-btn fab small elevation="0" class="grey rounded-lg" dark @click.prevent="clearSearch()">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <input type="text" v-model="search" placeholder="Search Projects..." class="search-input mx-2">
+          <v-btn fab small elevation="1" class="white rounded-lg" @click.prevent="searchWebsite()">
+            <v-icon>mdi-magnify</v-icon>
+          </v-btn>
+        </div>
+
+        <v-card class="mt-4 pb-16 transparent content-card" elevation="0" height="75vh"> 
+          <div v-if="showsearch">
+            <v-row class="content-card">
+                <v-col md="3" v-for="website in results" :key="website.id">
+                    <v-card>
+                      <v-img
+                          v-if="website.website_images"
+                          max-height="180px"
+                          :src="website.website_images[0] ? `https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${website.website_images[0].url}` : 'https://realtsafe-test.s3.ap-south-1.amazonaws.com/Default/property.jpg'"
+                          class="rounded-t"
+                      ></v-img>
+                      <v-card-title>{{website.title}}</v-card-title>
+
+                      <div class="d-flex">
+                          <v-btn @click="previeWebsite(website.id)" text link width="50%" class="text-capitalize" outlined small>
+                            View
+                          </v-btn>
+                          <v-spacer></v-spacer>
+                          <v-btn color="grey darken-3" width="50%" class="text-capitalize" dark small @click="cloneWebsite(website.id)">
+                            <v-icon left>mdi-content-copy</v-icon>
+                            Copy to my projects
+                          </v-btn>
+                      </div>
+                    </v-card>
+                </v-col>
+            </v-row>
+          </div>
+          <div v-else>
+            <v-row class="content-card">
+              <v-col md="3" v-for="(website, index) in websites" :key="index">
                   <v-card>
                     <v-img
                         max-height="180px"
                         :src="website.website_images[0] ? `https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${website.website_images[0].url}` : 'https://realtsafe-test.s3.ap-south-1.amazonaws.com/Default/property.jpg'"
+                        :lazy-src="website.website_images[0] ? `https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${website.website_images[0].url}` : 'https://realtsafe-test.s3.ap-south-1.amazonaws.com/Default/property.jpg'"
                         class="rounded-t"
                     ></v-img>
                     <v-card-title>{{website.title}}</v-card-title>
@@ -59,7 +96,11 @@
                     </div>
                   </v-card>
               </v-col>
-          </v-row>
+            </v-row>
+            <!-- <v-btn block class="mt-5 text-capitalize">
+              <v-icon left>mdi-arrow-down</v-icon> more
+            </v-btn> -->
+          </div>
         </v-card>
 
         <!-- Website Preview -->
@@ -160,6 +201,8 @@ export default {
         loading: false,
         items: [],
         search: '',
+        showsearch: false,
+        results: [],
         select: null,
         states: [
           'Alabama',
@@ -173,6 +216,7 @@ export default {
         website: '',
         projectGallery: 0,
         preview: false,
+        page: 1,
       }
     },
     watch: {
@@ -201,6 +245,7 @@ export default {
       fetchData(){
         Website.all().then(response => {
             this.websites = response.data.data;
+            // console.log(response.data)
         });
       },
       cloneWebsite(website){
@@ -224,6 +269,21 @@ export default {
             this.website = response.data.website
         });
       },
+      searchWebsite(){
+        Website.search(this.search)
+        .then((res) => {
+          // console.log(res.data)
+          this.showsearch = true
+          this.results = res.data;
+        }).catch((err) => {
+          console.log(err)
+        })
+      },
+      clearSearch(){
+        this.results = ''
+        this.search = ''
+        this.showsearch = false
+      }
     },
     mounted(){
       this.fetchData();
@@ -238,9 +298,8 @@ export default {
 .search-input{
   background-color: #fff;
   border-radius: 12px;
-  padding: 0.8em;
-  width: 100%;
-  max-width: 400px;
+  padding: 0.6em 0.8em;
+  width: 100%; 
   box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
 }
 </style>

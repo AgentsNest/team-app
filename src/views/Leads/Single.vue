@@ -293,7 +293,7 @@
         ********************************** -->
             <div class="px-6 pt-3">Activities <span v-if="lead.activities" class="ml-2">({{lead.activities.length}})</span></div>
 
-            <v-card flat class="px-4 mt-3 overflow-y-auto pb-5" height="200">
+            <v-card flat class="px-4 mt-3 overflow-y-auto" height="200">
                 <!-- <v-timeline dense clipped >
                     <v-timeline-item fill-dot class="white--text mb-3 text-left" color="grey lighten-3" >
                         <v-text-field
