@@ -45,7 +45,6 @@
                 <v-row>
                     <v-col cols="12">
                         <!-- All Charges and Taxes -->
-                        <div class="title mt-6 mb-3">Charges and Taxes</div>
                         <v-row>
                             <!-- <v-col>
                                 <v-card>
@@ -107,7 +106,7 @@
                             </v-col> -->
                             <v-col>
                                 <v-card>
-                                    <v-toolbar flat>
+                                    <v-toolbar class="indigo lighten-1" dense dark>
                                         <div>Allotment Price :</div>
                                         <v-spacer></v-spacer>
                                         <v-btn icon @click="allotmentDialog = true"><v-icon>mdi-plus</v-icon></v-btn>
@@ -226,10 +225,10 @@
                     <!-- Payment List and Add new -->
                     <v-col cols="12">
                         <v-card class="mt-2 rounded-lg">
-                            <v-toolbar flat>
-                                <v-toolbar-title>Payments</v-toolbar-title>
+                            <v-toolbar class="indigo lighten-1" dense dark>
+                                <div>Payments</div>
                                 <v-spacer></v-spacer>
-                                <v-btn fab small class="white" elevation="2" @click="paymentDialog = !paymentDialog">
+                                <v-btn icon elevation="0" @click="paymentDialog = !paymentDialog">
                                     <v-icon>mdi-plus</v-icon>
                                 </v-btn>
                             </v-toolbar>
@@ -331,7 +330,23 @@
 
             <!-- Document List -->
                 <v-card class="rounded-lg mt-4" v-if="property.documents.length">
-                    <v-card-subtitle class="py-2 font-weight-bold">Documents</v-card-subtitle>
+                    <v-toolbar class="indigo lighten-1" dense dark>
+                        <div>Documents</div>
+                        <v-spacer></v-spacer>
+                        <v-btn icon elevation="0">
+                            <label for="docs" class="">
+                                <v-icon>mdi-plus</v-icon>
+                                <input 
+                                    type="file" 
+                                    id="docs" 
+                                    hidden multiple 
+                                    ref="docs" 
+                                    @change="onFileChange"
+                                    accept="application/pdf, application/doc"
+                                >
+                            </label>
+                        </v-btn>
+                    </v-toolbar>
                     <v-card-text class="px-2">
                         <v-row no-gutters>
                             <v-col v-for="pdf in property.documents" :key="pdf.id" cols="12" class="pa-1">
@@ -342,10 +357,14 @@
                                     transition="dialog-bottom-transition"
                                 >
                                     <template v-slot:activator="{ on, attrs }">
-                                        <v-btn class="pa-2 d-flex flex-row align-center" outlined v-bind="attrs" v-on="on" text>
-                                            <v-icon color="grey darken-2">mdi-file-document-outline</v-icon>
-                                            <div class="caption text-capitalize">{{pdf.image}}</div>
-                                        </v-btn>
+                                        <div class="d-flex">
+                                            <v-btn class="pa-2 d-flex flex-row align-center" outlined v-bind="attrs" v-on="on" text>
+                                                <v-icon color="grey darken-2">mdi-file-document-outline</v-icon>
+                                                <div class="caption text-capitalize">{{pdf.image}}</div>
+                                            </v-btn>
+                                            <v-spacer></v-spacer>
+                                            <v-btn @click="deleteDocumentInProperty(pdf.id)" icon><v-icon>mdi-trash-can</v-icon></v-btn>
+                                        </div>
                                     </template>
                                     <v-card>
                                         <v-toolbar dark color="primary">
@@ -365,7 +384,23 @@
 
             <!-- Image gallery -->
                 <v-card class="rounded-lg mt-4">
-                    <v-card-subtitle class="py-2 font-weight-bold">Image Gallery</v-card-subtitle>
+                    <v-toolbar class="indigo lighten-1" dense dark>
+                        <div>Image Gallery</div>
+                        <v-spacer></v-spacer>
+                        <v-btn icon elevation="0">
+                            <label for="images" class="">
+                                <v-icon>mdi-plus</v-icon>
+                                <input 
+                                    type="file" 
+                                    id="images" 
+                                    hidden 
+                                    ref="images" 
+                                    @change="onImageChange"
+                                    accept="image/png, image/jpeg"
+                                >
+                            </label>
+                        </v-btn>
+                    </v-toolbar>
                     <v-card-text class="px-2 myGallery">
                         <div v-for="gallery in property.images" :key="gallery.id">
                             <!-- <v-img
@@ -380,6 +415,9 @@
                                 </template>
                             </v-img> -->
                             <img v-img:group :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${gallery.image}`" class="singleImage">
+                            <v-btn block small @click="deleteImageInProperty(gallery.id)">
+                                <v-icon left>mdi-trash-can</v-icon>
+                            </v-btn>
                         </div>
                     </v-card-text>
                 </v-card>
@@ -425,7 +463,9 @@ export default {
                 amount: '',
                 percentage: '',
                 tax: ''
-            }
+            },
+            file:'',
+            image: ''
         }
     },
     mounted(){
@@ -570,7 +610,50 @@ export default {
                 this.allotmentDialog = false
                 this.fetchData()
             })
+        },
+        // Upload & Delete Document
+        onFileChange(e){
+            this.file = e.target.files[0];
+            this.uploadDocuement();
+        },
+        uploadDocuement(){
+            let data = new FormData()
+            data.append('file', this.file);
+            data.append('property_id', this.property.id)
+
+            Client.uploadDocument(data)
+            .then((res) => {
+                this.fetchData();
+            })
+        },
+        deleteDocumentInProperty(document){
+            Client.deleteDocumentInProperty(document)
+            .then((res) => {
+                this.fetchData();
+            })
+        },
+        // Upload & Delete Image Gallery
+        onImageChange(e){
+            this.file = e.target.files[0];
+            this.addImageInProperty();
+        },
+        addImageInProperty(){
+            let data = new FormData()
+            data.append('file', this.file);
+            data.append('property_id', this.property.id)
+
+            Client.addImageInProperty(data)
+            .then((res) => {
+                this.fetchData();
+            })
+        },
+        deleteImageInProperty(gallery){
+            Client.deleteImageInProperty(gallery)
+            .then((res) => {
+                this.fetchData();
+            })
         }
+
     }
 }
 </script>

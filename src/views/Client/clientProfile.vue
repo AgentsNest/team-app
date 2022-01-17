@@ -2,7 +2,7 @@
     <div>
         <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000"
         >
-            Deleted Successufully
+            {{snackbarText}}
             <template v-slot:action="{ attrs }">
                 <v-btn small color="pink" text v-bind="attrs" @click="snackbar = false">Close</v-btn>
             </template>
@@ -15,9 +15,9 @@
                     <v-icon size="28" color="grey darken-3">mdi-arrow-left</v-icon>
                 </v-btn>
                 <v-list-item two-line>
-                    <v-list-item-avatar size="50" class="mr-4 white--text" color="teal" v-if="client.name"> 
+                    <!-- <v-list-item-avatar size="50" class="mr-4 white--text" color="teal" v-if="client.name"> 
                         {{client.name.slice(0,1)}}
-                    </v-list-item-avatar>
+                    </v-list-item-avatar> -->
 
                     <v-list-item-content>
                         <v-list-item-title>{{client.name}}</v-list-item-title>
@@ -25,12 +25,50 @@
                     </v-list-item-content>
                 </v-list-item>
                 <v-spacer></v-spacer>
-                <v-btn fab x-small class="white" elevation="1" @click="deleteClient = true">
-                    <v-icon color="grey darken-2">mdi-trash-can</v-icon>
-                </v-btn>
+                <v-menu bottom left>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn icon v-bind="attrs" v-on="on">
+                            <v-icon>mdi-dots-vertical</v-icon>
+                        </v-btn>
+                    </template>
+                    <v-list dense class="py-0">
+                        <v-list-item @click="deleteClient = true">  
+                            <v-icon size="20" left color="grey darken-2">mdi-trash-can</v-icon>
+                            Delete
+                        </v-list-item>
+                        <v-divider></v-divider>
+                        <v-list-item @click="updatePasswordDialog = true">  
+                            <v-icon size="20" left color="grey darken-2">mdi-pencil</v-icon>
+                            Update
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
+
             </v-toolbar>
 
-            <!-- Delete Client Dialog -->
+            <!-- =================================
+                Update Client Password Dialog 
+            =================================  -->
+            <v-dialog v-model="updatePasswordDialog" max-width="320" persistent>
+                <v-card>
+                    <v-toolbar dense elevation="2">
+                        <v-spacer></v-spacer>
+                        <v-btn icon><v-icon>mdi-close</v-icon></v-btn>
+                    </v-toolbar>
+                    <v-card-text class="mt-5">
+                        <input type="text" class="search-input" placeholder="New Password" v-model="newpassword">
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-btn text class="text-capitalize pink" dark @click="updatePassword(client.id)" block>
+                            Update
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+
+            <!-- ======================
+                Delete Client Dialog 
+            ======================== -->
             <v-dialog v-model="deleteClient" max-width="320" persistent>
                 <v-card>
                     <div class="pa-6 text-center pink--text">
@@ -180,7 +218,10 @@ export default {
         received: '',
         deleteDialog: false,
         deleteClient: false,
-        snackbar: false
+        snackbar: false,
+        snackbarText : '',
+        updatePasswordDialog: false,
+        newpassword: ''
     }),
 
     mounted(){
@@ -203,6 +244,7 @@ export default {
         deleteClientProperty(property){
             Client.deleteClientProperty(property)
             .then(() => {
+                this.snackbarText = 'Deleted Successufully';
                 this.snackbar = true
                 this.deleteDialog = false
                 this.fetchProperty()
@@ -216,6 +258,15 @@ export default {
                 this.$router.go(-1);
             })
         },
+        updatePassword(client){
+            Client.updateClientPassword(client, {newpassword: this.newpassword})
+            .then((res) => {
+                this.snackbarText = 'Password Updated';
+                this.snackbar = true;
+                this.newpassword = ''
+                this.updatePasswordDialog = false
+            })
+        }
     }
 }
 </script>
@@ -226,10 +277,9 @@ export default {
 }
 .search-input{
   background-color: #fff;
-  border-radius: 12px;
-  padding: 0.3em 1em;
+  border-radius: 5px;
+  padding: 0.9em 1em;
   font-size: 15px;
-  max-width: 350px;
   width: 100%;
   box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
 }

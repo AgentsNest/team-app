@@ -4,11 +4,28 @@
 
       <v-toolbar flat>
           <div class="font-weight-bold text-md-h6">My Existing Clients <span v-if="clientsCount">({{clientsCount}})</span></div>
+
           <v-spacer></v-spacer>
-          <v-btn large-md small depressed :to="{name: 'AddClient'}" class="text-capitalize rounded-lg blue-grey darken-3" dark>
-            <v-icon>mdi-plus</v-icon>
-            <span class="d-none d-md-block">Add Client</span>
-          </v-btn>
+
+          <v-menu bottom left>
+              <template v-slot:activator="{ on, attrs }">
+                  <v-btn icon v-bind="attrs" v-on="on">
+                      <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+              </template>
+              <v-list dense class="py-0">
+                  <v-list-item :to="{name: 'AddClient'}" class="caption" link>
+                    <v-icon left>mdi-plus</v-icon>
+                    Add Client
+                  </v-list-item>
+                  <v-divider></v-divider>
+                  <v-list-item :to="{name: 'sendUpdateToClient'}" class="caption" link>
+                      <v-icon left>mdi-bullhorn-outline</v-icon>
+                      Add Update
+                  </v-list-item>
+              </v-list>
+          </v-menu>
+
       </v-toolbar>
 
       <v-card-text>

@@ -10,6 +10,9 @@ export default {
   auth() {
     return Api().get("/client");
   },
+  updateClientPassword(id, form) {
+    return Api().patch("/updateClientPassword/" + id, form);
+  },
   myClient(page) {
     return Api().get(`/myClient?page=${page}`);
   },
@@ -37,6 +40,7 @@ export default {
     return Api().get("/client/" + params);
   },
 
+  // Add Property
   addNewProperty(form) {
     return Api().post("/addClientProperty/", form);
   },
@@ -45,6 +49,28 @@ export default {
   },
   updateProperty(id, form) {
     return Api().post("/updateProperty/" + id, form);
+  },
+  /**
+   *
+   * @param {edit update/delete files/document from property} form
+   * @returns
+   */
+  uploadDocument(form) {
+    return Api().post("/addDocumentInProperty/", form);
+  },
+  deleteDocumentInProperty(params) {
+    return Api().delete("/deleteDocumentInProperty/" + params);
+  },
+  /**
+   *
+   * @param {edit update/delete Image/Gallery from property} form
+   * @returns
+   */
+  addImageInProperty(form) {
+    return Api().post("/addImageInProperty/", form);
+  },
+  deleteImageInProperty(params) {
+    return Api().delete("/deleteImageInProperty/" + params);
   },
 
   singleClientProperty(params) {
@@ -70,7 +96,7 @@ export default {
   },
 
   // Charges and taxes
-  updateTaxCharges(id, data){
+  updateTaxCharges(id, data) {
     return Api().put("/updateTaxCharges/" + id, data);
   },
   deleteAllotmentCharge(params) {
@@ -96,5 +122,10 @@ export default {
   },
   clientConnectAgents() {
     return Api().get("/clientConnectAgents");
+  },
+
+  // Add updates to existing client
+  postUpdate(form) {
+    return Api().post("/post/updates/", form);
   },
 };

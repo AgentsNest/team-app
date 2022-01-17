@@ -123,6 +123,14 @@ const routes = [
           ),
       },
       {
+        path: "/clients/add-update",
+        name: "sendUpdateToClient",
+        component: () =>
+          import(
+            /* webpackChunkName: "sendUpdateToClient" */ "../views/Client/sendUpdate.vue"
+          ),
+      },
+      {
         path: "/clients/add-property/:id",
         name: "AddProperty",
         component: () =>
