@@ -330,7 +330,7 @@
                                     <v-icon>mdi-plus</v-icon>
                                 </v-btn>
                             </v-toolbar>
-                            <v-simple-table max-height="190px">
+                            <!-- <v-simple-table max-height="190px">
                                 <template v-slot:default>
                                     <thead>
                                         <tr>
@@ -361,7 +361,51 @@
                                         </tr>
                                     </tbody>
                                 </template>
-                            </v-simple-table>
+                            </v-simple-table> -->
+
+                            <v-card v-for="payment in property.payments" :key="payment.id" class="mb-2">
+                                <v-card-text>
+                                    <div class="d-flex">
+                                        <strong>Title</strong>
+                                        <v-spacer></v-spacer>
+                                        <div>{{payment.title}}</div>
+                                    </div>
+                                    <v-divider></v-divider>
+                                    <div class="d-flex">
+                                        <strong>Due Date</strong>
+                                        <v-spacer></v-spacer>
+                                        <div>{{payment.due_date}}</div>
+                                    </div>
+                                    <v-divider></v-divider>
+                                    <div class="d-flex">
+                                        <strong>Amount Received</strong>
+                                        <v-spacer></v-spacer>
+                                        <div>{{payment.amount}}</div>
+                                    </div>
+                                    <v-divider></v-divider>
+                                    <div class="d-flex">
+                                        <strong>Received Date</strong>
+                                        <v-spacer></v-spacer>
+                                        <div>{{payment.received_date}}</div>
+                                    </div>
+                                    <v-divider></v-divider>
+                                    <div class="d-flex">
+                                        <strong>Notes</strong>
+                                        <v-spacer></v-spacer>
+                                        <div>{{payment.notes}}</div>
+                                    </div>
+                                </v-card-text>
+                                <v-card-actions class="pa-0">
+                                    <v-btn small class="text-capitalize" @click="editPayment(payment.id)" width="50%">
+                                        <v-icon size="16" left>mdi-pencil</v-icon>
+                                        Edit
+                                    </v-btn>
+                                    <v-btn small class="text-capitalize red lighten-3" @click="deletePropertyPayment(payment.id)" width="50%">
+                                        <v-icon left size="16">mdi-trash-can-outline</v-icon>
+                                        Delete
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
 
                         <!-- 
                             ==================
@@ -372,9 +416,17 @@
                                     <div class="px-6 py-4 grey lighten-2">Edit Payment</div>
 
                                     <v-card-text class="pt-6">
-                                        <v-text-field solo class="rounded-lg" label="Payment Title" v-model="singlePayment.title"></v-text-field>
+                                        
+                                        <input type="text" class="input-field" v-model="singlePayment.title" placeholder="Payment Title">
 
-                                        <v-text-field solo class="rounded-lg" label="Payment Amount" v-model="singlePayment.amount"></v-text-field>
+                                        <input type="text" class="input-field" v-model="singlePayment.amount" placeholder="Payment Title">
+
+                                        <input type="text" class="input-field" v-model="singlePayment.due_date" placeholder="Due Date">
+
+                                        <input type="text" class="input-field" v-model="singlePayment.notes" placeholder="Notes">
+
+                                        <input type="text" class="input-field" v-model="singlePayment.received_date" placeholder="Date of Received">
+
                                             
                                         <v-btn outlined x-small class="grey darken-2 py-4" link dark block>
                                             <label for="invoice">
