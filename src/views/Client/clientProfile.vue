@@ -52,8 +52,9 @@
             <v-dialog v-model="updatePasswordDialog" max-width="320" persistent>
                 <v-card>
                     <v-toolbar dense elevation="2">
+                        <div>Update Password</div>
                         <v-spacer></v-spacer>
-                        <v-btn icon><v-icon>mdi-close</v-icon></v-btn>
+                        <v-btn icon @click="updatePasswordDialog = false"><v-icon>mdi-close</v-icon></v-btn>
                     </v-toolbar>
                     <v-card-text class="mt-5">
                         <input type="text" class="search-input" placeholder="New Password" v-model="newpassword">
@@ -119,7 +120,7 @@
                         <v-card class="mb-4 rounded-lg">
 
                             <v-row>
-                                <v-col md="6" cols="12" class="pt-0">
+                                <v-col cols="12" class="pt-0">
                                     <v-progress-linear
                                         :value="property.paymentreceived / property.allotmentvalue * 100" 
                                         :color="property.paymentreceived / property.allotmentvalue * 100 > 74 ? 'green' : 'red' " 

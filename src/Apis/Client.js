@@ -128,4 +128,7 @@ export default {
   postUpdate(form) {
     return Api().post("/post/updates/", form);
   },
+  getUpdate() {
+    return Api().get("/recent-updates/");
+  },
 };

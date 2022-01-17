@@ -222,10 +222,108 @@
                         </v-card>
                     </v-col>
 
-                    <!-- Payment List and Add new -->
+                </v-row>
+
+            <!-- Document List -->
+                <v-card class="rounded-lg mt-4" v-if="property.documents.length">
+                    <v-toolbar class="indigo lighten-1" dense dark>
+                        <div>Documents</div>
+                        <v-spacer></v-spacer>
+                        <v-btn icon elevation="0">
+                            <label for="docs" class="">
+                                <v-icon>mdi-plus</v-icon>
+                                <input 
+                                    type="file" 
+                                    id="docs" 
+                                    hidden multiple 
+                                    ref="docs" 
+                                    @change="onFileChange"
+                                    accept="application/pdf, application/doc"
+                                >
+                            </label>
+                        </v-btn>
+                    </v-toolbar>
+                    <v-card-text class="px-2">
+                        <v-row no-gutters>
+                            <v-col v-for="pdf in property.documents" :key="pdf.id" cols="12" class="pa-1">
+                                <v-dialog
+                                    v-model="dialog"
+                                    fullscreen
+                                    hide-overlay
+                                    transition="dialog-bottom-transition"
+                                >
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <div class="d-flex">
+                                            <v-btn class="pa-2 d-flex flex-row align-center" outlined v-bind="attrs" v-on="on" text>
+                                                <v-icon color="grey darken-2">mdi-file-document-outline</v-icon>
+                                                <div class="caption text-capitalize">{{pdf.image}}</div>
+                                            </v-btn>
+                                            <v-spacer></v-spacer>
+                                            <v-btn @click="deleteDocumentInProperty(pdf.id)" icon><v-icon>mdi-trash-can</v-icon></v-btn>
+                                        </div>
+                                    </template>
+                                    <v-card>
+                                        <v-toolbar dark color="primary">
+                                            <v-btn icon dark @click="dialog = false"><v-icon>mdi-close</v-icon></v-btn>
+                                            <v-spacer></v-spacer>
+                                            <v-toolbar-items><v-btn dark text @click="dialog = false">Save</v-btn></v-toolbar-items>
+                                        </v-toolbar>
+
+                                        <iframe :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`" frameborder="0" id="iframePdf" height="100%" width="100%"></iframe>
+                                        
+                                    </v-card>
+                                </v-dialog>
+                            </v-col>
+                        </v-row>
+                    </v-card-text>
+                </v-card>
+
+            <!-- Image gallery -->
+                <v-card class="rounded-lg mt-4" flat>
+                    <v-toolbar class="indigo lighten-1" dense dark>
+                        <div>Image Gallery</div>
+                        <v-spacer></v-spacer>
+                        <v-btn icon elevation="0">
+                            <label for="images" class="">
+                                <v-icon>mdi-plus</v-icon>
+                                <input 
+                                    type="file" 
+                                    id="images" 
+                                    hidden 
+                                    ref="images" 
+                                    @change="onImageChange"
+                                    accept="image/png, image/jpeg"
+                                >
+                            </label>
+                        </v-btn>
+                    </v-toolbar>
+                    <v-card-text class="px-2 myGallery">
+                        <div v-for="gallery in property.images" :key="gallery.id">
+                            <!-- <v-img
+                                :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${gallery.image}`"
+                                :lazy-src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${gallery.image}`"
+                                aspect-ratio="1.4"
+                            >
+                                <template v-slot:placeholder>
+                                    <v-row class="fill-height ma-0" align="center" justify="center">
+                                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                                    </v-row>
+                                </template>
+                            </v-img> -->
+                            <img v-img:group :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${gallery.image}`" class="singleImage">
+                            <v-btn block small @click="deleteImageInProperty(gallery.id)">
+                                <v-icon left>mdi-trash-can</v-icon>
+                            </v-btn>
+                        </div>
+                    </v-card-text>
+                </v-card>
+
+
+                <!-- Payment List and Add new -->
+                <v-row>
                     <v-col cols="12">
                         <v-card class="mt-2 rounded-lg">
-                            <v-toolbar class="indigo lighten-1" dense dark>
+                            <v-toolbar class="dark" dense dark>
                                 <div>Payments</div>
                                 <v-spacer></v-spacer>
                                 <v-btn icon elevation="0" @click="paymentDialog = !paymentDialog">
@@ -310,11 +408,17 @@
                                 <div class="grey lighten-2 px-6 py-4">Add Payment</div>
 
                                 <v-card-text class="pt-6">
-                                    <v-text-field solo class="rounded-lg" label="Payment Title" v-model="payment.title"></v-text-field>
+                                    <input type="text" class="input-field" v-model="payment.title" placeholder="Payment Title">
 
-                                    <v-text-field solo class="rounded-lg" label="Payment Amount" v-model="payment.amount"></v-text-field>
+                                    <input type="text" class="input-field" v-model="payment.due_date" placeholder="Due Date">
+
+                                    <input type="text" class="input-field" v-model="payment.amount" placeholder="Amount Received">
+
+                                    <input type="text" class="input-field" v-model="payment.received_date" placeholder="Date Of Received">
+
+                                    <input type="text" class="input-field" v-model="payment.notes" placeholder="Notes">
                                         
-                                    <input type="file" name="file" @change="onChange">
+                                    <input type="file" name="file" @change="onChange" class="input-field">
                                 </v-card-text>
 
                                 <v-divider></v-divider>
@@ -328,99 +432,7 @@
                     </v-col>
                 </v-row>
 
-            <!-- Document List -->
-                <v-card class="rounded-lg mt-4" v-if="property.documents.length">
-                    <v-toolbar class="indigo lighten-1" dense dark>
-                        <div>Documents</div>
-                        <v-spacer></v-spacer>
-                        <v-btn icon elevation="0">
-                            <label for="docs" class="">
-                                <v-icon>mdi-plus</v-icon>
-                                <input 
-                                    type="file" 
-                                    id="docs" 
-                                    hidden multiple 
-                                    ref="docs" 
-                                    @change="onFileChange"
-                                    accept="application/pdf, application/doc"
-                                >
-                            </label>
-                        </v-btn>
-                    </v-toolbar>
-                    <v-card-text class="px-2">
-                        <v-row no-gutters>
-                            <v-col v-for="pdf in property.documents" :key="pdf.id" cols="12" class="pa-1">
-                                <v-dialog
-                                    v-model="dialog"
-                                    fullscreen
-                                    hide-overlay
-                                    transition="dialog-bottom-transition"
-                                >
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <div class="d-flex">
-                                            <v-btn class="pa-2 d-flex flex-row align-center" outlined v-bind="attrs" v-on="on" text>
-                                                <v-icon color="grey darken-2">mdi-file-document-outline</v-icon>
-                                                <div class="caption text-capitalize">{{pdf.image}}</div>
-                                            </v-btn>
-                                            <v-spacer></v-spacer>
-                                            <v-btn @click="deleteDocumentInProperty(pdf.id)" icon><v-icon>mdi-trash-can</v-icon></v-btn>
-                                        </div>
-                                    </template>
-                                    <v-card>
-                                        <v-toolbar dark color="primary">
-                                            <v-btn icon dark @click="dialog = false"><v-icon>mdi-close</v-icon></v-btn>
-                                            <v-spacer></v-spacer>
-                                            <v-toolbar-items><v-btn dark text @click="dialog = false">Save</v-btn></v-toolbar-items>
-                                        </v-toolbar>
 
-                                        <iframe :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`" frameborder="0" id="iframePdf" height="100%" width="100%"></iframe>
-                                        
-                                    </v-card>
-                                </v-dialog>
-                            </v-col>
-                        </v-row>
-                    </v-card-text>
-                </v-card>
-
-            <!-- Image gallery -->
-                <v-card class="rounded-lg mt-4">
-                    <v-toolbar class="indigo lighten-1" dense dark>
-                        <div>Image Gallery</div>
-                        <v-spacer></v-spacer>
-                        <v-btn icon elevation="0">
-                            <label for="images" class="">
-                                <v-icon>mdi-plus</v-icon>
-                                <input 
-                                    type="file" 
-                                    id="images" 
-                                    hidden 
-                                    ref="images" 
-                                    @change="onImageChange"
-                                    accept="image/png, image/jpeg"
-                                >
-                            </label>
-                        </v-btn>
-                    </v-toolbar>
-                    <v-card-text class="px-2 myGallery">
-                        <div v-for="gallery in property.images" :key="gallery.id">
-                            <!-- <v-img
-                                :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${gallery.image}`"
-                                :lazy-src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${gallery.image}`"
-                                aspect-ratio="1.4"
-                            >
-                                <template v-slot:placeholder>
-                                    <v-row class="fill-height ma-0" align="center" justify="center">
-                                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                                    </v-row>
-                                </template>
-                            </v-img> -->
-                            <img v-img:group :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${gallery.image}`" class="singleImage">
-                            <v-btn block small @click="deleteImageInProperty(gallery.id)">
-                                <v-icon left>mdi-trash-can</v-icon>
-                            </v-btn>
-                        </div>
-                    </v-card-text>
-                </v-card>
             </div>
     
         </v-card>
@@ -443,6 +455,9 @@ export default {
                 amount: '',
                 name: '',
                 file: '',
+                received_date: '',
+                notes: '',
+                due_date: ''
             },
             values:[
                 'Thousand',
@@ -489,6 +504,9 @@ export default {
             let data = new FormData();
             data.append('title', this.payment.title)
             data.append('amount', this.payment.amount)
+            data.append('received_date', this.payment.received_date)
+            data.append('notes', this.payment.notes)
+            data.append('due_date', this.payment.due_date)
             data.append('file', this.payment.file)
             data.append('fileName', this.payment.fileName)
             data.append('property_id', this.property.id)
@@ -500,6 +518,7 @@ export default {
             Client.addPropertyPayment(data, config)
             .then(() =>{
                 this.payment = ''
+                this.payment.file = ''
                 this.paymentDialog = false
                 this.fetchData()
             })
@@ -680,7 +699,7 @@ export default {
 }
 .input-field{
   border-radius: 6px;
-  padding: 1em;
+  padding: 12px;
   font-size: 15px;
   width: 100%;
   /* box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1); */
@@ -688,5 +707,6 @@ export default {
   /* background: #f5f5f5; */
   background: #fdfdfd;
   outline: none;
+  margin-bottom: 1em;
 }
 </style>

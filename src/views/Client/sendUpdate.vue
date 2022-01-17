@@ -1,21 +1,45 @@
 <template>
     <div class="send-update">
+        <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000"
+        >
+            {{snackbarText}}
+            <template v-slot:action="{ attrs }">
+                <v-btn small color="pink" text v-bind="attrs" @click="snackbar = false">Close</v-btn>
+            </template>
+        </v-snackbar>
+
         <v-card class="rounded-xl pa-md-5 shadow content-card" height="88vh" elevation="0">
 
             <v-toolbar flat>
                 <div class="font-weight-bold text-md-h6">Add Update</div>
+                <v-spacer></v-spacer>
+                <v-btn fab depressed small @click="addNew = !addNew">
+                    <v-icon>mdi-plus</v-icon>
+                </v-btn>
             </v-toolbar>
 
-            <v-card-text>
-                <input type="text" class="input-field" placeholder="Title" v-model="title">
-                <input type="text" class="input-field" placeholder="Body    " v-model="body">
+            <v-card-text v-if="addNew">
+                <input type="text" class="input-field" placeholder="Title/Project Name" v-model="title">
+                <input type="text" class="input-field" placeholder="Details / Due-Date" v-model="body">
                 <input type="file" class="input-field" @change="onImageChange">
-                <select class="input-field" v-model="client_id">
-                    <option selected disabled>Select Client</option>
+                <label>Select Client</label>
+                <select class="input-select" v-model="client_id">
                     <option v-for="client in clients" :key="client.id" :value="client.id">{{client.name}}</option>
                 </select>
                 <v-btn block large dark @click="postUpdate">Send Update</v-btn>
             </v-card-text>
+
+            <v-card v-for="item in allUpdates" :key="item.id" outlined class="rounded-lg mb-2 pa-3">
+                <div class="d-flex">
+                    <v-img :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Updates/${item.image}`" max-width="30vw"></v-img>
+                    <div class="px-3">
+                        <div>{{item.title}}</div>
+                        <div>{{item.body}}</div>
+                        <div>{{item.created_at | formatDate}}</div>
+                    </div>
+                </div>
+            </v-card>
+
         </v-card>
     </div>
 </template>
@@ -29,17 +53,28 @@ export default {
             body: '',
             image: '',
             client_id: '',
-            clients: []
+            clients: [],
+            snackbarText: '',
+            snackbar : false,
+            addNew : false,
+            allUpdates: []
         }
     },
     mounted(){
         this.fetchClient();
+        this.fetchUpdates();
     },
     methods:{
         fetchClient(){
             Client.myClient(this.page)
             .then((response) => {
                 this.clients = response.data.data;
+            })
+        },
+        fetchUpdates(){
+            Client.getUpdate()
+            .then((res) => {
+                this.allUpdates = res.data
             })
         },
         onImageChange(e){
@@ -58,7 +93,9 @@ export default {
 
             Client.postUpdate(data)
             .then((res) => {
-                console.log(res)
+                this.snackbar = true;
+                this.snackbarText = 'Update Added',
+                this.addNew = false
             })
         }
     }
@@ -80,4 +117,15 @@ export default {
   outline: none;
   margin-bottom: 1.5em;
 }
+.input-select{
+    width: 100%;
+    border: 1px solid #555;
+    -webkit-appearance: menulist-button;
+    color: black;
+    padding: 10px;
+    border-radius: 8px;
+    /* background: #f5f5f5; */
+    margin-bottom: 3em;
+}
+
 </style>
