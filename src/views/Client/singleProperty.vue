@@ -494,10 +494,8 @@
 <script>
 import Client from '../../Apis/Client'
 import axios from 'axios';
-import pdf from 'pdfvuer'
 
 export default {
-    // components: { pdf },
     data(){
         return {
             property: '',
