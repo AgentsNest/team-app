@@ -263,13 +263,14 @@
                                             <v-btn @click="deleteDocumentInProperty(pdf.id)" icon><v-icon>mdi-trash-can</v-icon></v-btn>
                                         </div>
                                     </template>
-                                    <v-card>
+                                    <v-card height="100vh">
                                         <v-toolbar tile dense dark color="primary">
                                             <v-btn icon dark @click="pdfs[pdf.id] = false"><v-icon>mdi-close</v-icon></v-btn>
                                             <v-spacer></v-spacer>
                                         </v-toolbar>
 
-                                        <iframe :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`" frameborder="0" id="iframePdf" height="100%" width="100%"></iframe>
+                                        <!-- <iframe :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`" frameborder="0" id="iframePdf" height="100%" width="100%"></iframe> -->
+                                        <embed :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`" height="100%" width="100%" />
                                         
                                     </v-card>
                                 </v-dialog>
