@@ -245,9 +245,10 @@
                     </v-toolbar>
                     <v-card-text class="px-2">
                         <v-row no-gutters>
-                            <v-col v-for="pdf in property.documents" :key="pdf.id" cols="12" class="pa-1">
-                                <!-- <v-dialog
-                                    v-model="dialog"
+                            <v-col cols="12" class="pa-1">
+                                <v-dialog
+                                    v-for="pdf in property.documents" :key="pdf.id"
+                                    v-model="pdfs[pdf.id]"
                                     fullscreen
                                     hide-overlay
                                     transition="dialog-bottom-transition"
@@ -263,22 +264,13 @@
                                         </div>
                                     </template>
                                     <v-card>
-                                        <v-toolbar dark color="primary">
-                                            <v-btn icon dark @click="dialog = false"><v-icon>mdi-close</v-icon></v-btn>
+                                        <v-toolbar tile dense dark color="primary">
+                                            <v-btn icon dark @click="pdfs[pdf.id] = false"><v-icon>mdi-close</v-icon></v-btn>
                                             <v-spacer></v-spacer>
-                                            <v-toolbar-items><v-btn dark text @click="dialog = false">Save</v-btn></v-toolbar-items>
                                         </v-toolbar>
 
                                         <iframe :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`" frameborder="0" id="iframePdf" height="100%" width="100%"></iframe>
                                         
-                                    </v-card>
-                                </v-dialog> -->
-                                <v-btn @click="dialog = !dialog">{{pdf.image}}</v-btn>
-                                <v-dialog v-model="dialog">
-                                    <v-card>
-                                        <pdf :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`" :page="1">
-
-                                        </pdf>
                                     </v-card>
                                 </v-dialog>
                             </v-col>
@@ -505,10 +497,11 @@ import axios from 'axios';
 import pdf from 'pdfvuer'
 
 export default {
-    components: { pdf },
+    // components: { pdf },
     data(){
         return {
             property: '',
+            pdfs: {},
             snackbar: false,
             snackbarText: '',
             dialog: false,
