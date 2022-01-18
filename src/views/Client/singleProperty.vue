@@ -246,7 +246,7 @@
                     <v-card-text class="px-2">
                         <v-row no-gutters>
                             <v-col v-for="pdf in property.documents" :key="pdf.id" cols="12" class="pa-1">
-                                <v-dialog
+                                <!-- <v-dialog
                                     v-model="dialog"
                                     fullscreen
                                     hide-overlay
@@ -271,6 +271,14 @@
 
                                         <iframe :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`" frameborder="0" id="iframePdf" height="100%" width="100%"></iframe>
                                         
+                                    </v-card>
+                                </v-dialog> -->
+                                <v-btn @click="dialog = !dialog">{{pdf.image}}</v-btn>
+                                <v-dialog v-model="dialog">
+                                    <v-card>
+                                        <pdf :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`" :page="1">
+
+                                        </pdf>
                                     </v-card>
                                 </v-dialog>
                             </v-col>
@@ -494,8 +502,10 @@
 <script>
 import Client from '../../Apis/Client'
 import axios from 'axios';
+import pdf from 'pdfvuer'
 
 export default {
+    components: { pdf },
     data(){
         return {
             property: '',
