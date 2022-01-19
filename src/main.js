@@ -11,6 +11,9 @@ import InfiniteLoading from "vue-infinite-loading";
 import Vuelidate from "vuelidate";
 import VueObserveVisibility from "vue-observe-visibility";
 
+import PdfCanvas from "vue-pdf-canvas/lib/pdfjs/index.common.js";
+Vue.use(PdfCanvas);
+
 import TapAndHold from "vue-tap-and-hold";
 Vue.use(TapAndHold, {
   holdTime: 2000, // default is 1000

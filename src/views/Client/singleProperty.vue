@@ -270,7 +270,12 @@
                                         </v-toolbar>
 
                                         <!-- <iframe :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`" frameborder="0" id="iframePdf" height="100%" width="100%"></iframe> -->
-                                        <embed :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`" height="100%" width="100%" />
+                                        <pdf-canvas
+                                            :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`"
+                                            :scale="scale"
+                                            :page="page"
+                                            :renderNum="renderNum"
+                                        ></pdf-canvas>
                                         
                                     </v-card>
                                 </v-dialog>
@@ -499,6 +504,9 @@ import axios from 'axios';
 export default {
     data(){
         return {
+            page: 1,
+            scale: 1.5,
+            renderNum: 1,
             property: '',
             pdfs: {},
             snackbar: false,
