@@ -517,7 +517,7 @@ export default {
             payment:{
                 title: '',
                 amount: '',
-                name: '',
+                fileName: '',
                 file: '',
                 received_date: '',
                 notes: '',
@@ -531,6 +531,7 @@ export default {
             amountType: '',
             paymentDialog: false,
             singlePayment: '',
+            singlePaymentFile: '',
             paymentFile: '',
             editPaymentDialog: false,
             applicantOneDetails: null,
@@ -582,10 +583,47 @@ export default {
             Client.addPropertyPayment(data, config)
             .then(() =>{
                 this.payment = ''
-                this.payment.file = ''
                 this.paymentDialog = false
                 this.fetchData()
             })
+        },
+        editPayment(payment){
+            this.editPaymentDialog = true;
+            Client.singlePropertyPayment(payment)
+            .then((res) => {
+                this.singlePayment = res.data
+                // console.log(res.data)
+            })
+        },
+        uploadPaymentFile(e){
+            let file = e.target.files[0];
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (e) => {
+                this.singlePaymentFile = e.target.result;
+            };
+        },
+        updatePayment(){
+            let form = new FormData();
+            form.append('title', this.singlePayment.title)
+            form.append('amount', this.singlePayment.amount)
+            form.append('due_date', this.singlePayment.due_date)
+            form.append('received_date', this.singlePayment.received_date)
+            form.append('notes', this.singlePayment.notes)
+
+            console.log(this.singlePayment.id)
+
+            // Client.updatePropertyPayment(this.singlePayment.id, form)
+            // .then((res)=> {
+            //     this.snackbarText = "Payment Updated"
+            //     this.snackbar = true
+            //     this.editPaymentDialog = false
+            //     this.singlePayment = ''
+            //     this.fetchData();
+            //     console.log(res)
+            // }).catch((err) => {
+            //     console.log(err);
+            // })
         },
         deleteAllotmentCharge(allotment){
             Client.deleteAllotmentCharge(allotment)
@@ -643,44 +681,6 @@ export default {
                     document.body.appendChild(docUrl);
                     docUrl.click();
             });
-        },
-        editPayment(payment){
-            this.editPaymentDialog = true;
-            Client.singlePropertyPayment(payment)
-            .then((res) => {
-                this.singlePayment = res.data
-                // console.log(res.data)
-            })
-        },
-        uploadPaymentFile(e){
-            let file = e.target.files[0];
-            let reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = (e) => {
-                this.singlePayment = e.target.result;
-            };
-        },
-        updatePayment(){
-            let form = new FormData();
-            form.append('title', this.singlePayment.title)
-            form.append('amount', this.singlePayment.amount)
-            form.append('due_date', this.singlePayment.due_date)
-            form.append('received_date', this.singlePayment.received_date)
-            form.append('notes', this.singlePayment.notes)
-
-            // console.log(this.singlePayment.title, this.singlePayment.amount)
-
-            Client.updatePropertyPayment(this.singlePayment.id, form)
-            .then((res)=> {
-                this.snackbarText = "Payment Updated"
-                this.snackbar = true
-                this.editPaymentDialog = false
-                this.singlePayment = ''
-                this.fetchData();
-                console.log(res)
-            }).catch((err) => {
-                console.log(err);
-            })
         },
         addCharge(){
             let data = new FormData();
