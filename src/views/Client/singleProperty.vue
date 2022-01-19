@@ -225,7 +225,7 @@
                 </v-row>
 
             <!-- Document List -->
-                <v-card class="rounded-lg mt-4" v-if="property.documents.length">
+                <v-card class="rounded-lg mt-4">
                     <v-toolbar class="indigo lighten-1" dense dark>
                         <div>Documents</div>
                         <v-spacer></v-spacer>
@@ -246,7 +246,7 @@
                     <v-card-text class="px-2">
                         <v-row no-gutters>
                             <v-col cols="12" class="pa-1">
-                                <v-dialog
+                                <!-- <v-dialog
                                     v-for="pdf in property.documents" :key="pdf.id"
                                     v-model="pdfs[pdf.id]"
                                     fullscreen
@@ -267,18 +267,20 @@
                                         <v-toolbar tile dense dark color="primary">
                                             <v-btn icon dark @click="pdfs[pdf.id] = false"><v-icon>mdi-close</v-icon></v-btn>
                                             <v-spacer></v-spacer>
-                                        </v-toolbar>
+                                        </v-toolbar> -->
 
                                         <!-- <iframe :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`" frameborder="0" id="iframePdf" height="100%" width="100%"></iframe> -->
-                                        <pdf-canvas
+                                        <!-- <pdf-canvas
                                             :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`"
                                             :scale="scale"
                                             :page="page"
                                             :renderNum="renderNum"
-                                        ></pdf-canvas>
+                                        ></pdf-canvas> -->
                                         
-                                    </v-card>
-                                </v-dialog>
+                                        
+                                    <!-- </v-card>
+                                </v-dialog> -->
+
                             </v-col>
                         </v-row>
                     </v-card-text>
@@ -662,6 +664,9 @@ export default {
             let form = new FormData();
             form.append('title', this.singlePayment.title)
             form.append('amount', this.singlePayment.amount)
+            form.append('due_date', this.singlePayment.due_date)
+            form.append('received_date', this.singlePayment.received_date)
+            form.append('notes', this.singlePayment.notes)
 
             // console.log(this.singlePayment.title, this.singlePayment.amount)
 
@@ -669,6 +674,10 @@ export default {
             .then((res)=> {
                 this.snackbarText = "Payment Updated"
                 this.snackbar = true
+                this.editPaymentDialog = false
+                this.singlePayment = ''
+                this.fetchData();
+                console.log(res)
             }).catch((err) => {
                 console.log(err);
             })
