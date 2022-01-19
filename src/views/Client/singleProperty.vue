@@ -402,6 +402,17 @@
                                         <v-spacer></v-spacer>
                                         <div>{{payment.notes}}</div>
                                     </div>
+                                    <v-divider></v-divider>
+                                    <div class="d-flex">
+                                        <strong>Attachment</strong>
+                                        <v-spacer></v-spacer>
+                                        <div>
+                                            <v-btn small icon @click="downloadInvoice" v-if="payment.path">
+                                                <v-icon>mdi-download</v-icon>
+                                            </v-btn>
+                                            <div v-else>no file</div>
+                                        </div>
+                                    </div>
                                 </v-card-text>
                                 <v-card-actions class="pa-0">
                                     <v-btn small class="text-capitalize" @click="editPayment(payment.id)" width="50%">
@@ -604,26 +615,30 @@ export default {
             };
         },
         updatePayment(){
-            let form = new FormData();
-            form.append('title', this.singlePayment.title)
-            form.append('amount', this.singlePayment.amount)
-            form.append('due_date', this.singlePayment.due_date)
-            form.append('received_date', this.singlePayment.received_date)
-            form.append('notes', this.singlePayment.notes)
+            const config = {headers: {'content-type': 'multipart/form-data'}}
 
-            console.log(this.singlePayment.id)
+            let data = new FormData();
+            data.append('title', this.singlePayment.title)
+            data.append('amount', this.singlePayment.amount)
+            data.append('due_date', this.singlePayment.due_date)
+            data.append('received_date', this.singlePayment.received_date)
+            data.append('notes', this.singlePayment.notes)
 
-            // Client.updatePropertyPayment(this.singlePayment.id, form)
-            // .then((res)=> {
-            //     this.snackbarText = "Payment Updated"
-            //     this.snackbar = true
-            //     this.editPaymentDialog = false
-            //     this.singlePayment = ''
-            //     this.fetchData();
-            //     console.log(res)
-            // }).catch((err) => {
-            //     console.log(err);
-            // })
+            // for (var pair of data.entries()){
+            //     console.log(pair[0]+ ', '+ pair[1]); 
+            // }
+
+            Client.updatePropertyPayment(this.singlePayment.id, data, config)
+            .then((res)=> {
+                this.snackbarText = "Payment Updated"
+                this.snackbar = true
+                this.editPaymentDialog = false
+                this.singlePayment = ''
+                this.fetchData();
+                console.log(res)
+            }).catch((err) => {
+                console.log(err);
+            })
         },
         deleteAllotmentCharge(allotment){
             Client.deleteAllotmentCharge(allotment)

@@ -38,6 +38,8 @@
                                 <v-text-field label="Unit" v-model="property.unit"></v-text-field>
                                 <v-text-field label="Floor" v-model="property.floor"></v-text-field>
                                 <v-text-field label="Location" v-model="property.location"></v-text-field>
+                                <v-text-field label="Date of closing" v-model="property.date"></v-text-field>
+                                <v-text-field label="Allotment Price" v-model="property.allotmentvalue"></v-text-field>
                             </v-card-text>
                         </v-card>
                     </v-col>
@@ -380,6 +382,8 @@ export default {
             form.append('unit', this.property.unit)
             form.append('floor', this.property.floor)
             form.append('location', this.property.location)
+            form.append('date', this.property.date)
+            form.append('allotmentvalue', this.property.allotmentvalue)
 
             Client.updateProperty(this.property.id, form)
             .then((res)=> {
