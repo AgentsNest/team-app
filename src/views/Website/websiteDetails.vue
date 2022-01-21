@@ -24,8 +24,8 @@
                         <v-carousel v-model="projectGallery" height="220" hide-delimiters>
                             <v-carousel-item v-for="(image, i) in website.website_images" :key="i">
                                 <v-img
-                                    :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
-                                    :lazy-src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
+                                    :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
+                                    :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
                                     contain
                                     max-height="220"
                                 ></v-img>
@@ -94,8 +94,8 @@
                     <v-col md="8" offset-md="2">
                         <v-card class="mx-auto" tile>
                             <v-img
-                                :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${website.website_images[0].url}`"
-                                :lazy-src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${website.website_images[0].url}`"
+                                :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}`"
+                                :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}`"
                                 class="white--text align-end"
                                 height="250px"
                                 gradient="to bottom right, rgba(0,0,0,0), rgba(0,0,0,.9)"
@@ -111,8 +111,8 @@
                             <v-row class="px-4">
                                 <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex" cols="12">
                                     <v-img
-                                        :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
-                                        :lazy-src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
+                                        :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
+                                        :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
                                         aspect-ratio="1"
                                         class="grey lighten-2 rounded-lg"
                                     >

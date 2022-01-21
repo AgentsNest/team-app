@@ -278,7 +278,7 @@
                             <v-list-item v-for="website in websites" :key="website.id">
                                 <v-list-item-avatar tile>
                                     <v-img
-                                        :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${website.website_images.slice(0, 1)[0].url}`"
+                                        :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images.slice(0, 1)[0].url}`"
                                     ></v-img>
                                 </v-list-item-avatar>
 

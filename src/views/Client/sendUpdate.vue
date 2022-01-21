@@ -31,7 +31,7 @@
 
             <v-card v-for="item in allUpdates" :key="item.id" outlined class="rounded-lg mb-2 pa-3">
                 <div class="d-flex">
-                    <v-img :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Updates/${item.image}`" max-width="30vw"></v-img>
+                    <v-img :src="`https://d1o3gwiog9g3w3.cloudfront.net/Updates/${item.image}`" max-width="30vw"></v-img>
                     <div class="px-3">
                         <div>{{item.title}}</div>
                         <div>{{item.body}}</div>

@@ -53,7 +53,7 @@
                       <v-img
                           v-if="website.website_images"
                           max-height="180px"
-                          :src="website.website_images[0] ? `https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${website.website_images[0].url}` : 'https://realtsafe-test.s3.ap-south-1.amazonaws.com/Default/property.jpg'"
+                          :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
                           class="rounded-t"
                       ></v-img>
                       <v-card-title>{{website.title}}</v-card-title>
@@ -78,8 +78,8 @@
                   <v-card>
                     <v-img
                         max-height="180px"
-                        :src="website.website_images[0] ? `https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${website.website_images[0].url}` : 'https://realtsafe-test.s3.ap-south-1.amazonaws.com/Default/property.jpg'"
-                        :lazy-src="website.website_images[0] ? `https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${website.website_images[0].url}` : 'https://realtsafe-test.s3.ap-south-1.amazonaws.com/Default/property.jpg'"
+                        :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
+                        :lazy-src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
                         class="rounded-t"
                     ></v-img>
                     <v-card-title>{{website.title}}</v-card-title>
@@ -121,8 +121,8 @@
                             <v-row class="px-4" v-if="website.website_images">
                                 <v-col v-for="image in website.website_images" :key="image.id" class="d-flex child-flex" cols="12">
                                     <v-img
-                                        :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
-                                        :lazy-src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
+                                        :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
+                                        :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
                                         aspect-ratio="1"
                                         class="grey lighten-2 rounded-lg"
                                         max-height="200px"

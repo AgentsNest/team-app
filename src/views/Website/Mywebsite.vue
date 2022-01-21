@@ -17,7 +17,7 @@
                       <router-link :to="{name: 'WebsiteDetails', params:{id: website.slug}}">
                         <v-img
                             height="180px"
-                            :src="website.website_images[0] ? `https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${website.website_images[0].url}` : 'https://realtsafe-test.s3.ap-south-1.amazonaws.com/Default/property.jpg'"
+                            :src="website.website_images[0] ? `https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}` : 'https://d1o3gwiog9g3w3.cloudfront.net/Default/property.jpg'"
                             class="rounded-t"
                         ></v-img>
                       </router-link>

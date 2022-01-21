@@ -269,13 +269,13 @@
                                             <v-spacer></v-spacer>
                                         </v-toolbar>
 
-                                        <!-- <iframe :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`" frameborder="0" id="iframePdf" height="100%" width="100%"></iframe> -->
-                                        <pdf-canvas
-                                            :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`"
+                                        <iframe :src="`https://d1o3gwiog9g3w3.cloudfront.net/Property/${pdf.image}`" frameborder="0" id="iframePdf" height="100%" width="100%"></iframe>
+                                        <!-- <pdf-canvas
+                                            :src="`https://d1o3gwiog9g3w3.cloudfront.net/Property/${pdf.image}`"
                                             :scale="scale"
                                             :page="page"
                                             :renderNum="renderNum"
-                                        ></pdf-canvas>
+                                        ></pdf-canvas> -->
                                         
                                         
                                     </v-card>
@@ -308,8 +308,8 @@
                     <v-card-text class="px-2 myGallery">
                         <div v-for="gallery in property.images" :key="gallery.id">
                             <!-- <v-img
-                                :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${gallery.image}`"
-                                :lazy-src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${gallery.image}`"
+                                :src="`https://d1o3gwiog9g3w3.cloudfront.net/Property/${gallery.image}`"
+                                :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/Property/${gallery.image}`"
                                 aspect-ratio="1.4"
                             >
                                 <template v-slot:placeholder>
@@ -318,7 +318,7 @@
                                     </v-row>
                                 </template>
                             </v-img> -->
-                            <img v-img:group :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${gallery.image}`" class="singleImage">
+                            <img v-img:group :src="`https://d1o3gwiog9g3w3.cloudfront.net/Property/${gallery.image}`" class="singleImage">
                             <v-btn block small @click="deleteImageInProperty(gallery.id)">
                                 <v-icon left>mdi-trash-can</v-icon>
                             </v-btn>
@@ -685,7 +685,7 @@ export default {
             }
         },
         downloadInvoice(){
-            const path = 'https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/1640032657_registertaion+screen.jpg'
+            const path = 'https://d1o3gwiog9g3w3.cloudfront.net/Property/1640032657_registertaion+screen.jpg'
             axios({
                 url: path, // File URL Goes Here
                 method: 'GET',

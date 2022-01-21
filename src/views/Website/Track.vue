@@ -5,8 +5,8 @@
             <v-col md="8" offset-md="2">
                 <v-card class="mx-auto" tile>
                     <v-img
-                        :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${website.website_images[0].url}`"
-                        :lazy-src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${website.website_images[0].url}`"
+                        :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}`"
+                        :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images[0].url}`"
                         class="white--text align-end"
                         height="250px"
                         gradient="to bottom right, rgba(0,0,0,0), rgba(0,0,0,.9)"
@@ -27,8 +27,8 @@
                     <v-row v-if="website.website_images">
                         <v-col v-for="image in website.website_images" :key="image.id" class="px-6" cols="12" md="3">
                             <v-img
-                                :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
-                                :lazy-src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/website/${image.url}`"
+                                :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
+                                :lazy-src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${image.url}`"
                                 aspect-ratio="1"
                                 class="grey lighten-2 rounded-lg"
                             >

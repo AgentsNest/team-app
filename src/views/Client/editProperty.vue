@@ -272,7 +272,7 @@
 
                     <v-card-text class="px-2 myGallery">
                         <div v-for="gallery in property.images" :key="gallery.id">
-                            <img v-img:group :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${gallery.image}`" class="singleImage">
+                            <img v-img:group :src="`https://d1o3gwiog9g3w3.cloudfront.net/Property/${gallery.image}`" class="singleImage">
                         </div>
                     </v-card-text>
                 </v-card> -->
@@ -409,7 +409,7 @@ export default {
             }
         },
         downloadInvoice(){
-            const path = 'https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/1640032657_registertaion+screen.jpg'
+            const path = 'https://d1o3gwiog9g3w3.cloudfront.net/Property/1640032657_registertaion+screen.jpg'
             axios({
                 url: path, // File URL Goes Here
                 method: 'GET',
