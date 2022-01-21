@@ -246,12 +246,7 @@
                     <v-card-text class="px-2">
                         <v-row no-gutters>
                             <v-col cols="12" class="pa-1">
-                                <div v-for="pdf in property.documents" :key="pdf.id">
-                                <object :data="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`" type="application/pdf" width="100%" height="100%">
-                                    <p>Alternative text - include a link <a :href="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`">to the PDF!</a></p>
-                                </object>
-                                </div>
-                                <!-- <v-dialog
+                                <v-dialog
                                     v-for="pdf in property.documents" :key="pdf.id"
                                     v-model="pdfs[pdf.id]"
                                     fullscreen
@@ -272,19 +267,19 @@
                                         <v-toolbar tile dense dark color="primary">
                                             <v-btn icon dark @click="pdfs[pdf.id] = false"><v-icon>mdi-close</v-icon></v-btn>
                                             <v-spacer></v-spacer>
-                                        </v-toolbar> -->
+                                        </v-toolbar>
 
                                         <!-- <iframe :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`" frameborder="0" id="iframePdf" height="100%" width="100%"></iframe> -->
-                                        <!-- <pdf-canvas
+                                        <pdf-canvas
                                             :src="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`"
                                             :scale="scale"
                                             :page="page"
                                             :renderNum="renderNum"
-                                        ></pdf-canvas> -->
+                                        ></pdf-canvas>
                                         
                                         
-                                    <!-- </v-card>
-                                </v-dialog> -->
+                                    </v-card>
+                                </v-dialog>
 
                             </v-col>
                         </v-row>
