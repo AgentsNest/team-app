@@ -92,7 +92,7 @@ export default {
     return Api().post("/addPropertyPayment", form);
   },
   updatePropertyPayment(id, form) {
-    return Api().put("/updatePropertyPayment/" + id, form);
+    return Api().patch("/updatePropertyPayment/" + id, form);
   },
 
   // Charges and taxes

@@ -246,6 +246,11 @@
                     <v-card-text class="px-2">
                         <v-row no-gutters>
                             <v-col cols="12" class="pa-1">
+                                <div v-for="pdf in property.documents" :key="pdf.id">
+                                <object :data="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`" type="application/pdf" width="100%" height="100%">
+                                    <p>Alternative text - include a link <a :href="`https://realtsafe-test.s3.ap-south-1.amazonaws.com/Property/${pdf.image}`">to the PDF!</a></p>
+                                </object>
+                                </div>
                                 <!-- <v-dialog
                                     v-for="pdf in property.documents" :key="pdf.id"
                                     v-model="pdfs[pdf.id]"
@@ -435,17 +440,20 @@
                                     <div class="px-6 py-4 grey lighten-2">Edit Payment</div>
 
                                     <v-card-text class="pt-6">
-                                        
+                                        <label>Title</label>
                                         <input type="text" class="input-field" v-model="singlePayment.title" placeholder="Payment Title">
 
+                                        <label>Amount Received</label>
                                         <input type="text" class="input-field" v-model="singlePayment.amount" placeholder="Payment Title">
 
+                                        <label>Due Date</label>
                                         <input type="text" class="input-field" v-model="singlePayment.due_date" placeholder="Due Date">
 
+                                        <label>Notes</label>
                                         <input type="text" class="input-field" v-model="singlePayment.notes" placeholder="Notes">
 
+                                        <label>Date of Received</label>
                                         <input type="text" class="input-field" v-model="singlePayment.received_date" placeholder="Date of Received">
-
                                             
                                         <v-btn outlined x-small class="grey darken-2 py-4" link dark block>
                                             <label for="invoice">
@@ -541,7 +549,7 @@ export default {
             ],
             amountType: '',
             paymentDialog: false,
-            singlePayment: '',
+            singlePayment: {},
             singlePaymentFile: '',
             paymentFile: '',
             editPaymentDialog: false,
@@ -617,18 +625,18 @@ export default {
         updatePayment(){
             const config = {headers: {'content-type': 'multipart/form-data'}}
 
-            let data = new FormData();
-            data.append('title', this.singlePayment.title)
-            data.append('amount', this.singlePayment.amount)
-            data.append('due_date', this.singlePayment.due_date)
-            data.append('received_date', this.singlePayment.received_date)
-            data.append('notes', this.singlePayment.notes)
+            let form = new FormData();
+            form.append('title', this.singlePayment.title)
+            form.append('amount', this.singlePayment.amount)
+            form.append('due_date', this.singlePayment.due_date)
+            form.append('received_date', this.singlePayment.received_date)
+            form.append('notes', this.singlePayment.notes)
 
             // for (var pair of data.entries()){
             //     console.log(pair[0]+ ', '+ pair[1]); 
             // }
 
-            Client.updatePropertyPayment(this.singlePayment.id, data, config)
+            Client.updatePropertyPayment(this.singlePayment.id, form, config)
             .then((res)=> {
                 this.snackbarText = "Payment Updated"
                 this.snackbar = true
