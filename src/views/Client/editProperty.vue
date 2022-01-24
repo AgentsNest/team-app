@@ -384,6 +384,11 @@ export default {
             form.append('location', this.property.location)
             form.append('date', this.property.date)
             form.append('allotmentvalue', this.property.allotmentvalue)
+            form.append('balance', this.property.allotmentvalue)
+
+            // for (var pair of form.entries()){
+            //     console.log(pair[0]+ ', '+ pair[1]); 
+            // }
 
             Client.updateProperty(this.property.id, form)
             .then((res)=> {
