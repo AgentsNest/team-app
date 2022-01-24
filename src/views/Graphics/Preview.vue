@@ -5,6 +5,8 @@
             <v-spacer></v-spacer>
             <v-btn @click="download"><v-icon>mdi-tray-arrow-down</v-icon></v-btn>
         </div>
+
+
         <v-card class="d-flex align-center mx-auto transparent" height="75vh" width="100vw" ref="canvasCard" flat>
             <v-card ref="container" id="capture" class="mainCanvas">
                 <v-stage ref="stage" :config="stageSize" id="theCanvas"> 
@@ -15,7 +17,6 @@
                                 width: bgWidth,
                                 height: bgHeight
                             }"
-                            @click="hideAllControls"
                         />
 
                         <v-image
@@ -27,7 +28,6 @@
                                 width: logoWidth,
                                 height: logoHeight
                             }"
-                            @click="showLogoControls"
                         />
 
                         <v-text
@@ -44,7 +44,6 @@
                                 draggable: true,
                                 fill: isDragging ? 'black' : brandTextColor
                             }"
-                            @click="showBrandTextControls"
                         />
                         <v-text
                             @dragstart="handleDragStart"
@@ -60,7 +59,6 @@
                                 draggable: true,
                                 fill: isDragging ? 'black' : reraTextColor
                             }"
-                            @click="showReraControls"
                         />
                     </v-layer>
                 </v-stage>
@@ -245,7 +243,14 @@ export default {
             bgMainImageControl: false,
             downloadProgress: false,
             showControls: false,
-            savedDialog: false
+            savedDialog: false,
+            customize: true,
+            controlsToggle:{
+                logoControl: false,
+                iconsControl: false,
+                frameControl: false,
+                bandTextControl: false,
+            },
         };
     },
     created() {},
