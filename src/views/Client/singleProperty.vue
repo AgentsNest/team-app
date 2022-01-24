@@ -21,7 +21,7 @@
             </v-toolbar>
 
             <div class="pb-6">
-                
+
                 <v-row>
                     <v-col md="6" cols="12">
                         <v-card class="rounded-lg" elevation="0">
@@ -42,9 +42,11 @@
                     </v-col>
                 </v-row>
 
+
+
                 <v-row>
+                    <!-- All Charges and Taxes -->
                     <v-col cols="12">
-                        <!-- All Charges and Taxes -->
                         <v-row>
                             <!-- <v-col>
                                 <v-card>
@@ -165,7 +167,7 @@
                     </v-col>
 
                     <!-- All Applicant List -->
-                    <v-col cols="12" v-if="applicantOneDetails.length">
+                    <v-col cols="12">
                         <v-card class="mt-4 rounded-lg">
                             <v-toolbar flat>
                                 <v-toolbar-title>Applicants</v-toolbar-title>
@@ -596,7 +598,14 @@ export default {
 
             Client.addPropertyPayment(data, config)
             .then(() =>{
-                this.payment = ''
+                this.payment.title = ''
+                this.payment.amount = ''
+                this.payment.received_date = ''
+                this.payment.notes = ''
+                this.payment.due_date = ''
+                this.payment.file = ''
+                this.payment.fileName = ''
+                this.property.id = ''
                 this.paymentDialog = false
                 this.fetchData()
             })
