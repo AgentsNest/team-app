@@ -18,10 +18,6 @@ export default {
 </script>
 
 <style>
-.gradient{
-  background-image: linear-gradient(to right, #283593, #3cabba);
-   color: #fff;
-}
 a{
  text-decoration: none; 
 }

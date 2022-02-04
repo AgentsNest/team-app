@@ -1,128 +1,152 @@
 <template>
-  <div>
-    <v-img
-        src="../../assets/img/login.jpg"
-        gradient="to top right, rgba(40, 53, 147,.9), rgba(60, 171, 186,.9)"
-        height="120px"
-    >
-        <v-toolbar flat class="transparent py-3">
-            <v-btn fab small rounded-lg depressed class="white" @click="$router.go(-1)">
-                <v-icon>mdi-keyboard-backspace</v-icon>
-            </v-btn>
-            <v-spacer></v-spacer>
-            <div class="white--text title font-weight-bold">{{agent.name}}</div>
-            <v-spacer></v-spacer>
-        </v-toolbar>
-    </v-img>
+  <Layout>
+    <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000">
+            Profile Updated
+        <template v-slot:action="{ attrs }">
+            <v-btn small color="pink" text v-bind="attrs" @click="snackbar = false">Close</v-btn>
+        </template>
+    </v-snackbar>
+    <v-card flat>
+      <div class="title text-center mt-5 text-uppercase">Profile</div>
 
-    <v-card class="rounded-xl pa-4 mt-n8" flat>
-      <v-img
-        :src="preview ? preview : agent.brand_logo"
-        max-width="200px"
-        class="mx-auto"
-      ></v-img>
-      <v-card class="text-center mt-4" flat>
-        <label for="brandLogo" class="brandLogoLabel">
-            Change Brand Logo
-            <input type="file" id="brandLogo" hidden accept="image/*" @change="previewLogo"/>
-        </label>
-        <div class="grey--text text--darken-2 caption mt-2">(Recommend Size: 250 X 120)</div>
+      <!-- Agent Avatar -->
+      <v-card class="rounded-xl mb-5 content-card" flat>
+        <div class="text-center mt-5">
+          <v-avatar tile size="130" class="rounded-lg">
+              <img 
+                  :src="avatarPreview ? avatarPreview : team.image"
+                  :lazy-src="avatarPreview ? avatarPreview : team.image"
+              >
+              <label for="brandAvatar" class="uploadAvatarBtn">
+                  <v-icon color="grey lighten-1">mdi-camera</v-icon>
+                  <!-- <span class="caption">change</span> -->
+                  <input type="file" id="brandAvatar" hidden accept="image/*" @change="previewAvatar"/>
+              </label>
+          </v-avatar>
+        </div>
       </v-card>
 
-      <v-card-text>
-        <v-text-field
-            label="Name"
-            v-model="agent.name"
-        ></v-text-field>
-        <v-text-field
-            label="Email"
-            v-model="agent.email"
-        ></v-text-field>
-        <v-text-field
-            label="Phone Number"
-            v-model="agent.contact"
-        ></v-text-field>
-        <v-text-field
-            label="Company Name"
-            v-model="agent.brand_text"
-        ></v-text-field>
-        <v-text-field
-            label="Website"
-            v-model="agent.website"
-        ></v-text-field>
+      <v-card>
+        <v-card-actions>
+              <div class="caption grey--text font-weight-bold">https://agentsnest.com/t/<span class="teal--text">{{team.uid}}</span> </div>
+              <v-spacer></v-spacer>
+              <v-btn x-small fab elevation="1" class="mr-3 white" link :to="{name: 'vCard', params:{uid: team.uid}}" target="_blank">
+                  <v-icon>mdi-eye</v-icon>
+              </v-btn>
+          </v-card-actions>
+      </v-card>
+      
+      <v-card class="rounded-lg mb-5 mt-3" flat>
+          <v-card-text>
+            <v-text-field label="Name" outlined v-model="team.name"></v-text-field>
+            <v-text-field
+                label="Email" outlined v-model="team.email" readonly
+            ></v-text-field>
+            <v-textarea
+              outlined label="About You" v-model="team.bio" rows="3"
+            ></v-textarea>
+            <v-text-field label="Contact" outlined v-model="team.contact"></v-text-field>
+            <v-text-field label="Facebook" outlined v-model="team.facebook"></v-text-field>
+            <v-text-field label="Youtube" outlined v-model="team.youtube"></v-text-field>
+            <v-text-field label="Instagram" outlined v-model="team.instagram"></v-text-field>
 
-        <v-btn 
-          block 
-          large
-          class="white--text rounded-lg"
-          @click="saveDetails()"
-          :class="success == true ? 'gradient' : 'grey darken-4'"
-        >{{submitBtn}}</v-btn>
-      </v-card-text>
+            <v-btn 
+              block 
+              large
+              dark
+              class="white--text"
+              @click="saveDetails()"
+            >Update</v-btn>
+          </v-card-text>
+      </v-card>
+
     </v-card>
 
-</div>
+  </Layout>
 </template>
 
 <script>
-
-import User from '../../Apis/User'
+import Layout from '../../Layouts/Layout.vue'
+import Team from '../../Apis/Team'
 
 export default {
-  components: {  },
+  components: { Layout },
   data(){
     return{
-      agent:{
-        email: '',
-        contact: '',
-        website: '',
-        brand_logo: ''
-      },
+      team:'',
       preview: '',
-      submitBtn: "Update",
       success: false,
+      avatarPreview: '',
+      snackbar: false
     }
   },
   methods: {
-    saveDetails() {
-      User.update(this.agent.id, this.agent).then((response) => {
-        this.success = true;
-        this.submitBtn = "Profile Updated";
-        console.log(response);
+    saveDetails(){
+      Team.updateProfile(this.team.id, this.team)
+      .then(() => {
+        this.snackbar = true;
+        // console.log(response);
       });
     },
-    previewLogo(e) {
-      let file = e.target.files[0];
-
-      let reader = new FileReader();
-
-      reader.readAsDataURL(file);
-
-      reader.onload = (e) => {
-        this.preview = e.target.result;
-        this.agent.brand_logo = e.target.result;
-      };
+    previewAvatar(e) {
+        let file = e.target.files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e) => {
+            this.avatarPreview = e.target.result;
+            this.team.image = e.target.result;
+        };
     },
   },
   beforeMount(){
-    User.authForUpdate().then((response) => {
-      this.agent = response.data.data;
-      console.log(response)
+    Team.auth().then((response) => {
+      this.team = response.data.data;
+      // console.log(response.data)
     });
   }
 }
 </script>
 
 <style scoped>
+.content-card{
+    overflow-y: scroll;
+}
+#brandLogo{width: 100%;margin-top:2em}
+.update-btn{
+    position: fixed;
+    right: 10px;
+    bottom: 20px;
+    z-index: 999;
+}
+.search-input{
+  background-color: #fefefe;
+  border-radius: 6px;
+  padding: 1em;
+  width: 100%;
+  box-shadow: 0 2px 6px 0 rgba(136,148,171,.4),0 24px 20px -24px rgba(71,82,107,.3);
+  margin-top: 5px;
+}
 .brandLogoLabel{
   border: 1px solid #999999;
   border-radius: 4px;
-  padding: 5px 12px;
+  padding: 5px 16px;
   cursor: pointer;
   font-size: 14px
+}
+.brandLogoLabel:hover{
+    background: #efefef;
 }
 .gradient{
   background-image: linear-gradient(to right, #0ba360, #3cba92);
   box-shadow: 0 4px 15px 0 rgba(23, 168, 108, 0.75);
+}
+.uploadAvatarBtn{
+    position: absolute;
+    bottom: 0;
+    background: rgba(0,0,0,.4);
+    color: #ededed;
+    width: 100%;
+    padding: 5px;
+    cursor: pointer;
 }
 </style>

@@ -1,12 +1,10 @@
 <template>
-  <v-container>
-    <v-row no-gutters>
-      <v-col cols="12">
-        <Navbar />
-        <slot />
-      </v-col>
-    </v-row>
-  </v-container>
+  <div>
+    <Navbar />
+    <v-container class="pt-0">
+      <slot />
+    </v-container>
+  </div>
 </template>
 
 <script>

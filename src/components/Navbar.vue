@@ -1,41 +1,70 @@
 <template>
     <div>
-        <v-app-bar class="transparent" elevation="0">
+        <v-navigation-drawer
+            v-model="drawer"
+            :mini-variant="miniVariant"                   
+            :clipped="clipped" 
+            app
+            class="white"
+        >
 
-          <v-toolbar-title class="font-weight-bold text-h5">agnt.</v-toolbar-title>
+          <v-list-item class="py-4"> 
+            <v-list-item-content>
+              <v-list-item-title class="text-h6">
+                {{client.name}}
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                {{client.email}}
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
 
-          <v-spacer></v-spacer>
+          <v-divider></v-divider>
 
-          <v-btn text class="text-capitalize">Home</v-btn>
+          <v-list dense>
 
-          <v-btn text class="text-capitalize">Gallery</v-btn>
+              <v-list-item 
+                v-for="link in links" 
+                :key="link.name"
+                link
+                class="py-1"
+                :to="{name: link.link}"
+              >
+                <v-list-item-action>
+                  <v-icon size="20" class="grey--text text--darken-3">{{link.icon}}</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title class="grey--text text--darken-3">
+                      {{link.name}}
+                    </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              
+          </v-list>
 
-          <!-- <v-btn outlined text class="text-capitalize mr-5" to="/login">Login</v-btn> -->
-
-          <v-menu left bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn v-bind="attrs" v-on="on" class="text-capitalize" dark>
+          <template v-slot:append>
+            <div class="pa-2">
+              <v-btn block dark @click="logout">
                 Logout
               </v-btn>
-            </template>
+            </div>
+          </template>
 
-            <v-list>
-              <v-list-item
-                v-for="n in 3"
-                :key="n"
-                @click="() => {}"
-              >
-                <v-list-item-title>Option {{ n }}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
+        </v-navigation-drawer>
+
+        <v-app-bar :clipped-left="clipped" flat class="white" >
+            <v-toolbar-title v-text="title" class="grey--text text--darken-4 font-weight-bold"/>
+            <v-spacer />
+            <v-btn @click.stop="drawer = !drawer" icon>
+              <v-icon color="grey darken-4">mdi-view-grid-outline</v-icon>
+            </v-btn>
         </v-app-bar>
 
     </div>
 </template>
 
 <script>
-import User from '../Apis/User'
+import Team from '../Apis/Team'
 
 export default {
   data () {
@@ -47,19 +76,28 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'agnt.',
-      agent: {},
-      isLoggedIn: false
+      client: {},
+      isLoggedIn: false,
+      links: [
+        { name: 'Dashboard', link: 'TeamDashboard', icon: 'mdi-view-dashboard-outline' },
+        { name: 'Leads', link: 'allLeads', icon: 'mdi-format-list-bulleted-square' },
+        { name: 'Profile', link: 'Profile', icon: 'mdi-shield-account-outline' },
+        { name: 'Website', link: 'Websites', icon: 'mdi-earth' },
+        { name: 'Existing Clients', link: '', icon: 'mdi-account-multiple-outline' },
+      ]
     }
   },
   created(){
-    User.auth().then((response) => {
-      this.agent = response.data.data
+    Team.auth().then((response) => {
+      this.client = response.data.data
+      //console.log(response.data)
     })
   },
   methods:{
     logout(){
       localStorage.removeItem("token");
-      User.logout().then(() => {
+      Team.logout()
+      .then(() => {
         localStorage.removeItem("token");
         this.isLoggedIn = false;
         this.$router.push({name: 'Login'});
@@ -69,6 +107,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>

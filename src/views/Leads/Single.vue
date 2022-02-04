@@ -6,9 +6,9 @@
                 <v-btn small color="pink" text v-bind="attrs" @click="snackbar = false">Close</v-btn>
             </template>
         </v-snackbar>
-        <v-card class="rounded-xl">
+        <v-card class="rounded-xl" v-if="lead">
             <v-toolbar elevation="0">
-                <v-btn icon :to="{name: 'mLeads'}"><v-icon>mdi-arrow-left</v-icon></v-btn>
+                <v-btn icon :to="{name: 'allLeads'}"><v-icon>mdi-arrow-left</v-icon></v-btn>
                 <v-spacer></v-spacer>
 
                 <v-menu offset-y>
@@ -18,18 +18,18 @@
                         </v-btn>
                     </template>
                     <v-list dense flat elevation="0" class="py-0">
-                        <v-list-item @click="showGroupDailog">
+                        <!-- <v-list-item @click="showGroupDailog">
                             <v-list-item-title>Add To Group</v-list-item-title>
-                        </v-list-item>
+                        </v-list-item> -->
                         <v-list-item @click="statusDailog = !statusDailog">
                             <v-list-item-title>Lead Status</v-list-item-title>
                         </v-list-item>
-                        <v-list-item @click="showTeamDailog">
+                        <!-- <v-list-item @click="showTeamDailog">
                             <v-list-item-title>Assign Team</v-list-item-title>
-                        </v-list-item>
-                        <v-btn text small class="text-capitalize red lighten-4" block tile @click="deleteLead(lead.id)">
+                        </v-list-item> -->
+                        <!-- <v-btn text small class="text-capitalize red lighten-4" block tile @click="deleteLead(lead.id)">
                             Delete
-                        </v-btn>
+                        </v-btn> -->
                     </v-list>
                 </v-menu>
             </v-toolbar>
@@ -39,52 +39,33 @@
                     <tr><td>Name</td><td><strong>{{lead.name}}</strong></td></tr>
                     <tr><td>Email</td><td>{{lead.email}}</td></tr>
                     <tr><td>Contact</td><td>{{lead.contact}}</td></tr>
-                    <tr><td>Lead Source</td><td>{{lead.lead_source}}</td></tr>
+                    <tr><td>Source</td><td>{{lead.lead_source}}</td></tr>
+                    <tr><td>Lead Status</td><td>{{lead.status}}</td></tr>
                 </tbody>
             </v-simple-table>
 
-            <v-row no-gutters>
-                <v-col cols="4">
-                    <v-card tile class=" text-center" elevation="1" height="80">
-                        <div class="grey darken-1 white--text caption pa-1">Group</div>
-                        <v-card-subtitle>{{lead.group_id}}</v-card-subtitle>
-                    </v-card>
-                </v-col>
-                <v-col cols="4">
-                    <v-card tile class="text-center" elevation="1" height="80">
-                        <div class="grey darken-1 white--text caption pa-1">Status</div>
-                        <v-card-subtitle>{{lead.status}}</v-card-subtitle>
-                    </v-card>
-                </v-col>
-                <v-col cols="4">
-                    <v-card tile class="text-center" elevation="1" height="80">
-                        <div class="grey darken-1 white--text caption pa-1">Team</div>
-                        <v-card-subtitle>{{lead.team_id}}</v-card-subtitle>
-                    </v-card>
-                </v-col>
-            </v-row>
 
-            <v-bottom-navigation color="teal" grow flat class="my-3">
-                <v-btn @click="callNow" :href="`tel:${lead.contact}`">
+            <v-bottom-navigation color="teal" grow flat class="my-3" height="50px">
+                <v-btn @click="callNow" :href="`tel:${lead.contact}`" height="50px">
                     <span>Call</span>
                     <v-icon>mdi-phone</v-icon>
                 </v-btn>
-                <v-btn :href="`mailto:${lead.email}`" target="_blank">
+                <v-btn :href="`mailto:${lead.email}`" target="_blank" height="50px">
                     <span>Email</span>
                     <v-icon>mdi-email-outline</v-icon>
                 </v-btn>
-                <v-btn @click="whatsappShareDialog">
+                <v-btn @click="whatsappShareDialog" height="50px">
                     <span>Message</span>
                     <v-icon>mdi-message-reply-text-outline</v-icon>
                 </v-btn>
-                <v-btn @click="shareWebsiteListDialog">
+                <v-btn @click="shareWebsiteListDialog" height="50px">
                     <span>Website</span>
                     <v-icon>mdi-web</v-icon>
                 </v-btn>
             </v-bottom-navigation>
 
         <!-- ******************************** 
-                Share Text Message & Whatsapp Dialog 
+                Share Text Message Dialog 
         ********************************** -->
             <v-bottom-sheet v-model="whatsappShare">
                 <v-card flat tile height="450" class="overflow-y-auto">
@@ -155,36 +136,45 @@
         <!-- ******************************** 
                 Share Website Dialog 
         ********************************** -->
-            <v-bottom-sheet v-model="sheet">
+            <v-bottom-sheet v-model="sheet" class="white">
+                <v-card class="white" flat>
+                    <div class="pa-3 grey--text text--darken-2">Search Website</div>
+                    <div class="d-flex align-center">
+                        <input type="text" v-model="search" placeholder="Project Name..." class="search-input px-4">
+                        <v-btn fab depressed class="white rounded-lg" @click.prevent="searchWebsite()">
+                            <v-icon>mdi-magnify</v-icon>
+                        </v-btn>
+                    </div>
+                </v-card>
                 <v-list two-line>
                     <v-list-item v-for="website in websites" :key="website.id">
-                        <v-list-item-avatar tile>
+                        <!-- <v-list-item-avatar tile>
                             <v-img
                                 :src="`https://d1o3gwiog9g3w3.cloudfront.net/website/${website.website_images.slice(0, 1)[0].url}`"
                             ></v-img>
-                        </v-list-item-avatar>
+                        </v-list-item-avatar> -->
 
                         <v-list-item-content>
                             <v-list-item-title>{{website.title}}</v-list-item-title>
                             <v-list-item-subtitle>Total shared: {{website.trackers.length}}</v-list-item-subtitle>
                         </v-list-item-content>
 
-                        <v-btn class="text-capitalize blue darken-2" dark small
+                        <!-- <v-btn class="text-capitalize blue darken-2" dark small
                             @click="showSelectedWebsiteMessage(lead, website)"
-                        >
-                            <!-- @click="shareNow(lead, website)" -->
-                            Select
-                        </v-btn>
-                        <!-- :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} %0a Here is the details for ${website.title} %0a http://localhost:3000/wt/${tracker_id}`"
-                            target="_blank" -->
+                        >Select</v-btn> -->
 
-                        <v-dialog v-model="editWebsiteWindow" width="500">
+                        <!-- 
+                        ============== Edit Website Dialog ================
+                        -->
+                        <v-dialog v-model="editWebsiteWindow[lead.id]" width="500">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn v-bind="attrs" v-on="on" class="text-capitalize blue darken-2" dark small>Select</v-btn>
+                            </template>
+
                             <v-card class="pt-5 rounded-lg">
-
                                 <v-card-text>
-                                    <span class="caption grey--text">Hi, {clientName}</span> <br>
+                                    <span class="caption grey--text">Hi, {clientName},</span> <br>
                                     <div>{{selectedWebsiteMsg}}</div>
-                                    <span class="caption grey--text">{websiteName}</span> <br>
                                     <span class="caption grey--text">Regards,</span> <br/>
                                     <span class="caption grey--text">{yourName}</span>
                                 </v-card-text>
@@ -195,20 +185,14 @@
                                 <v-card-actions>
                                     <span class="grey--text text--darken-2">Share Via:</span>
                                     <v-spacer></v-spacer>
-                                    <v-btn fab x-small elevation="1" class="green" dark 
-                                        @click="shareNow(lead, website)">
-                                        <v-icon>mdi-whatsapp</v-icon>
-                                    </v-btn>
-                                    <v-btn fab x-small elevation="1" class="blue" dark 
-                                        @click="shareNowViaMsg(lead, website)">
-                                        <v-icon>mdi-message-text-outline</v-icon>
-                                    </v-btn>
-                                    <!-- <v-btn 
-                                        fab x-small elevation="1" class="blue lighten-1" dark
-                                        :href="`sms:${lead.contact}&body=Hi ${lead.name} %0a ${selectedWebsiteMsg} %0a Regards, %0a ${agent.name}`"
-                                        target="_blank"
-                                        @click="addActivityMessage"
-                                    ><v-icon>mdi-message-text-outline</v-icon></v-btn> -->
+                                    <v-btn 
+                                        @click="shareNowViaWhatsapp(lead, website)"
+                                        fab x-small elevation="1" class="green" dark
+                                    ><v-icon>mdi-whatsapp</v-icon></v-btn>
+                                    <v-btn 
+                                        @click="shareNowViaMsg(lead, website)"
+                                        fab x-small elevation="1" class="blue" dark
+                                    ><v-icon>mdi-message-text-outline</v-icon></v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
@@ -217,29 +201,6 @@
                 </v-list>
             </v-bottom-sheet>
             
-
-        <!-- ******************************** 
-                Update Group Dialog 
-        ********************************** -->
-            <v-bottom-sheet v-model="groupDailog">
-                <v-card class="pa-5" height="300">
-                    <div class="font-weight-bold mb-3">Add lead to group</div>
-                    <v-autocomplete
-                        v-model="group_id"
-                        :items="groups"
-                        item-text="title"
-                        item-value="id"
-                        small-chips
-                        outlined
-                        dense
-                        label="Search Group"
-                    ></v-autocomplete>
-                    <v-btn block depressed dark class="dark rounded" @click="addSingleLeadToGroup(lead.id)">
-                        <v-icon left>mdi-check</v-icon>
-                        Save
-                    </v-btn>
-                </v-card>
-            </v-bottom-sheet>
 
         <!-- ******************************** 
                 Update Lead Status Dialog 
@@ -260,29 +221,6 @@
                     <v-btn block depressed dark class="dark rounded" @click="changeSingleLeadStatus(lead.id)">
                         <v-icon left>mdi-check</v-icon>
                         Save
-                    </v-btn>
-                </v-card>
-            </v-bottom-sheet>
-
-        <!-- ******************************** 
-            Assign Lead to Team Member Dialog 
-        ********************************** -->
-            <v-bottom-sheet v-model="teamDailog">
-                <v-card class="pa-5" height="300">
-                    <div class="font-weight-bold mb-3">Assign Lead To Team</div>
-                    <v-autocomplete
-                        v-model="team_id"
-                        :items="teams"
-                        item-text="name"
-                        item-value="id"
-                        small-chips
-                        outlined
-                        dense
-                        label="Search team member"
-                    ></v-autocomplete>
-                    <v-btn block depressed dark class="dark rounded" @click="assignSingleLeadToTeam(lead.id)">
-                        <v-icon left>mdi-check</v-icon>
-                        Assign
                     </v-btn>
                 </v-card>
             </v-bottom-sheet>
@@ -365,7 +303,7 @@
 
 <script>
 import Lead from '../../Apis/Lead';
-import User from '../../Apis/User'
+import Team from '../../Apis/Team'
 import Other from '../../Apis/Other'
 import Website from '../../Apis/Website'
 import Tracker from '../../Apis/Tracker'
@@ -396,8 +334,8 @@ export default {
             snackbarText: '',
             sheet: false,
             editMessageWindow: false,
-            selectedWebsiteMsg: '',
-            editWebsiteWindow: false,
+            selectedWebsiteMsg: 'Here is the details for',
+            editWebsiteWindow: {},
             whatsappShare: false,
             shareData:{
                 website_id: null,
@@ -406,20 +344,32 @@ export default {
                 opened: false,
                 total_views: 0
             },
-            generatedLink: ''
-
+            generatedLink: '',
+            search: '',
+            lead: '',
+            auth: ''
         }
     },
     computed:{
-        lead(){ return this.$store.state.lead},
-        groups(){ return this.$store.state.groups},
-        teams(){ return this.$store.state.teams},
-        agent(){ return this.$store.state.auth }
     },
     mounted(){
-        this.$store.dispatch('singleLead', this.$route.params.id);
+        this.fetchData();
+        this.fetchAuth();
     },
     methods:{
+        fetchAuth(){
+            Team.auth()
+            .then((response) => {
+                this.auth = response.data.data
+                // console.log(response.data.data)
+            })
+        },
+        fetchData(){
+            Lead.details(this.$route.params.id)
+            .then((response) => {
+                this.lead = response.data.data
+            });
+        },
         addActivityNotes(){
             let data = new FormData();
             data.append('notes', this.input)
@@ -428,7 +378,7 @@ export default {
             Lead.addActivityNotes(data)
             .then(() => {
                 this.input = ''
-                this.$store.dispatch('singleLead', this.lead.id);
+                this.fetchData();
                 this.snackbar = true
                 this.snackbarText = 'Activity Note Added'
             })
@@ -467,7 +417,7 @@ export default {
         addActivityWhatsapp(){
             let data = new FormData();
             data.append('lead_id', this.lead.id)
-            data.append('whatsapp', 'Whatsapp Message')
+            data.append('whatsapp', 'Share Website Via Whatsapp')
 
             Lead.addActivityWhatsapp(data)
             .then(() => {
@@ -475,11 +425,12 @@ export default {
             })
         },
         changeSingleLeadStatus(lead){
-            User.asignLeadToTeam(lead, {
+            Lead.asignLeadToTeam(lead, {
                 status: this.status_name
             })
             .then(response => {
-                this.$store.dispatch('singleLead', this.$route.params.id);
+                this.fetchData();
+                console.log(response)
                 this.snackbarText = 'Lead Staus changed'
                 this.snackbar = true;
             })
@@ -492,11 +443,12 @@ export default {
             this.groupDailog = true
         },
         addSingleLeadToGroup(lead){
-            User.asignLeadToTeam(lead, {
+            Team.asignLeadToTeam(lead, {
                 group_id: this.group_id
             })
             .then(response => {
-                this.$store.dispatch('singleLead', this.$route.params.id);
+                this.fetchData();
+                console.log(response)
                 this.snackbarText = 'Lead successufully added to group'
                 this.snackbar = true;
             })
@@ -511,40 +463,26 @@ export default {
             this.$store.dispatch('getTeams');
             this.teamDailog = true
         },
-        assignSingleLeadToTeam(lead){
-            User.asignLeadToTeam(lead, {
-                team_id: this.team_id
-            })
-            .then(response => {
-                this.$store.dispatch('singleLead', this.$route.params.id);
-                this.snackbarText = 'Lead assigned to team member!'
-                this.snackbar = true;
-            })
-            .then(() =>{
-                this.teamDailog = false;
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-        },
         deleteLead(lead){
             Lead.delete(lead)
             .then((res)=> {
                 this.$router.push({name: 'mLeads'});
+                console.log(res)
             })
         },
         // Share Website
         shareWebsiteListDialog(){
             this.sheet = true;
-            Website.auth().then(response => {
-                this.websites = response.data.data;
-            });
+            // Website.myWebsiteToShare().then(response => {
+            //     this.websites = response.data.data;
+            // });
         },
         showSelectedWebsiteMessage(lead, website){
             this.selectedWebsiteMsg = 'Here is the details for';
             this.editWebsiteWindow = true;
+            console.log(lead, website)
         },
-        // Whatsapp/Message share
+        // Text Message share
         whatsappShareDialog(){
             this.whatsappShare = true;
             Other.allMessage().then(response => {
@@ -559,15 +497,19 @@ export default {
             this.editMessageWindow = true
         },
         // Share Website via whatsapp
-        shareNow(lead, website){
+        shareNowViaWhatsapp(lead, website){
             this.websiteName = website;
 
             let form = new FormData();
             form.append('website_id', website.id)
+            form.append('website_name', website.title)
             form.append('lead_id', lead.id)
-            form.append('agent_id', this.agent.id)
+            form.append('lead_name', lead.name)
+            form.append('type', 'whatsapp')
             form.append('opened', false)
             form.append('total_views', 0)
+            form.append('share_id', website.share.id)
+            form.append('agent_id', this.auth.agent_id)
 
             // for (var pair of form.entries()){
             //     console.log(pair[0]+ ', '+ pair[1]); 
@@ -575,13 +517,23 @@ export default {
 
             Tracker.new(form)
             .then(response => {
-                this.tracker_id = response.data.url
+                // this.tracker_id = response.data.url
+                this.tracker_id = response.data.id
+                
+                // window.location.href(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${response.data.id}/${website.share.url}`, '_blank');
+
                 // console.log(response.data)
-                if (response.data == 'Already Sent') {
+
+                if (response.data.message == 'Already Sent') {
                     this.snackbarText = 'Already Sent!'
                     this.snackbar = true
+
+                    var tracker = response.data.tracker[0].id
+                    
+                    window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${tracker}/${website.share.url}`)
                 } else {
-                    this.sendWhatsapp();
+                    // this.sendWhatsapp();
+                    window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${response.data.id}/${website.share.url}`, '_blank');
                 }
                 // this.websiteShareConfirmation = true
             })
@@ -589,44 +541,64 @@ export default {
                 console.log(error);
             })
         },
-        sendWhatsapp(){
-            window.open(`https://wa.me/${this.lead.contact}?text=Hi ${this.lead.name} ${this.selectedWebsiteMsg} ${this.websiteName.title} %0a https://agentsnest.com/wt/${this.websiteName.id}/${this.tracker_id}`, '_blank');
-        },
-        /* ===================================
-        -- -- Share website via message --- --
-        =====================================*/
+        
+        /* -- Share website via message -- */
         shareNowViaMsg(lead, website){
             this.websiteName = website;
 
             let form = new FormData();
             form.append('website_id', website.id)
+            form.append('website_name', website.title)
             form.append('lead_id', lead.id)
-            form.append('agent_id', this.agent.id)
+            form.append('lead_name', lead.name)
+            form.append('type', 'message')
             form.append('opened', false)
             form.append('total_views', 0)
+            form.append('share_id', website.share.id)
+            form.append('agent_id', this.auth.agent_id)
 
             Tracker.new(form)
             .then(response => {
-                this.tracker_id = response.data.url
-                if (response.data == 'Already Sent') {
+                this.tracker_id = response.data.id
+
+                // window.location.assign(`sms:${lead.contact}&body=Hi ${lead.name} %0a ${this.selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${this.tracker_id}/${website.share.url}`);
+                
+                if (response.data.message == 'Already Sent') {
                     this.snackbarText = 'Already Sent!'
                     this.snackbar = true
+
+                    var tracker = response.data.tracker[0].id
+                    
+                    window.open(`sms:${lead.contact}?&body=Hi ${lead.name} %0a ${this.selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${tracker}/${website.share.url}`)
                 } else {
-                    this.sendTextMessage();
+                    window.open(`sms:${lead.contact}?&body=Hi ${lead.name} %0a ${this.selectedWebsiteMsg} %0a ${website.title} %0a https://agentsnest.com/wt/${this.tracker_id}/${website.share.url}`);
                 }
             })
             .catch(error => {
                 console.log(error);
             })
         },
-        sendTextMessage(){
-            window.open(`sms:/${this.lead.contact}?text=Hi ${this.lead.name} ${this.selectedWebsiteMsg} ${this.websiteName.title} %0a https://agentsnest.com/wt/${this.websiteName.id}/${this.tracker_id}`, '_blank');
+
+        searchWebsite(){
+            Website.searchMyWebsite(this.search)
+            .then((res) => {
+                this.websites = res.data;
+            }).catch((err) => {
+                console.log(err)
+            })
         },
         
     }
 }
 </script>
 
-<style>
-
+<style scoped>
+.search-input{
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 0.8em;
+  width: 88%;
+  outline: none;
+  box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
+}
 </style>

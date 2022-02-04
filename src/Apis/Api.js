@@ -14,13 +14,13 @@ let Api = function() {
   return BaseApi;
 };
 
-// BaseApi.interceptors.response.use(null, function(error) {
-//   if (error.response.status === 401) {
-//     localStorage.removeItem("token");
-//     console.log("Failed to login");
-//     window.location.href = "/login";
-//   }
-//   return Promise.reject(error);
-// });
+BaseApi.interceptors.response.use(null, function(error) {
+  if (error.response.status === 401) {
+    localStorage.removeItem("token");
+    console.log("Failed to login");
+    window.location.href = "/login";
+  }
+  return Promise.reject(error);
+});
 
 export default Api;

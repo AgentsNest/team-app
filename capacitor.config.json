@@ -1,0 +1,14 @@
+{
+  "appId": "com.agntclient.app",
+  "appName": "agntclient",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "SplashScreen": {
+    "launchShowDuration": 0,
+    "launchAutoHide": true
+  },
+  "server": {
+    "hostname": "agentsnest.com",
+    "androidScheme": "https"
+  }
+}

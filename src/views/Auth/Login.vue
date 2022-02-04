@@ -1,63 +1,51 @@
 <template>
-    <div>
-        <v-img
-            src="../../assets/img/login.jpg"
-            gradient="to top right, rgba(40, 53, 147,.8), rgba(60, 171, 186,.9)"
-            class="d-flex text-center align-center"
-            height="100vh"
+    <v-container>
+
+        <v-snackbar v-model="snackbar" transition="scroll-y-transition" top timeout="3000"
         >
-            <!-- <v-icon color="#fff" size="12vw">mdi-map-marker</v-icon> -->
-            <div class="logo-text">agnt.</div>
+            {{snackbarText}}
+            <template v-slot:action="{ attrs }">
+                <v-btn small color="pink" text v-bind="attrs" @click="snackbar = false">Close</v-btn>
+            </template>
+        </v-snackbar>
 
-            <v-row>
-                <v-col md="4" offset-md="4">
-                    <v-card class="rounded-xl pa-10">
-                        <div class="text-h5 text-center">Realtor Login</div>
-                        <v-card-subtitle class="">Please enter the details below to continue.</v-card-subtitle>
+        <v-img 
+            src="../../assets/img/clientlogin.png" 
+            lazy-src="../../assets/img/clientlogin.png"
+            width="80%" 
+            class="mx-auto"
+        ></v-img>
 
-                        <v-card-text>
-                            <v-alert
-                                v-show="errors" color="red" dense  dismissible
-                                border="left" elevation="1" colored-border
-                                class="caption"
-                            >
-                                Something went wrong.!
-                            </v-alert>
+        <v-card flat class="text-center">
+            <h2>Team Login</h2>
+            <p class="body-2 grey--text text--darken-2">Please enter the details below to continue.</p>
+        </v-card>
 
-                            <v-text-field
-                                label="Email"
-                                placeholder="Enter your email"
-                                v-model="form.email"
-                            ></v-text-field>
-                            <v-text-field
-                                label="Password"
-                                placeholder="Password"
-                                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                                :type="showPassword ? 'text' : 'password'"
-                                @click:append="showPassword = !showPassword"
-                                v-model="form.password"
-                                @keyup.enter="login"
-                            ></v-text-field>
-                            <router-link :to="{name: 'forgotPassword'}" class="blue--text text--darken-3">Forgot Password</router-link>
-                        </v-card-text>
+        <v-card flat class="pa-5">
+            <v-text-field
+                label="Email"
+                placeholder="Enter your email"
+                outlined
+                v-model="form.email"
+            ></v-text-field>
+            <v-text-field
+                label="Password"
+                placeholder="Password"
+                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="showPassword ? 'text' : 'password'"
+                @click:append="showPassword = !showPassword"
+                outlined
+                v-model="form.password"
+            ></v-text-field>
 
+            <v-btn block x-large dark class="gradient-bg" @click="login">Login</v-btn>
+        </v-card>
 
-                        <v-card-actions>
-                            <button class="gradient" @click="login">Login</button>
-                        </v-card-actions>
-                        <div class="mt-3">
-                            I'm new user. <router-link :to="{name: 'Register'}">Sign Up</router-link>
-                        </div>
-                    </v-card>
-                </v-col>
-            </v-row>
-        </v-img>
-
-    </div>
+    </v-container>
 </template>
 
 <script>
-import User from "../../Apis/User";
+import Team from "../../Apis/Team";
 
 export default {
     data () {
@@ -68,38 +56,27 @@ export default {
                 password: "",
                 device_name: 'mobile'
             },
-            errors:''
+            errors:'',
+            snackbarText: 'Email Or Password Is Incorrect',
+            snackbar : false
         }
     },
     methods:{
-        login(){
-            User.login(this.form)
+        login() {
+            Team.login(this.form)
             .then((response) => {
                 localStorage.setItem("token", response.data);
-                this.$router.push('/dashboard');
+                this.$router.push({ name: "TeamDashboard" });
             })
             .catch((error) => {
-                this.errors = error.response.data.errors;
-                console.log(error.response.data.errors);
+                this.errors = error;
+                this.snackbar = true
             });
-        }
-    }
+        },
+}
 }
 </script>
 
 <style>
-.logo-text{
-  color: #fff;
-  font-weight: bold;
-  font-size: 6vh;
-  margin-bottom: 0.6em;
-}
-.gradient{
-    background-image: linear-gradient(to right, #283593, #3cabba);
-    box-shadow: 0 4px 15px 0 rgba(23, 91, 168, 0.75);
-    color: #fff;
-    width: 100%;
-    border-radius: 12px;
-    padding: 14px;
-}
+
 </style>
