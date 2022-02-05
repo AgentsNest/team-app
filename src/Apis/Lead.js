@@ -10,6 +10,9 @@ export default {
   asignLeadToTeam(lead, form) {
     return Api().patch("/asignLeadToTeam/" + lead, form);
   },
+  leadsAnalytics() {
+    return Api().get("/team/leads-analytics");
+  },
 
   /**
    * Activities Request

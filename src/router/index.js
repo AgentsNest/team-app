@@ -56,6 +56,14 @@ const routes = [
         /* webpackChunkName: "website-details" */ "../views/Website/Single.vue"
       ),
   },
+  {
+    path: "/wt/:tracker/:share",
+    name: "trackWebsite",
+    component: () =>
+      import(
+        /* webpackChunkName: "track-website" */ "../views/Website/Track.vue"
+      ),
+  },
 ];
 
 const router = new VueRouter({

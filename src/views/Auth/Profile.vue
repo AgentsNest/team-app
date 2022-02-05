@@ -46,9 +46,6 @@
               outlined label="About You" v-model="team.bio" rows="3"
             ></v-textarea>
             <v-text-field label="Contact" outlined v-model="team.contact"></v-text-field>
-            <v-text-field label="Facebook" outlined v-model="team.facebook"></v-text-field>
-            <v-text-field label="Youtube" outlined v-model="team.youtube"></v-text-field>
-            <v-text-field label="Instagram" outlined v-model="team.instagram"></v-text-field>
 
             <v-btn 
               block 

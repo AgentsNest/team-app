@@ -9,7 +9,7 @@
                         <div class="title text-right">Total Leads</div>
                         <v-spacer></v-spacer>
                         <div class="font-weight-bold title">
-                            <span>345</span>
+                            <span>{{totalLead}}</span>
                         </div>
                     </v-card-actions>
                 </v-card>
@@ -94,14 +94,15 @@
               <v-spacer></v-spacer>
               <div class="title">Existing Clients</div>
               <v-spacer></v-spacer>
-              <div class="title">23</div>
+              <div class="title">0</div>
             </v-card-actions>
         </v-card>
     </Layout>
 </template>
 
 <script>
-import Team from "../../Apis/Team";
+import Team from "../../Apis/Team"; // eslint-disable-line
+import Lead from "../../Apis/Lead"
 import Layout from "../../Layouts/Layout.vue";
 
 export default {
@@ -120,28 +121,44 @@ export default {
         };
     },
     methods:{
-        
+      fetchData(){
+        Lead.leadsAnalytics()
+        .then((res) => {
+          this.deadLead = res.data.deadLeads
+          this.coldLead = res.data.coldLeads
+          this.hotLead = res.data.hotLeads
+          this.warmLead = res.data.warmLeads
+          this.newLead = res.data.newLeads
+          this.totalLead = res.data.allLeads
+        })
+      },
     },
     mounted(){
-        // runModalTimer() {
-        //     setTimeout(() => {
-        //         this.dialog = true
-        //     }, 4000)
-        // }
+        this.fetchData();
         // debugger; // eslint-disable-line
     },
+    computed:{
+      hotLeadPercentage(){
+        return (this.hotLead / this.totalLead * 100).toFixed(2)
+      },
+      coldLeadPercentage(){
+        return (this.coldLead / this.totalLead * 100).toFixed(2)
+      },
+      warmLeadPercentage(){
+        return (this.warmLead / this.totalLead * 100).toFixed(2)
+      },
+      deadLeadPercentage(){
+        return (this.deadLead / this.totalLead * 100).toFixed(2)
+      },
+      newLeadPercentage(){
+        return (this.newLead / this.totalLead * 100).toFixed(2)
+      },
+    },
     created() {
-        /* Client.clientConnectAgents().then((response) => {
-            this.agents = response.data;
-        });
-        Client.clientMyProperty().then((response) => {
-            this.properties = response.data;
-        });
-        */
-        Team.auth()
-        .then((res) => {
-             console.log(res.data)
-        })
+        // Team.auth()
+        // .then((res) => {
+        //      console.log(res.data)
+        // })
     },
 };
 </script>
