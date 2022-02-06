@@ -23,6 +23,12 @@ const routes = [
       import(/* webpackChunkName: "profile" */ "../views/Auth/Profile.vue"),
   },
   {
+    path: "/t/:uid",
+    name: "vCard",
+    component: () =>
+      import(/* webpackChunkName: "vCard" */ "../views/vcard.vue"),
+  },
+  {
     path: "/team-dashboard",
     name: "TeamDashboard",
     component: () => import("../views/TeamDashboard/Index.vue"),

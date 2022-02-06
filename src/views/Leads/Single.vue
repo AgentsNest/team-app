@@ -583,6 +583,7 @@ export default {
             Website.searchMyWebsite(this.search)
             .then((res) => {
                 this.websites = res.data;
+                console.log(res)
             }).catch((err) => {
                 console.log(err)
             })

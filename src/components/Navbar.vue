@@ -55,7 +55,10 @@
         <v-app-bar :clipped-left="clipped" flat class="white" >
             <v-toolbar-title v-text="title" class="grey--text text--darken-4 font-weight-bold"/>
             <v-spacer />
-            <v-btn @click.stop="drawer = !drawer" icon>
+
+            <Notification />
+
+            <v-btn @click.stop="drawer = !drawer" icon class="ml-2">
               <v-icon color="grey darken-4">mdi-view-grid-outline</v-icon>
             </v-btn>
         </v-app-bar>
@@ -65,8 +68,10 @@
 
 <script>
 import Team from '../Apis/Team'
+import Notification from './Notification.vue'
 
 export default {
+  components:{ Notification },
   data () {
     return {
       clipped: false,

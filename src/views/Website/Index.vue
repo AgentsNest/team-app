@@ -268,9 +268,9 @@ export default {
 
                   var tracker = response.data.tracker[0].id
                   
-                  window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${tracker}/${website.share.url}`)
+                  window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://teams.agentsnest.com/wt/${tracker}/${website.share.url}`)
               } else {
-                  window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${response.data.id}/${website.share.url}`, '_blank');
+                  window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://teams.agentsnest.com/wt/${response.data.id}/${website.share.url}`, '_blank');
               }
           })
           .catch(error => {

@@ -7,10 +7,10 @@ export default {
 
   // Post data from vue component
   track(tracker, form) {
-    return Api().patch("/updateTrackerLink/" + tracker, form);
+    return Api().patch("/team-updateTrackerLink/" + tracker, form);
   },
   duration(tracker, form) {
-    return Api().patch("/w/duration/" + tracker, form);
+    return Api().patch("/w/team-duration/" + tracker, form);
   },
 
   fetchShareDetailsByUrl(params) {

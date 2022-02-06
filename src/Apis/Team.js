@@ -17,4 +17,10 @@ export default {
   auth() {
     return Api().get("/getteam-account");
   },
+  vcard(params) {
+    return Api().get("/team/vcard/" + params);
+  },
+  teamCompanyDetails(params) {
+    return Api().get("/teamCompanyDetails/" + params);
+  },
 };
