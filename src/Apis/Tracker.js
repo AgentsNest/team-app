@@ -21,10 +21,16 @@ export default {
   },
 
   // Team Details
-  agentDetails(params) {
-    return Api().get("/agentDetails/" + params);
+  teamDetails(params) {
+    return Api().get("/teamDetails/" + params);
+  },
+  teamCompanyDetails(params) {
+    return Api().get("/teamCompanyDetails/" + params);
   },
   leadDetails(params) {
     return Api().get("/leadDetails/" + params);
+  },
+  websiteShowById(params) {
+    return Api().get("/w_by_id/" + params);
   },
 };

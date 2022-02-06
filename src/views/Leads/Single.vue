@@ -509,7 +509,7 @@ export default {
             form.append('opened', false)
             form.append('total_views', 0)
             form.append('share_id', website.share.id)
-            form.append('agent_id', this.auth.agent_id)
+            form.append('team_id', this.auth.id)
 
             // for (var pair of form.entries()){
             //     console.log(pair[0]+ ', '+ pair[1]); 
@@ -530,10 +530,10 @@ export default {
 
                     var tracker = response.data.tracker[0].id
                     
-                    window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${tracker}/${website.share.url}`)
+                    window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://teams.agentsnest.com/wt/${tracker}/${website.share.url}`)
                 } else {
                     // this.sendWhatsapp();
-                    window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://agentsnest.com/wt/${response.data.id}/${website.share.url}`, '_blank');
+                    window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://teams.agentsnest.com/wt/${response.data.id}/${website.share.url}`, '_blank');
                 }
                 // this.websiteShareConfirmation = true
             })

@@ -44,20 +44,20 @@
                     <!-- <v-card class="d-flex align-center pa-4 mt-5 justify-space-around">
                         <div class="font-weight-bold">PREPARED BY:</div>
                         <v-spacer></v-spacer>
-                        <img :src="agent.image" style="width: 80px;height: 80px;border-radius:100%;" v-if="agent">
+                        <img :src="team.image" style="width: 80px;height: 80px;border-radius:100%;" v-if="agent">
                         <div class="ml-2">
-                            <div>{{agent.name}}</div>
-                            <div>{{agent.contact}}</div>
+                            <div>{{team.name}}</div>
+                            <div>{{team.contact}}</div>
                         </div>
                     </v-card> -->
 
                     <v-card-text>
                         <div class="text-h6">Map</div>
-                        <iframe :src="website.map" style="width: 100%; height: 350px; border:0" allowfullscreen="" loading="lazy"></iframe>
+                        <!-- <iframe :src="website.map" style="width: 100%; height: 350px; border:0" allowfullscreen="" loading="lazy"></iframe> -->
                     </v-card-text>
                     <v-card-text class="text-center">
                         <div class="text-h6">Walkthrough</div>
-                        <LazyYoutube :src="website.walkthrough" />
+                        <!-- <LazyYoutube :src="website.walkthrough" /> -->
                     </v-card-text>
                 </v-card>
             </v-col>
@@ -68,12 +68,13 @@
                 <h5>SHARED BY</h5>
                 <v-img max-width="150" :src="agent.brand_logo" class="mx-auto my-3"></v-img>
                 <h3>{{agent.brand_text}}</h3>
-                <h4>{{agent.name}}</h4>
-                <div class="caption">{{agent.contact}}</div>
+                <h4>{{team.name}}</h4>
+                <div class="caption">{{team.contact}}</div>
             </v-card-text>
+
             <v-card-actions class="justify-center">
                 <v-btn outlined class="text-capitalize" color="blue darken-3"
-                    :href="`tel:${agent.contact}`"
+                    :href="`tel:${team.contact}`"
                     target="_blank"
                     link
                 >
@@ -81,7 +82,7 @@
                     <span>Call</span>
                 </v-btn>
                 <v-btn outlined class="text-capitalize" color="grey darken-1"
-                    :href="`sms:${agent.contact}`"
+                    :href="`sms:${team.contact}`"
                     target="_blank"
                     link
                 >
@@ -89,7 +90,7 @@
                     <span>SMS</span>
                 </v-btn>
                 <v-btn outlined class="text-capitalize" color="teal darken-3"
-                    :href="`https://wa.me/${agent.contact}`"
+                    :href="`https://wa.me/${team.contact}`"
                     target="_blank"
                     link
                 >
@@ -108,11 +109,11 @@
 
 <script>
 import Tracker from "../../Apis/Tracker"
-import { LazyYoutube } from "vue-lazytube";
+// import { LazyYoutube } from "vue-lazytube";
 
 export default {
     components: {
-        LazyYoutube
+        // LazyYoutube
     },
     data(){
         return{
@@ -127,7 +128,9 @@ export default {
             team_id : '',
             lead_id : '',
             website_id: '',
-            lead_name: ''
+            lead_name: '',
+            agent_id: '',
+            agent: ''
         }
     },
     created(){
@@ -156,21 +159,6 @@ export default {
         incrementTime() {
             this.time = parseInt(this.time) + 1;
         },
-        async fetchTeam(){
-            let team = this.team_id;
-            await Tracker.agentDetails(team)
-            .then(response => {
-                this.agent = response.data;
-                // console.log('agent id:', response.data)
-            });
-        },
-        // async fetchLead(){
-        //     let lead = this.lead_id;
-        //     await Tracker.leadDetails(lead)
-        //     .then(response => {
-        //         this.lead = response.data;
-        //     });
-        // },
         async fetchWebsite(){
             let website = this.website_id;
             await Tracker.websiteShowById(website)
@@ -181,10 +169,7 @@ export default {
         fetchShareDetails(){
             Tracker.fetchShareDetailsByUrl(this.share_id)
             .then(response => {
-                // console.log(response.data)
-                this.agent_id = response.data.agent_id
                 this.website_id = response.data.website_id
-                this.fetchTeam();
                 this.fetchWebsite();
             }).catch(error => {
                 console.log(error)
@@ -194,8 +179,27 @@ export default {
             Tracker.fetchTrackeDetailsById(this.tracker_id)
             .then(response => {
                 this.lead_name = response.data.lead_name
+                this.team_id = response.data.team_id
+                this.fetchTeam();
+            })
+        },
+        fetchTeam(){
+            let team = this.team_id;
+            Tracker.teamDetails(team)
+            .then(response => {
+                this.team = response.data;
+                this.agent_id = response.data.agent_id
+                this.fetchAgent();
+            });
+        },
+        fetchAgent(){
+            var agent = this.agent_id;
+            Tracker.teamCompanyDetails(agent)
+            .then((res) => {
+                this.agent = res.data
             })
         }
+        
     },
     mounted(){
         this.sendResponse();
