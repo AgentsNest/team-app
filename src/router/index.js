@@ -49,6 +49,18 @@ const routes = [
       ),
   },
   {
+    path: "/leads/manual",
+    name: "AddLeads",
+    component: () =>
+      import(/* webpackChunkName: "add-leads" */ "../views/Leads/Manual.vue"),
+  },
+  {
+    path: "/leads/bulk",
+    name: "bulkUploadLead",
+    component: () =>
+      import(/* webpackChunkName: "bulk-upload" */ "../views/Leads/Bulk.vue"),
+  },
+  {
     path: "/websites",
     name: "Websites",
     component: () =>

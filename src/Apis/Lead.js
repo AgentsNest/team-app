@@ -1,6 +1,12 @@
 import Api from "./Api";
 
 export default {
+  new(form) {
+    return Api().post("/team/add-lead", form);
+  },
+  bulk(form) {
+    return Api().post("/team/bulk-lead", form);
+  },
   leads() {
     return Api().get("/team/my-leads/");
   },
