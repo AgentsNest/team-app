@@ -202,10 +202,10 @@ export default {
         
     },
     mounted(){
-        this.sendResponse();
-        this.duration = setInterval(this.incrementTime, 1000);
         this.fetchShareDetails();
         this.fetchTrackDetails();
+        this.duration = setInterval(this.incrementTime, 1000);
+        this.sendResponse();
     },
     beforeMount(){
         this.share_id = this.$route.params.share;
