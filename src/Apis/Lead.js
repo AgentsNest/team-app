@@ -35,4 +35,15 @@ export default {
   addActivityWhatsapp(form) {
     return Api().post("/team/addActivityWhatsapp", form);
   },
+
+  /**
+   * Followups
+   */
+  addFollowup(form) {
+    return Api().post("/team/addFollowup", form);
+  },
+
+  getFollowups() {
+    return Api().get("/team/getFollowups");
+  },
 };

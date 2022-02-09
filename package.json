@@ -21,6 +21,7 @@
     "v-img": "^0.2.0",
     "vue": "^2.6.11",
     "vue-clipboard2": "^0.3.3",
+    "vue-ctk-date-time-picker": "^2.5.0",
     "vue-html2canvas": "^0.0.4",
     "vue-infinite-loading": "^2.4.5",
     "vue-konva": "^2.1.7",

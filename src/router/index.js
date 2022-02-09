@@ -82,6 +82,12 @@ const routes = [
         /* webpackChunkName: "track-website" */ "../views/Website/Track.vue"
       ),
   },
+  {
+    path: "/followups",
+    name: "Followups",
+    component: () =>
+      import(/* webpackChunkName: "followups" */ "../views/Leads/Followup.vue"),
+  },
 ];
 
 const router = new VueRouter({
