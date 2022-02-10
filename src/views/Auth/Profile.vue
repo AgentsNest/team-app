@@ -79,10 +79,10 @@ export default {
   },
   methods: {
     saveDetails(){
+      // console.log(this.team);
       Team.updateProfile(this.team.id, this.team)
       .then(() => {
         this.snackbar = true;
-        // console.log(response);
       });
     },
     previewAvatar(e) {

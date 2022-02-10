@@ -11,13 +11,12 @@
                                 :src="user.image"
                                 :lazy-src="user.image"
                                 class="rounded"
-                                aspect-ratio="1"
-                                cover
+                                contain
                             ></v-img>
                         </v-col>
                         <v-col>
                             <div class="title">{{user.name}}</div>
-                            <div>RERA: {{user.rera}}</div>
+                            <div>RERA: {{agent.rera}}</div>
                             <div>{{user.brand_text}}</div>
                             
                             <div class="blue--text text--darken-3 font-weight-bold mt-3 mb-2">
@@ -31,11 +30,11 @@
                                 </a>
                             </div>
                             
-                            <div class="mt-4"><strong class="mr-2">Address:</strong>{{user.address}}</div>
+                            <div class="mt-4"><strong class="mr-2">Address:</strong>{{agent.address}}</div>
                             <div>
-                                <span v-if="user.city">{{user.city}}</span>
-                                <span v-if="user.state">, {{user.state}}</span>
-                                <span v-if="user.country">, {{user.country}}</span>
+                                <span v-if="agent.city">{{agent.city}}</span>
+                                <span v-if="agent.state">, {{agent.state}}</span>
+                                <span v-if="agent.country">, {{agent.country}}</span>
                             </div>
                             
                         </v-col>

@@ -88,6 +88,7 @@ export default {
         { name: 'Leads', link: 'allLeads', icon: 'mdi-format-list-bulleted-square' },
         { name: 'Profile', link: 'Profile', icon: 'mdi-shield-account-outline' },
         { name: 'Website', link: 'Websites', icon: 'mdi-earth' },
+        { name: 'Graphic', link: 'Graphic', icon: 'mdi-image-multiple-outline' },
         { name: 'Followup', link: 'Followups', icon: 'mdi-note-multiple-outline' },
         { name: 'Existing Clients', link: '', icon: 'mdi-account-multiple-outline' },
       ]

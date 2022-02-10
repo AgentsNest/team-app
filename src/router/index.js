@@ -88,6 +88,29 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "followups" */ "../views/Leads/Followup.vue"),
   },
+  /*
+    * = ===================================== **
+    * = ===================================== **
+                  Graphics Routes
+    * = ===================================== **
+    * = ===================================== **
+  */
+
+  {
+    path: "/graphics",
+    name: "Graphic",
+    component: () =>
+      import(/* webpackChunkName: "graphic" */ "../views/Designs/Index.vue"),
+  },
+  {
+    path: "/graphic/:id",
+    name: "previewGraphic",
+    meta: { authOnly: true },
+    component: () =>
+      import(
+        /* webpackChunkName: "previewGraphic" */ "../views/Designs/Preview.vue"
+      ),
+  },
 ];
 
 const router = new VueRouter({

@@ -21,7 +21,7 @@
     methods: {
       redirect() {
         if ((this.isLoggedIn = !!localStorage.getItem("token"))) {
-          this.$router.push({ name: "ClientDashboard" });
+          this.$router.push({ name: "TeamDashboard" });
         } else {
           this.$router.push({ name: "Login" });
         }
