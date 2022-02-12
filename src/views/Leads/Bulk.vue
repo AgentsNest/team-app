@@ -64,9 +64,9 @@
                                 (Supported format <strong>.CSV</strong> file)
                             </div>
                             <br>
-                            <v-btn large class="gradient rounded-lg px-10" dark @click="uploadLead" :loading="loading">
+                            <v-btn large class="rounded-lg px-10" @click="uploadLead" :loading="loading" :disabled="disable">
                                 <v-icon left>mdi-tray-arrow-up</v-icon>
-                                Start Processing
+                                {{fileName}}
                             </v-btn>
                         </v-card-text>
                     </v-card>
@@ -113,12 +113,16 @@ export default {
                 property_type: '',
                 team_id: null
             },
-            loading: false
+            loading: false,
+            disable: true,
+            fileName: "Upload File"
         }
     },
     methods:{
         handleFileUpload(){
             this.mycsv = this.$refs.mycsv.files[0];
+            this.fileName = this.mycsv.name
+            this.disable = false
         },
         uploadLead(){
             this.loading = true

@@ -242,7 +242,7 @@ export default {
             brandTextColor: "#ffffff",
             brandFontSize: 20,
             reraControls: false,
-            reraText: 'PBRERA-PTK60-REA0514',
+            reraText: '',
             reraTextColor: "#ffffff",
             reraFontSize: 9,
             brandTextControls: false,
@@ -289,6 +289,7 @@ export default {
             Team.teamCompanyDetails(this.agent_id)
             .then((response) => {
                 this.agent = response.data
+                this.reraText = response.data.rera
 
                 const image = new window.Image();
                 image.src = response.data.brand_logo;

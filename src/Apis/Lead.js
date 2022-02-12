@@ -7,8 +7,9 @@ export default {
   bulk(form) {
     return Api().post("/team/bulk-lead", form);
   },
-  leads() {
-    return Api().get("/team/my-leads/");
+  leads(page) {
+    // return Api().get("/team/my-leads/");
+    return Api().get(`/team/my-leads?page=${page}`);
   },
   details(id) {
     return Api().get("/team/lead/" + id);
