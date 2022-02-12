@@ -78,7 +78,11 @@
                     </v-card-actions>
                 </v-card>   
 
-                <infinite-loading @infinite="infiniteHandler" spinner="waveDots">
+                <infinite-loading 
+                    @infinite="infiniteHandler" 
+                    spinner="waveDots"
+                    v-if="total_leads > 20"
+                >
                     <span slot="no-more"></span>
                 </infinite-loading>
                 <!-- <v-btn block @click="loadMoreLead" class="my-3 rounded-lg text-capitalize">load more</v-btn> -->
@@ -550,7 +554,7 @@ export default {
                 this.leads = response.data.data;
                 this.total_leads = response.data.meta.total;
                 this.last_page = response.data.meta.last_page;
-                console.log(response.data);
+                // console.log(response.data);
             });
         },
         detailsSidebar(lead){
