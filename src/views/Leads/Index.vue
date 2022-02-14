@@ -6,10 +6,12 @@
                 <v-spacer></v-spacer>
                 <v-btn icon @click="searchInput = !searchInput"><v-icon>mdi-magnify</v-icon></v-btn>
             </v-toolbar>
-            <div class="px-4">
+            <div class="px-4 d-flex align-center mb-3" v-if="searchInput">
                 <v-text-field
-                    v-model="search" label="Search" single-line hide-details v-if="searchInput"
+                    v-model="search" label="Search by name.." single-line hide-details
+                    width="80%"
                 ></v-text-field>
+                <v-btn icon><v-icon>mdi-magnify</v-icon></v-btn>
             </div>
 
             <!-- checkbox actions -->
@@ -49,7 +51,7 @@
       
 
             <v-card height="80vh" class="overflow-y-auto" flat>
-                <v-card v-for="lead in filterLead" :key="lead.id" tile class="mt-1 rounded-lg" elevation="2">
+                <v-card v-for="lead in leads" :key="lead.id" tile class="mt-1 rounded-lg" elevation="2">
                     <v-card-actions class="pa-3">
                         <v-checkbox class="" refs="checkItem" :value="lead.id" v-model="selectedLeads" v-if="actionBtn"></v-checkbox>
                         <div>

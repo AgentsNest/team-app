@@ -166,7 +166,7 @@
                         <!-- 
                         ============== Edit Website Dialog ================
                         -->
-                        <v-dialog v-model="editWebsiteWindow[lead.id]" width="500">
+                        <v-dialog v-model="editWebsiteWindow[website.id]" width="500">
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn v-bind="attrs" v-on="on" class="text-capitalize blue darken-2" dark small>Select</v-btn>
                             </template>
@@ -530,10 +530,10 @@ export default {
 
                     var tracker = response.data.tracker[0].id
                     
-                    window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://teams.agentsnest.com/wt/${tracker}/${website.share.url}`)
+                    window.open(`https://wa.me/${lead.contact.replace(/\s+/g, '')}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://teams.agentsnest.com/wt/${tracker}/${website.share.url}`)
                 } else {
                     // this.sendWhatsapp();
-                    window.open(`https://wa.me/${lead.contact}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://teams.agentsnest.com/wt/${response.data.id}/${website.share.url}`, '_blank');
+                    window.open(`https://wa.me/${lead.contact.replace(/\s+/g, '')}?text=Hi ${lead.name} ${this.selectedWebsiteMsg} ${website.title} %0a https://teams.agentsnest.com/wt/${response.data.id}/${website.share.url}`, '_blank');
                 }
                 // this.websiteShareConfirmation = true
             })
