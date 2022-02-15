@@ -5,10 +5,13 @@
             :mini-variant="miniVariant"                   
             :clipped="clipped" 
             app
-            class="white"
+            :permanent="$vuetify.breakpoint.mdAndUp"
         >
-
+          
           <v-list-item class="py-4"> 
+            <v-list-item-avatar>
+              <v-img src="https://randomuser.me/api/portraits/women/85.jpg"></v-img>
+            </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title class="text-h6">
                 {{client.name}}
@@ -21,8 +24,8 @@
 
           <v-divider></v-divider>
 
-          <v-list dense>
-
+          <v-list dense nav>
+            <v-list-item-group active-class="active-link" >
               <v-list-item 
                 v-for="link in links" 
                 :key="link.name"
@@ -31,20 +34,21 @@
                 :to="{name: link.link}"
               >
                 <v-list-item-action>
-                  <v-icon size="20" class="grey--text text--darken-3">{{link.icon}}</v-icon>
+                  <v-icon size="20">{{link.icon}}</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
-                    <v-list-item-title class="grey--text text--darken-3">
+                    <v-list-item-title>
                       {{link.name}}
                     </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              
+            </v-list-item-group>
           </v-list>
 
           <template v-slot:append>
             <div class="pa-2">
-              <v-btn block dark @click="logout">
+              <v-btn block text @click="logout" class="text-capitalize">
+                <v-icon >mdi-power</v-icon>
                 Logout
               </v-btn>
             </div>
@@ -90,7 +94,6 @@ export default {
         { name: 'Website', link: 'Websites', icon: 'mdi-earth' },
         { name: 'Graphic', link: 'Graphic', icon: 'mdi-image-multiple-outline' },
         { name: 'Followup', link: 'Followups', icon: 'mdi-note-multiple-outline' },
-        { name: 'Existing Clients', link: '', icon: 'mdi-account-multiple-outline' },
       ]
     }
   },
@@ -114,6 +117,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.active-link{
 
+}
 </style>

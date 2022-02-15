@@ -21,4 +21,7 @@ export default {
 a{
  text-decoration: none; 
 }
+.gradient-bg{
+  background-image: linear-gradient(to right, #6441A5 0%, #2a0845  51%, #6441A5  100%);
+}
 </style>

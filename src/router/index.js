@@ -19,6 +19,7 @@ const routes = [
   {
     path: "/profile",
     name: "Profile",
+    meta: { authOnly: true },
     component: () =>
       import(/* webpackChunkName: "profile" */ "../views/Auth/Profile.vue"),
   },
@@ -43,6 +44,7 @@ const routes = [
   {
     path: "/lead/:id",
     name: "singleLead",
+    meta: { authOnly: true },
     component: () =>
       import(
         /* webpackChunkName: "single-leads" */ "../views/Leads/Single.vue"
@@ -51,24 +53,28 @@ const routes = [
   {
     path: "/leads/manual",
     name: "AddLeads",
+    meta: { authOnly: true },
     component: () =>
       import(/* webpackChunkName: "add-leads" */ "../views/Leads/Manual.vue"),
   },
   {
     path: "/leads/bulk",
     name: "bulkUploadLead",
+    meta: { authOnly: true },
     component: () =>
       import(/* webpackChunkName: "bulk-upload" */ "../views/Leads/Bulk.vue"),
   },
   {
     path: "/websites",
     name: "Websites",
+    meta: { authOnly: true },
     component: () =>
       import(/* webpackChunkName: "my-website" */ "../views/Website/Index.vue"),
   },
   {
     path: "/w/info/:id",
     name: "WebsiteDetails",
+    meta: { authOnly: true },
     component: () =>
       import(
         /* webpackChunkName: "website-details" */ "../views/Website/Single.vue"
@@ -77,6 +83,7 @@ const routes = [
   {
     path: "/wt/:tracker/:share",
     name: "trackWebsite",
+    meta: { authOnly: true },
     component: () =>
       import(
         /* webpackChunkName: "track-website" */ "../views/Website/Track.vue"
@@ -85,6 +92,7 @@ const routes = [
   {
     path: "/followups",
     name: "Followups",
+    meta: { authOnly: true },
     component: () =>
       import(/* webpackChunkName: "followups" */ "../views/Leads/Followup.vue"),
   },
@@ -99,6 +107,7 @@ const routes = [
   {
     path: "/graphics",
     name: "Graphic",
+    meta: { authOnly: true },
     component: () =>
       import(/* webpackChunkName: "graphic" */ "../views/Designs/Index.vue"),
   },
