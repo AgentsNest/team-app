@@ -556,7 +556,7 @@ export default {
                 this.leads = response.data.data;
                 this.total_leads = response.data.meta.total;
                 this.last_page = response.data.meta.last_page;
-                console.log(response.data);
+                // console.log(response.data);
             });
         },
         detailsSidebar(lead){

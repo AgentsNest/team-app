@@ -7,10 +7,12 @@ import VueKonva from "vue-konva";
 import VueImg from "v-img";
 import VueClipboard from "vue-clipboard2";
 import moment from "moment";
+import browserDetect from "vue-browser-detect-plugin";
 
 Vue.use(VueClipboard);
 Vue.use(VueImg);
 Vue.use(VueKonva);
+Vue.use(browserDetect);
 
 Vue.config.productionTip = false;
 

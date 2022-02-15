@@ -112,19 +112,19 @@
                         <v-spacer></v-spacer>
                         <v-btn 
                             fab x-small elevation="1" class="green" dark
-                            :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} %0a ${selectedMsg} %0a Regards: ${agentName}`"
+                            :href="`https://wa.me/${lead.contact}?text=Hi ${lead.name} %0a ${selectedMsg} %0a Regards: ${auth.name}`"
                             target="_blank"
                             @click="addActivityWhatsapp"
                         ><v-icon>mdi-whatsapp</v-icon></v-btn>
                         <v-btn 
                             fab x-small elevation="1" class="blue lighten-1" dark
-                            :href="`sms:${lead.contact}&body=Hi ${lead.name} %0a ${selectedMsg} %0a Regards, %0a ${agentName}`"
+                            :href="`sms:${lead.contact}&body=Hi ${lead.name} %0a ${selectedMsg} %0a Regards, %0a ${auth.name}`"
                             target="_blank"
                             @click="addActivityMessage"
                         ><v-icon>mdi-message-text-outline</v-icon></v-btn>
                         <v-btn 
                             fab x-small elevation="1" class="red lighten-1" dark
-                            :href="`mailto:${lead.email}?body=${selectedMsg} %0a Regards, %0a ${agentName}`"
+                            :href="`mailto:${lead.email}?body=${selectedMsg} %0a Regards, %0a ${auth.name}`"
                             target="_blank"
                             @click="addActivityEmail"
                         ><v-icon>mdi-email</v-icon></v-btn>
@@ -347,12 +347,14 @@ export default {
             generatedLink: '',
             search: '',
             lead: '',
-            auth: ''
+            auth: '',
+            isSafari: null
         }
     },
     computed:{
     },
     mounted(){
+        this.whichBrowser();
         this.fetchData();
         this.fetchAuth();
     },
@@ -489,7 +491,7 @@ export default {
                 this.messages = response.data.data;
             });
             Other.myMessage().then(response => {
-                this.myMsg = response.data.data;
+                this.myMsg = response.data;
             });
         },
         showSelectedMessage(message){
@@ -588,6 +590,10 @@ export default {
                 console.log(err)
             })
         },
+        whichBrowser(){
+            var bro = navigator.userAgent.indexOf('Safari') > -1 && navigator.userAgent.indexOf('Chrome') <= -1
+            this.isSafari = bro
+        }
         
     }
 }

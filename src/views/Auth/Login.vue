@@ -58,7 +58,7 @@ export default {
             },
             errors:'',
             snackbarText: 'Email Or Password Is Incorrect',
-            snackbar : false
+            snackbar : false,
         }
     },
     methods:{
@@ -73,7 +73,7 @@ export default {
                 this.snackbar = true
             });
         },
-}
+    }
 }
 </script>
 
