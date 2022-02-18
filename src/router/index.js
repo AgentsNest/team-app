@@ -96,6 +96,21 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "followups" */ "../views/Leads/Followup.vue"),
   },
+
+  /*
+    * = ===================================== **
+    * = ===================================== **
+                  Groups Routes
+    * = ===================================== **
+    * = ===================================== **
+  */
+  {
+    path: "/groups",
+    name: "allGroup",
+    component: () => import("../views/Group/Index.vue"),
+    meta: { authOnly: true },
+  },
+
   /*
     * = ===================================== **
     * = ===================================== **

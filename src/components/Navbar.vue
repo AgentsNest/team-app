@@ -93,6 +93,7 @@ export default {
         { name: 'Profile', link: 'Profile', icon: 'mdi-shield-account-outline' },
         { name: 'Website', link: 'Websites', icon: 'mdi-earth' },
         { name: 'Graphic', link: 'Graphic', icon: 'mdi-image-multiple-outline' },
+        { name: 'Groups', link: 'allGroup', icon: 'mdi-folder-open' },
         { name: 'Followup', link: 'Followups', icon: 'mdi-note-multiple-outline' },
       ]
     }

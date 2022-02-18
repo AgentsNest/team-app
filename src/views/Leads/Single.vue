@@ -18,9 +18,9 @@
                         </v-btn>
                     </template>
                     <v-list dense flat elevation="0" class="py-0">
-                        <!-- <v-list-item @click="showGroupDailog">
+                        <v-list-item @click="showGroupDailog">
                             <v-list-item-title>Add To Group</v-list-item-title>
-                        </v-list-item> -->
+                        </v-list-item>
                         <v-list-item @click="statusDailog = !statusDailog">
                             <v-list-item-title>Lead Status</v-list-item-title>
                         </v-list-item>
@@ -200,6 +200,30 @@
                     </v-list-item>
                 </v-list>
             </v-bottom-sheet>
+
+
+        <!-- ******************************** 
+                Update Group Dialog 
+        ********************************** -->
+            <v-bottom-sheet v-model="groupDailog">
+                <v-card class="pa-5" height="300">
+                    <div class="font-weight-bold mb-3">Add lead to group</div>
+                    <v-autocomplete
+                        v-model="group_id"
+                        :items="groups"
+                        item-text="title"
+                        item-value="id"
+                        small-chips
+                        outlined
+                        dense
+                        label="Search Group"
+                    ></v-autocomplete>
+                    <v-btn block depressed dark class="dark rounded" @click="addSingleLeadToGroup(lead.id)">
+                        <v-icon left>mdi-check</v-icon>
+                        Save
+                    </v-btn>
+                </v-card>
+            </v-bottom-sheet>
             
 
         <!-- ******************************** 
@@ -309,6 +333,7 @@ import Website from '../../Apis/Website'
 import Tracker from '../../Apis/Tracker'
 
 export default {
+    props:{ single:Object },
     data(){
         return {
             groupDailog: false,
@@ -352,6 +377,10 @@ export default {
         }
     },
     computed:{
+        groups(){ return this.$store.state.groups},
+        // lead(){ return this.$store.state.lead},
+        // teams(){ return this.$store.state.teams},
+        // agent(){ return this.$store.state.auth }
     },
     mounted(){
         this.whichBrowser();
@@ -445,7 +474,7 @@ export default {
             this.groupDailog = true
         },
         addSingleLeadToGroup(lead){
-            Team.asignLeadToTeam(lead, {
+            Lead.asignLeadToTeam(lead, {
                 group_id: this.group_id
             })
             .then(response => {

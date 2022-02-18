@@ -17,6 +17,9 @@ export default {
   asignLeadToTeam(lead, form) {
     return Api().patch("/asignLeadToTeam/" + lead, form);
   },
+  addLeadToGroup(lead, form) {
+    return Api().patch("/addLeadToGroup/" + lead, form);
+  },
   leadsAnalytics() {
     return Api().get("/team/leads-analytics");
   },
