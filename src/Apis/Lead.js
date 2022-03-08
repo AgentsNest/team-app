@@ -46,6 +46,9 @@ export default {
   addFollowup(form) {
     return Api().post("/team/addFollowup", form);
   },
+  deleteFollowup(id) {
+    return Api().delete("/team/followup/" + id);
+  },
 
   getFollowups() {
     return Api().get("/team/getFollowups");

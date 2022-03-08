@@ -6,7 +6,7 @@
             <v-toolbar flat>
                 <div class="font-weight-bold">Followups</div>
                 <v-spacer></v-spacer>
-                <v-dialog v-model="dialog" persistent max-width="600px">
+                <!-- <v-dialog v-model="dialog" persistent max-width="600px">
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn fab x-small depressed class="text-capitalize rounded-lg blue-grey darken-3" dark v-bind="attrs" v-on="on">
                             <v-icon>mdi-plus</v-icon>
@@ -45,7 +45,7 @@
                             >Save</v-btn>
                         </v-card-actions>
                     </v-card>
-                </v-dialog>
+                </v-dialog> -->
             </v-toolbar>
 
             <v-card flat>
@@ -54,9 +54,15 @@
                     :items="events"
                     :items-per-page="5"
                     class="elevation-1"
+                    dense
                 >
                     <template v-slot:item.date_string="{ item }">
-                    {{ item.date_string | fromNow() }}
+                        {{ item.date_string | fromNow() }}
+                    </template>
+                    <template v-slot:item.actions="{ item }">
+                        <v-icon small @click="deleteItem(item.id)">
+                            mdi-delete
+                        </v-icon>
                     </template>
                 </v-data-table>
             </v-card>
@@ -70,12 +76,12 @@
 <script>
 import Lead from '../../Apis/Lead'
 import Team from '../../Apis/Team';
-import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
-import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
+// import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+// import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 import Layout from '../../Layouts/Layout.vue'
 
 export default {
-    components:{ VueCtkDateTimePicker, Layout },
+    components:{ Layout },
     data () {
         return {
             events: [],
@@ -92,7 +98,8 @@ export default {
             headers: [
                 { text: 'Lead Name', align: 'start', sortable: false, value: 'lead.name',},
                 { text: 'Remarks', value: 'remarks', sortable: false, },
-                { text: 'Date', value: 'date_string' }
+                { text: 'Date', value: 'date_string' },
+                { text: 'Actions', value: 'actions', sortable: false },
             ],
         }
     },
@@ -135,6 +142,12 @@ export default {
                 this.loading = false
             })
         },
+        deleteItem(item){
+            Lead.deleteFollowup(item)
+            .then(() => {
+                this.fetchData();
+            })
+        }
     },
     mounted(){
       this.fetchData();

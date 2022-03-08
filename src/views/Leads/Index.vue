@@ -1,12 +1,13 @@
 <template>
     <Layout>
-        <v-card class="shadow content-card" width="100%" flat>
-            <v-toolbar>
+        <v-card class="shadow content-card mt-1" width="100%" flat>
+            <v-toolbar class="mt-1">
                 <div class="font-weight-bold">Total Leads ({{total_leads}})</div>
                 <v-spacer></v-spacer>
                 <v-btn icon @click="searchInput = !searchInput"><v-icon>mdi-magnify</v-icon></v-btn>
             </v-toolbar>
-            <div class="px-4 d-flex align-center mb-3" v-if="searchInput">
+
+            <div class="mt-1 px-4 d-flex align-center mb-3" v-if="searchInput">
                 <v-text-field
                     v-model="search" label="Search by name.." single-line hide-details
                     width="80%"
@@ -15,10 +16,9 @@
             </div>
 
             <!-- checkbox actions -->
-            <v-toolbar>
             <!-- <v-toolbar v-if="multipleActionToolbar"> -->
+            <!-- <v-toolbar>
                 <div class="d-flex align-center">
-                    <!-- <v-checkbox v-model="selectAll" class="mr-2"></v-checkbox> -->
                     <input type="checkbox" v-model="selectAll" class="mr-2">Select all
                     <div v-if="selectedLeads.length" class="caption">Selected ({{selectedLeads.length}})</div>
                 </div>
@@ -46,14 +46,13 @@
                         </v-btn>
                     </v-list>
                 </v-menu>
-                
-            </v-toolbar>
+            </v-toolbar> -->
       
 
             <v-card height="80vh" class="overflow-y-auto" flat>
                 <v-card v-for="lead in leads" :key="lead.id" tile class="mt-1 rounded-lg" elevation="2">
                     <v-card-actions class="pa-3">
-                        <v-checkbox class="" refs="checkItem" :value="lead.id" v-model="selectedLeads" v-if="actionBtn"></v-checkbox>
+                        <!-- <v-checkbox class="" refs="checkItem" :value="lead.id" v-model="selectedLeads"></v-checkbox> -->
                         <div>
                             <span class="font-weight-bold">{{ lead.name }}</span> <br>
                             <span class="caption">{{ lead.contact }}</span> <br>
@@ -69,14 +68,14 @@
                             </div>
                         </div>
                         <v-spacer></v-spacer>
-                        <!-- <v-btn @click="detailsSidebar(lead.id)" icon>
+                        <v-btn @click="detailsSidebar(lead.id)" icon>
                             <v-icon color="grey lighten-1">mdi-chevron-right</v-icon>
-                        </v-btn> -->
-                        <router-link
+                        </v-btn>
+                        <!-- <router-link
                             :to="{name: 'singleLead', params: {id:lead.id}}"
                         >
                             <v-icon color="grey ">mdi-chevron-double-right</v-icon>
-                        </router-link>
+                        </router-link> -->
                     </v-card-actions>
                 </v-card>   
 
@@ -91,7 +90,6 @@
 
             </v-card>
 
-
             <!-- Single Lead Dialog -->
             <v-dialog
                 v-model="drawer"
@@ -104,7 +102,7 @@
                     <v-btn icon @click="drawer = !drawer"><v-icon>mdi-close</v-icon></v-btn>
                 </v-toolbar>
                 <v-card>
-                    <Single :single="lead"></Single>
+                    <Single :lead="lead"></Single>
                 </v-card>
             </v-dialog>
             
@@ -141,6 +139,7 @@ import Lead from '../../Apis/Lead'
 import Layout from "../../Layouts/Layout.vue";
 import InfiniteLoading from 'vue-infinite-loading';
 import Single from "./Single.vue"
+import Team from "../../Apis/Team"
 
 export default {
     components: { InfiniteLoading, Layout, Single },
@@ -150,6 +149,7 @@ export default {
         return {
           leads: [],
           lead: '',
+          auth:'',
           search: '',
           benched: 0,
           headers: [
@@ -285,6 +285,13 @@ export default {
                 });
             }
         },
+        fetchAuth(){
+            Team.auth()
+            .then((response) => {
+                this.auth = response.data.data
+                // console.log(response.data.data)
+            })
+        },
     },
     computed:{
         filterLead: function(){
@@ -308,9 +315,11 @@ export default {
                 this.selectedLeads = selectedLeads;
             }
         },
+        // auth(){ return this.$store.state.auth }
     },
     mounted(){
         this.fetchData();
+        this.fetchAuth();
     }
 };
 </script>

@@ -53,11 +53,11 @@
 
                     <v-card-text>
                         <div class="text-h6">Map</div>
-                        <!-- <iframe :src="website.map" style="width: 100%; height: 350px; border:0" allowfullscreen="" loading="lazy"></iframe> -->
+                        <iframe :src="website.map" style="width: 100%; height: 350px; border:0" allowfullscreen="" loading="lazy"></iframe>
                     </v-card-text>
                     <v-card-text class="text-center">
                         <div class="text-h6">Walkthrough</div>
-                        <!-- <LazyYoutube :src="website.walkthrough" /> -->
+                        <LazyYoutube :src="website.walkthrough" />
                     </v-card-text>
                 </v-card>
             </v-col>

@@ -28,11 +28,18 @@
     </v-card>
 
     <!-- All Leads Dialog -->
-    <v-navigation-drawer v-model="allLeadSidebar" tile absolute temporary right width="75vw">
+    <v-navigation-drawer v-model="allLeadSidebar" tile absolute persistent temporary right width="100vw">
+
+      <v-toolbar class="mb-2 dark" elevation="1" dark dense>
+        <span>Your Leads</span>
+        <v-spacer></v-spacer>
+        <v-btn icon @click="allLeadSidebar = !allLeadSidebar"><v-icon>mdi-close</v-icon></v-btn>
+      </v-toolbar>
+
       <v-card flat tile>
-        <v-list>
+        <v-list dense>
           
-          <v-list-item v-for="lead in leads" :key="lead.id">
+          <v-list-item v-for="lead in leads" :key="lead.id" class="border-bottom">
             <v-list-item-content>
               <v-list-item-title v-text="lead.name"></v-list-item-title>
             </v-list-item-content>
@@ -51,7 +58,10 @@
             <!-- Default website share message window -->
             <v-dialog v-model="editWebsiteWindow[lead.id]" width="500">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn v-bind="attrs" v-on="on">Share</v-btn>
+                <v-btn v-bind="attrs" v-on="on" outlined color="grey darken-1" small>
+                  <v-icon left>mdi-share-variant</v-icon>
+                  <span class="text-capitalize">Share</span>
+                </v-btn>
               </template>
 
               <v-card class="pt-5 rounded-lg">
@@ -97,6 +107,7 @@
           </v-list-item>
   
         </v-list>
+        <v-btn @click="infiniteHandler" dark class="dark text-capitalize" block :disabled="disabled">Load more</v-btn>
 
       </v-card>
     </v-navigation-drawer>
@@ -110,6 +121,7 @@ import Lead from '../../Apis/Lead'
 import Tracker from '../../Apis/Tracker'
 import Team from '../../Apis/Team'
 import Layout from "../../Layouts/Layout.vue";
+// import InfiniteLoading from 'vue-infinite-loading';
 
 export default {
     components: { Layout },
@@ -149,7 +161,11 @@ export default {
         editWebsiteWindow: {},
         whatsappShare: false,
         snackbarText: '',
-        snackbar: false
+        snackbar: false,
+        page: 1,
+        last_page : null,
+        leadMsg: '',
+        disabled: false
       }
     },
     watch: {
@@ -180,9 +196,26 @@ export default {
           })
       },
       fetchLeads(){
-        Lead.leads().then(response => {
+        Lead.leads(this.page).then(response => {
             this.leads = response.data.data;
         });
+      },
+      infiniteHandler(){
+          if (this.page === this.last_page) {
+              // $state.complete();
+              this.disabled = true
+          } else {
+              this.page = this.page + 1;
+              Lead.leads(this.page)
+              .then((response) => {
+                // console.log(response.data.data)
+                response.data.data.forEach(data => {
+                    this.leads.push(data);
+                });
+                // $state.loaded();
+                this.disabled = true
+              });
+          }
       },
       shareSidebarOpen(website){
         this.allLeadSidebar = true
@@ -357,5 +390,8 @@ export default {
   width: 100%;
   max-width: 400px;
   box-shadow: 0 2px 6px 0 rgba(136,148,171,.2),0 24px 20px -24px rgba(71,82,107,.1);
+}
+.border-bottom{
+  border-bottom: 1px solid #efefef;
 }
 </style>
