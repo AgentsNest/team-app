@@ -109,11 +109,11 @@
 
 <script>
 import Tracker from "../../Apis/Tracker"
-// import { LazyYoutube } from "vue-lazytube";
+import { LazyYoutube } from "vue-lazytube";
 
 export default {
     components: {
-        // LazyYoutube
+        LazyYoutube
     },
     data(){
         return{
@@ -164,6 +164,7 @@ export default {
             await Tracker.websiteShowById(website)
             .then(response => {
                 this.website = response.data.website;
+                // console.log(response.data)
             });
         },
         fetchShareDetails(){
