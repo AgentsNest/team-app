@@ -26,13 +26,121 @@
         </div>
       </v-card>
 
-      <v-card>
+      <v-card flat class="px-2">
         <v-card-actions>
               <div class="caption grey--text font-weight-bold">https://agentsnest.com/t/<span class="teal--text">{{team.uid}}</span> </div>
               <v-spacer></v-spacer>
-              <v-btn x-small fab elevation="1" class="mr-3 white" link :to="{name: 'vCard', params:{uid: team.uid}}" target="_blank">
+              <!-- <v-btn x-small fab elevation="1" class="mr-3 white" link :to="{name: 'vCard', params:{uid: team.uid}}" target="_blank">
                   <v-icon>mdi-eye</v-icon>
-              </v-btn>
+              </v-btn> -->
+              <v-dialog
+                  v-model="dialog"
+                  fullscreen
+                  hide-overlay
+                  transition="dialog-bottom-transition"
+              >
+                  <template v-slot:activator="{ on, attrs }">
+                      <v-btn v-bind="attrs" v-on="on" class="mr-2 white" x-small fab elevation="1">
+                          <v-icon>mdi-eye</v-icon>
+                      </v-btn>
+                  </template>
+                  <v-card tile>
+                      <v-toolbar dark class="dark" dense tile> 
+                          <div>Preview</div>
+                          <v-spacer></v-spacer>
+                          <v-toolbar-items>
+                              <v-btn dark icon @click="dialog = false">
+                                  <v-icon>mdi-close</v-icon>
+                              </v-btn>
+                          </v-toolbar-items>
+                      </v-toolbar>
+
+                      <v-card flat tile class="overflow-y-auto">
+                          <v-img
+                              :src="team.image"
+                              :lazy-src="team.image"
+                              class=""
+                              aspect-ratio="1"
+                              width="100%"
+                              max-height="400"
+                          ></v-img>
+
+                          <v-card class="rounded-t-xl mt-n6" flat>
+                              <v-card-actions>
+                                  <div class="pa-4">
+                                      <div class="title">{{team.name}}</div>
+                                      <div class="caption">RERA: {{agent.rera}}</div>
+                                      <div class="caption">{{agent.brand_text}}</div>
+                                  </div>
+                                  <v-spacer></v-spacer>
+                                  <v-img max-width="100" :src="team.brand_logo"></v-img>
+                              </v-card-actions>
+
+                              <v-divider></v-divider>
+                              <div class="px-6 my-2 grey--text">Business Details</div>
+                              <v-divider></v-divider>
+
+                              <div class="py-3 px-6">
+                                  <div class="d-flex mt-3">
+                                      <v-icon color="black" size="20">mdi-bag-checked</v-icon>
+                                      <div class="ml-2 body-2">{{agent.brand_text}}</div>
+                                  </div>
+                                  <div class="d-flex my-4">
+                                      <v-icon color="black" size="20">mdi-phone</v-icon>
+                                      <div class="ml-2 body-2">{{team.contact}}</div>
+                                  </div>
+                                  <div class="d-flex my-4">
+                                      <v-icon color="black" size="20">mdi-card-account-details-outline</v-icon>
+                                      <div class="ml-2 body-2">{{agent.rera}}</div>
+                                  </div>
+                                  <div class="d-flex my-4">
+                                      <v-icon color="black" size="20">mdi-email-outline</v-icon>
+                                      <div class="ml-2 body-2">{{team.email}}</div>
+                                  </div>
+                                  <div class="d-flex my-4">
+                                      <v-icon color="black" size="20">mdi-web</v-icon>
+                                      <div class="ml-2 body-2">{{agent.website}}</div>
+                                  </div>
+                                  <div class="d-flex my-4">
+                                      <v-icon color="black" size="22">mdi-map-marker-radius-outline</v-icon>
+                                      <div class="ml-2 body-2">{{agent.address}}</div>
+                                  </div>
+                              </div>
+                              <!-- About Text -->
+                              <div class="pa-3">
+                                  <v-card-text class="blue lighten-5 rounded-lg">{{team.bio}}</v-card-text>
+                              </div>
+
+                              <v-card-actions>
+                                  <v-btn block x-large dark class="amber accent-3 text-capitalize" depressed link :href="`https://wa.me/${team.contact}`">Send Message</v-btn>
+                              </v-card-actions>
+
+                              <!-- Social Links -->
+                              <v-card-actions class="justify-center my-4">
+                                  <v-btn class="mr-3" small fab v-if="team.facebook" :href="team.facebook" target="_blank">
+                                      <v-icon>mdi-facebook</v-icon>
+                                  </v-btn>
+                                  <v-btn class="mr-3" small fab v-if="team.instagram" :href="team.instagram" target="_blank">
+                                      <v-icon>mdi-instagram</v-icon>
+                                  </v-btn>
+                                  <v-btn class="mr-3" small fab v-if="team.twitter" :href="team.twitter" target="_blank">
+                                      <v-icon>mdi-twitter</v-icon>
+                                  </v-btn>
+                                  <v-btn small fab v-if="team.linkedin" :href="team.linkedin" target="_blank">
+                                      <v-icon>mdi-linkedin</v-icon>
+                                  </v-btn>
+                              </v-card-actions>
+
+                              <v-divider></v-divider>
+                              <v-card-text class="text-center">
+                                  <v-icon color="yellow darken-3">mdi-lightning-bolt</v-icon> Powered By <strong>agnt.</strong>        
+                              </v-card-text>
+
+                          </v-card>
+                      </v-card>
+
+                  </v-card>
+              </v-dialog>
           </v-card-actions>
       </v-card>
       
@@ -74,7 +182,10 @@ export default {
       preview: '',
       success: false,
       avatarPreview: '',
-      snackbar: false
+      snackbar: false,
+      dialog: false,
+      agent_id: null,
+      agent: ''
     }
   },
   methods: {
@@ -94,12 +205,24 @@ export default {
             this.team.image = e.target.result;
         };
     },
+    async fetchTeam(){
+      await Team.auth()
+      .then((response) => {
+        this.team = response.data.data;
+        this.agent_id = response.data.data.agent_id
+      }).then(() => {
+        this.fetchAgent();
+      });
+    },
+    fetchAgent(){
+      Team.teamCompanyDetails(this.agent_id)
+      .then((response) => {
+          this.agent = response.data
+      })
+    },
   },
-  beforeMount(){
-    Team.auth().then((response) => {
-      this.team = response.data.data;
-      // console.log(response.data)
-    });
+  created(){
+    this.fetchTeam();
   }
 }
 </script>

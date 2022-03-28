@@ -86,7 +86,7 @@
                 >
                     <span slot="no-more"></span>
                 </infinite-loading>
-                <!-- <v-btn block @click="loadMoreLead" class="my-3 rounded-lg text-capitalize">load more</v-btn> -->
+                <!-- <v-btn block @click="loadMoreLead" class="my-3 rounded-lg text-capitalize">load more</v-btn> -->loadMoreDesktop
 
             </v-card>
 
