@@ -16,11 +16,11 @@
                     <v-card-actions>
                         <div class="pa-4">
                             <div class="title">{{user.name}}</div>
-                            <div class="caption">RERA: {{user.rera}}</div>
+                            <div class="caption">RERA: {{agent.rera}}</div>
                             <!-- <div class="caption">{{user.brand_text}}</div> -->
                         </div>
                         <v-spacer></v-spacer>
-                        <v-img max-width="100" :src="user.brand_logo"></v-img>
+                        <v-img max-width="100" :src="agent.brand_logo"></v-img>
                     </v-card-actions>
 
                     <v-divider></v-divider>
@@ -29,28 +29,58 @@
 
                     <div class="py-3 px-6">
                         <div class="d-flex mt-3">
-                            <v-icon color="black" size="20">mdi-bag-checked</v-icon>
-                            <div class="ml-2 body-2">{{user.brand_text}}</div>
+                            <v-btn fab small class="rounded-lg blue-grey lighten-5" depressed>
+                                <v-icon color="grey darken-3" size="20">mdi-bag-checked</v-icon>
+                            </v-btn>
+                            <div class="ml-2 body-2">
+                                <div class="caption grey--text">Company</div>
+                                {{agent.brand_text}}
+                            </div>
                         </div>
                         <div class="d-flex my-4">
-                            <v-icon color="black" size="20">mdi-phone</v-icon>
-                            <div class="ml-2 body-2">{{user.contact}}</div>
+                            <v-btn fab small class="rounded-lg" depressed>
+                                <v-icon color="grey darken-3" size="20">mdi-phone</v-icon>
+                            </v-btn>
+                            <div class="ml-2 body-2">
+                                <div class="caption grey--text">Phone number</div>
+                                {{user.contact}}
+                            </div>
                         </div>
                         <div class="d-flex my-4">
-                            <v-icon color="black" size="20">mdi-card-account-details-outline</v-icon>
-                            <div class="ml-2 body-2">{{user.rera}}</div>
+                            <v-btn fab small class="rounded-lg" depressed>
+                                <v-icon color="grey darken-3" size="20">mdi-card-account-details-outline</v-icon>
+                            </v-btn>
+                            <div class="ml-2 body-2">
+                                <div class="caption grey--text">RERA number</div>
+                                {{agent.rera}}
+                            </div>
                         </div>
                         <div class="d-flex my-4">
-                            <v-icon color="black" size="20">mdi-email-outline</v-icon>
-                            <div class="ml-2 body-2">{{user.email}}</div>
+                            <v-btn fab small class="rounded-lg" depressed>
+                                <v-icon color="grey darken-3" size="20">mdi-email-outline</v-icon>
+                            </v-btn>
+                            <div class="ml-2 body-2">
+                                <div class="caption grey--text">Email</div>
+                                {{user.email}}
+                            </div>
                         </div>
                         <div class="d-flex my-4">
-                            <v-icon color="black" size="20">mdi-web</v-icon>
-                            <div class="ml-2 body-2">{{user.website}}</div>
+                            <v-btn fab small class="rounded-lg" depressed>
+                                <v-icon color="grey darken-3" size="20">mdi-web</v-icon>
+                            </v-btn>
+                            <div class="ml-2 body-2">
+                                <div class="caption grey--text">Website</div>
+                                {{agent.website}}
+                            </div>
                         </div>
                         <div class="d-flex my-4">
-                            <v-icon color="black" size="22">mdi-map-marker-radius-outline</v-icon>
-                            <div class="ml-2 body-2">{{user.address}}</div>
+                            <v-btn fab small class="rounded-lg" depressed>
+                                <v-icon color="grey darken-3" size="22">mdi-map-marker-radius-outline</v-icon>
+                            </v-btn>
+                            <div class="ml-2 body-2">
+                                <div class="caption grey--text">Address</div>
+                                {{agent.address}}
+                            </div>
                         </div>
                     </div>
                     <!-- About Text -->
@@ -71,16 +101,16 @@
 
                     <!-- Social Links -->
                     <v-card-actions class="justify-center my-4">
-                        <v-btn class="mr-3" small fab v-if="user.facebook" :href="user.facebook" target="_blank">
+                        <v-btn class="mr-3" small fab v-if="agent.facebook" :href="agent.facebook" target="_blank">
                             <v-icon>mdi-facebook</v-icon>
                         </v-btn>
-                        <v-btn class="mr-3" small fab v-if="user.instagram" :href="user.instagram" target="_blank">
+                        <v-btn class="mr-3" small fab v-if="agent.instagram" :href="agent.instagram" target="_blank">
                             <v-icon>mdi-instagram</v-icon>
                         </v-btn>
-                        <v-btn class="mr-3" small fab v-if="user.twitter" :href="user.twitter" target="_blank">
+                        <v-btn class="mr-3" small fab v-if="agent.twitter" :href="agent.twitter" target="_blank">
                             <v-icon>mdi-twitter</v-icon>
                         </v-btn>
-                        <v-btn small fab v-if="user.linkedin" :href="user.linkedin" target="_blank">
+                        <v-btn small fab v-if="agent.linkedin" :href="agent.linkedin" target="_blank">
                             <v-icon>mdi-linkedin</v-icon>
                         </v-btn>
                     </v-card-actions>
@@ -108,6 +138,14 @@ export default {
             agent_id: ''
         }
     },
+    methods:{
+        fetchAgent(){
+            Team.teamCompanyDetails(this.agent_id)
+            .then((response) => {
+                this.agent = response.data
+            })
+        }
+    },
     mounted(){
         Team.vcard(this.$route.params.uid)
         .then((res) => {
@@ -117,6 +155,7 @@ export default {
                 this.agent = response.data
             })
         })
+        this.fetchAgent();
     }
 }
 </script>

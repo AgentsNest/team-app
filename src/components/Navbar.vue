@@ -5,6 +5,7 @@
             :mini-variant="miniVariant"                   
             :clipped="clipped" 
             app
+            color="#111828"
             :permanent="$vuetify.breakpoint.mdAndUp"
         >
           
@@ -13,10 +14,10 @@
               <v-img :src="client.image"></v-img>
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title class="text-h6">
+              <v-list-item-title class="text-h6 white--text">
                 {{client.name}}
               </v-list-item-title>
-              <v-list-item-subtitle>
+              <v-list-item-subtitle class="white--text">
                 {{client.email}}
               </v-list-item-subtitle>
             </v-list-item-content>
@@ -30,14 +31,14 @@
                 v-for="link in links" 
                 :key="link.name"
                 link
-                class="py-1"
+                class="py-1 white--text"
                 :to="{name: link.link}"
               >
                 <v-list-item-action>
-                  <v-icon size="20">{{link.icon}}</v-icon>
+                  <v-icon size="20" color="white">{{link.icon}}</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
-                    <v-list-item-title>
+                    <v-list-item-title class="white--text">
                       {{link.name}}
                     </v-list-item-title>
                 </v-list-item-content>
@@ -47,8 +48,8 @@
 
           <template v-slot:append>
             <div class="pa-2">
-              <v-btn block text @click="logout" class="text-capitalize">
-                <v-icon >mdi-power</v-icon>
+              <v-btn block text @click="logout" class="text-capitalize white--text">
+                <v-icon color="white">mdi-power</v-icon>
                 Logout
               </v-btn>
             </div>

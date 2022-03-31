@@ -28,7 +28,7 @@
 
       <v-card flat class="px-2">
         <v-card-actions>
-              <div class="caption grey--text font-weight-bold">https://agentsnest.com/t/<span class="teal--text">{{team.uid}}</span> </div>
+              <div class="caption grey--text font-weight-bold">teams.agentsnest.com/t/<span class="teal--text">{{team.uid}}</span> </div>
               <v-spacer></v-spacer>
               <!-- <v-btn x-small fab elevation="1" class="mr-3 white" link :to="{name: 'vCard', params:{uid: team.uid}}" target="_blank">
                   <v-icon>mdi-eye</v-icon>
@@ -141,6 +141,33 @@
 
                   </v-card>
               </v-dialog>
+              <v-menu offset-y>
+                  <template v-slot:activator="{ on, attrs }">
+                      <v-btn fab elevation="1" class="white" x-small v-bind="attrs" v-on="on">
+                          <v-icon>mdi-share-variant-outline</v-icon>
+                      </v-btn>
+                  </template>
+                  <v-list dense elevation="0" class="py-0">
+                      <v-list-item link :href="`https://wa.me/?text=teams.agentsnest.com/t/${team.uid}`">
+                          <v-list-item-title>
+                              <v-icon left size="16">mdi-whatsapp</v-icon>
+                              Whatsapp
+                          </v-list-item-title>
+                      </v-list-item>
+                      <v-list-item link :href="`sms:&body=teams.agentsnest.com/t/${team.uid}`">
+                          <v-list-item-title>
+                              <v-icon left size="16">mdi-message-text-outline</v-icon>
+                              Message
+                          </v-list-item-title>
+                      </v-list-item>
+                      <v-list-item link target="_blank" :href="`mailto:&body=${team.uid}`">
+                          <v-list-item-title>
+                              <v-icon left size="16">mdi-email</v-icon>
+                              Email 
+                          </v-list-item-title>
+                      </v-list-item>
+                  </v-list>
+              </v-menu>
           </v-card-actions>
       </v-card>
       
